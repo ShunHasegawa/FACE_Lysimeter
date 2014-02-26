@@ -16,6 +16,10 @@ plot(Mean.Area ~ Conc., data = ICdata)
 # conc. = 10 is wrong so remove
 ICdata <- ICdata[ICdata$Conc. != 10.0, ]
 
+# injection vol for standard was 65, but it is 50 for sample assay, adjust it
+ICdata$Mean.Area <- ICdata$Mean.Area * 50 / 65
+
+
 # calibration curve with intercept = 0
-ml <- lm(Mean.Area ~ Conc., data = ICdata)
-summary(ml)
+ml <- lm(Mean.Area ~ -1 + Conc., data = ICdata)
+coef(ml)
