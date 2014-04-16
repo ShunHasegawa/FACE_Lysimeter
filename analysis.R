@@ -13,7 +13,8 @@ source("functions/process.combine.data.R")
 
 ## split dataset to each nutrient & depth ##
 ntrs <- c("no", "nh", "po", "toc", "tn")
-lyses <- lapply(ntrs, function(x) ntr.splt (ntr = x))
+
+lyses <- lapply(ntrs, function(x) ntr.splt (data = lys, ntr = x))
 
 no.d <- lyses[[1]]$deep
 no.s <- lyses[[1]]$shallow
