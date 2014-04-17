@@ -112,5 +112,9 @@ unique(fin.data$date)
 fin.data$date[fin.data$date %in% as.Date(c("2013-03-21", "2013-03-26"))]  <- as.Date("2013-03-22")
 xtabs(~ring + plot + depth + date, fin.data)
 
+#depth: s->shallow, d->deep
+fin.data$depth <- ifelse(fin.data$depth == "D", "deep", "shallow")
+
+
 # save
 save(fin.data, file = "Data/TOC/processed.Rdata")
