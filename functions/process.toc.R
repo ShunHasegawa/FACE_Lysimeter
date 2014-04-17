@@ -96,10 +96,15 @@ fin.data <- N.df[c("Result.TOC.", "Result.TC.", "Result.IC.", "Result.TN.", "dat
 summary(fin.data)
 colnames(fin.data) <- c("toc", "tc", "ic", "tn", "date", "ring", "plot", "depth")
 fin.data$co2 <- factor(ifelse(fin.data$ring %in% c("1","4","5"), "elev", "amb"))
-
+xtabs(~ ring + plot + depth + date, data = fin.data)
 
 # "2013-03-21", "2013-03-26" --> "2013-03-22"
 unique(fin.data$date)
+subset(fin.data, date < as.Date("2013-03-27") & ring == "3" & plot == "2" & depth == "S")
+
+# this time just use 3-2-S form 26-3-2013
+fin.data <- subset(fin.data, !(date == as.Date("2013-03-21") & ring == "3" & plot == "2" & depth == "S"))
+
 fin.data$date[fin.data$date %in% as.Date(c("2013-03-21", "2013-03-26"))]  <- as.Date("2013-03-22")
 
 #depth: s->shallow, d->deep
