@@ -93,8 +93,8 @@ colnames(a) <- c("ring", "plot", "depth")
 
 # merge
 N.df <- cbind(N.df, a)
-
-# order
+ 
+  # order
 N.df <- N.df[order(N.df$date, N.df$ring, N.df$plot, N.df$depth), ]
 summary(int.data)
 unique(int.data$date)
