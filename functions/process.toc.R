@@ -74,9 +74,9 @@ int.data <- rbind.fill(Mar13, May13, jul13.data, nov13.data, feb14.data, apr14.d
 
 # remove unnecessary rows and organize
 some(int.data)
-unique(int.data$Sample.ID)
-N.df <- subset(int.data, !(Sample.ID %in% c("Untitled", "")))
-unique(N.df$Sample.ID)
+unique(int.data$Type)
+# remove stanrdar & control
+N.df <- subset(int.data, Type == "Unknown")
 
 # checked re-run sample 3.4.D on 4 Jul 2013
 N.df[N.df$Sample.ID == "3.4.D RERUN", ]
@@ -84,8 +84,15 @@ N.df[N.df$date == as.Date("2013-07-04") & N.df$Sample.ID == "3.4.D", ]
   ## there values are really close so just discard the Rerun data
 N.df <- N.df[-which(N.df$Sample.ID == "3.4.D RERUN"), ]
 
-# create ring, depth factor
+# 3.2.D low volume: this time just use as it is
+N.df$Sample.ID[which(N.df$Sample.ID == "3.2.D LOW VOLUME")] <- "3.2.D" 
 
+# create ring, depth factor
+a <- ldply(strsplit(N.df$Sample.ID, split = "[.]"))
+colnames(a) <- c("ring", "plot", "depth")
+
+# merge
+N.df <- cbind(N.df, a)
 
 # order
 N.df <- N.df[order(N.df$date, N.df$ring, N.df$plot, N.df$depth), ]
@@ -93,17 +100,17 @@ summary(int.data)
 unique(int.data$date)
 
 # extract required columns
-names(int.data)
-fin.data <- int.data[c("Result.TOC.", "Result.TC.", "Result.IC.", "Result.TN.", "date", "ring", "plot", "depth")]
-fin.data <- fin.data[complete.cases(fin.data), ]
+names(N.df)
+fin.data <- N.df[c("Result.TOC.", "Result.TC.", "Result.IC.", "Result.TN.", "date", "ring", "plot", "depth")]
+summary(fin.data)
 colnames(fin.data) <- c("toc", "tc", "ic", "tn", "date", "ring", "plot", "depth")
 fin.data$co2 <- factor(ifelse(fin.data$ring %in% c("1","4","5"), "elev", "amb"))
 
-unique(fin.data$date)
 
 # "2013-03-21", "2013-03-26" --> "2013-03-22"
+unique(fin.data$date)
 fin.data$date[fin.data$date %in% as.Date(c("2013-03-21", "2013-03-26"))]  <- as.Date("2013-03-22")
-xtabs(~date + ring + plot + depth, fin.data)
+xtabs(~ring + plot + depth + date, fin.data)
 
 # save
-save(fin.data, file = "toc.rawdata/processed/processed.R")
+save(fin.data, file = "Data/TOC/processed.Rdata")
