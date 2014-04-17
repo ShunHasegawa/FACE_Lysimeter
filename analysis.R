@@ -9,7 +9,10 @@ source("functions/functions.R")
 ################
 # Process data #
 ################
-source("functions/process.combine.data.R")
+# source("functions/process.combine.data.R")
+
+# load data
+load("output//data//FACE_lysimeter.Rdata")
 
 ## split dataset to each nutrient & depth ##
 ntrs <- c("no", "nh", "po", "toc", "tn")
