@@ -33,4 +33,4 @@ for (i in 1:5){
 }
 
 #save file
-saveWorkbook(wb,"table/FACE_Lysimeter.xlsx")
+saveWorkbook(wb,"output/table/FACE_Lysimeter.xlsx")
