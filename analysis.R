@@ -37,17 +37,10 @@ tn.s <- lyses[[5]]$shallow
 ##########################
 # Summary table on excel #
 ##########################
-ring.mean <- ddply(lys, .(time, date, ring, plot, depth, co2), summarise,
-                   no = mean(no, na.rm = TRUE),
-                   nh = mean(nh, na.rm = TRUE),
-                   po = mean(po, na.rm = TRUE),
-                   toc = mean(toc, na.rm = TRUE),
-                   tc = mean(tc, na.rm = TRUE),
-                   ic = mean(ic, na.rm = TRUE),
-                   tn = mean(tn, na.rm = TRUE))
-
+ring.mean <- ddply(lys, .(time, date, ring, plot, depth, co2), 
+                   function(x) colMeans(x[c("no", "nh", "po", "toc", "tc", "ic", "tn")], na.rm = TRUE))
 source("functions/Lysimeter_summary_excel_table.R")
-
+?summarize
 #########
 # Stats #
 #########
