@@ -13,13 +13,16 @@ locs <- merge(d, depth)
 locs$Sample.ID <- paste(locs$ring, locs$plot, toupper(substring(locs$depth, 1, 1)), sep = ".")
 
 
+##############
+# Correct IC #
+##############
+# IC in some data files are wrong so correct
+
 # function
 source("functions/correctIC.R")
 
-# IC in some data files are wrong so correct
-
 ## March 2013 ##
-Mar13 <- correctIC("210313 Lysimiter FACE")
+Mar13 <- correctIC("FACE.Lysimeter_21MAR2013")
 
 # format date
 dates <- strsplit(as.character(Mar13$Sample.Name), split = " ")
@@ -31,24 +34,21 @@ mar13.data <- merge(Mar13, locs, by = "Sample.ID", all = TRUE)
 
 
 ## May 2013 ##
-May13 <- correctIC("020513 Lysimiter FACE")
+May13 <- correctIC("FACE.Lysimeter_02MAY2013")
 
 # format date
 May13$date <- as.Date(dmy(as.character(May13$Sample.Name)))
-
 unique(May13$date)
 
 # combine with ring, plot, depth
 may13.data <- merge(May13, locs, by = "Sample.ID", all = TRUE)
 
-# remove extra data
-may13.data <- may13.data[-which(may13.data$Sample.ID == "3.4.D RERUN"), ]
-
 # other files #
-files <- dir("toc.rawdata/processed")
-files
+files <- dir(path = "Data//TOC//processed", pattern = "txt$", full.names = TRUE)
 
-Jul13 <- read.table("Data//toc.rawdata/processed/040713 Lysimiter FACE.txt", skip = 11, fill = TRUE, sep = "\t", header = TRUE, 
+
+## Jul 2013 ##
+Jul13 <- read.table("Data//TOC/processed/040713 Lysimiter FACE.txt", skip = 11, fill = TRUE, sep = "\t", header = TRUE, 
                 colClasses = c("Sample.ID" = "character"))
 
 # weird sample ID -> rename it
@@ -56,7 +56,9 @@ Jul13$Sample.ID[grep("Untitle", Jul13$Sample.ID)] <- "1.1.S"
 
 jul13.data <- processTOC(Jul13)
 
-Nov13 <- read.table("toc.rawdata/processed/141113 Lysimiter FACE.txt", skip = 11, fill = TRUE, sep = "\t", header = TRUE, 
+
+## Nov 2013 ##
+Nov13 <- read.table("Data//TOC/processed/141113 Lysimiter FACE.txt", skip = 11, fill = TRUE, sep = "\t", header = TRUE, 
                    colClasses = c("Sample.ID" = "character"))
 
 nov13.data <- processTOC(Nov13)
