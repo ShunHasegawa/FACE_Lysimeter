@@ -29,22 +29,14 @@ dates <- strsplit(as.character(Mar13$Sample.Name), split = " ")
 Mar13$date <- sapply(dates, "[", 2)
 Mar13$date <- as.Date(dmy(Mar13$date))
 
-# combine with ring, plot, depth
-mar13.data <- merge(Mar13, locs, by = "Sample.ID", all = TRUE)
-
-
 ## May 2013 ##
 May13 <- correctIC("FACE.Lysimeter_02MAY2013")
 
 # format date
 May13$date <- as.Date(dmy(as.character(May13$Sample.Name)))
-unique(May13$date)
-
-# combine with ring, plot, depth
-may13.data <- merge(May13, locs, by = "Sample.ID", all = TRUE)
 
 # other files #
-files <- dir(path = "Data//TOC//processed", pattern = "txt$", full.names = TRUE)
+files <- dir(path = "Data//TOC", pattern = "txt$", full.names = TRUE)
 
 
 ## Jul 2013 ##
