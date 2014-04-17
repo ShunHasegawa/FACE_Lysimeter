@@ -25,20 +25,21 @@ correctIC <- function(filename, scfile = "Data/TOC/ICNeedToCorrect/", otfile = "
   d$NewIC[d$Sample.ID == "IC 5PPM"]
   
   # subset only mean value
-  mean.res <- d[!duplicated(cbind(d$Sample.ID, d$Analysis.Inj..)), ]
+  
+  mean.res <- d[!duplicated(d[, c("Sample.Name", "Sample.ID", "Analysis.Inj..")]), ]
   xtabs(~Sample.ID+Analysis.Inj.., data = mean.res)
   
   
   # subset required columns
-  smry.res <- mean.res[ , c("Sample.ID", "Analysis.Inj..", "NewIC")]
+  smry.res <- mean.res[ , c("Sample.Name", "Sample.ID", "Analysis.Inj..", "NewIC")]
   unique(smry.res$Sample.ID)
-  
+    
   # remove unnecessary rows
   smry.res <- subset(smry.res, !(Sample.ID %in% c("Untitled", "TC BLANK", "TC 50PPM", "IC 5PPM", "TN 25PPM", "IC BLANK", "TN BLANK")))
   
-  colnames(smry.res)[c(2,3)] <- c("variable", "value")
+  colnames(smry.res)[c(3,4)] <- c("variable", "value")
   
-  smry.res.cast <- cast(smry.res, Sample.ID ~ variable)
+  smry.res.cast <- cast(smry.res, Sample.Name + Sample.ID ~ variable)
   
   # calculate TOC
   smry.res.cast$TOC <- with(smry.res.cast, TC - IC)
@@ -51,12 +52,12 @@ correctIC <- function(filename, scfile = "Data/TOC/ICNeedToCorrect/", otfile = "
   nrow(res)
   nrow(smry.res.cast)
   
-  cmb <- merge(res, smry.res.cast, by = "Sample.ID", all.x = TRUE)
+  cmb <- merge(res, smry.res.cast, by = c("Sample.Name", "Sample.ID"), all.x = TRUE)
   cr.cmb <- cmb
   cr.cmb$Result.TOC. <- cmb$TOC
   cr.cmb$Result.IC. <- cmb$IC
-  names(cr.cmb)[15:18]
-  cr.cmb <- cr.cmb[ , -c(15:18)]
+  names(cr.cmb)[14:17]
+  cr.cmb <- cr.cmb[ , -c(14:17)]
   
   #extract unknown
   cr.cmb <- subset(cr.cmb, Type == "Unknown")
