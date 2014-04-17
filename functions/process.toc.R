@@ -4,15 +4,6 @@ rm(list=ls(all=TRUE))
 source("functions/list_library.R")
 source("functions/functions.R")
 
-# ring, plot, depth factor
-ring <- data.frame(ring = factor(c(1:6)))
-plot <- data.frame(plot = factor(c(1:4)))
-depth <- data.frame(depth = c("shallow", "deep"))
-d <- merge(ring, plot)
-locs <- merge(d, depth)
-locs$Sample.ID <- paste(locs$ring, locs$plot, toupper(substring(locs$depth, 1, 1)), sep = ".")
-
-
 ##############
 # Correct IC #
 ##############
@@ -110,11 +101,13 @@ fin.data$co2 <- factor(ifelse(fin.data$ring %in% c("1","4","5"), "elev", "amb"))
 # "2013-03-21", "2013-03-26" --> "2013-03-22"
 unique(fin.data$date)
 fin.data$date[fin.data$date %in% as.Date(c("2013-03-21", "2013-03-26"))]  <- as.Date("2013-03-22")
-xtabs(~ring + plot + depth + date, fin.data)
 
 #depth: s->shallow, d->deep
 fin.data$depth <- ifelse(fin.data$depth == "D", "deep", "shallow")
 
+xtabs(~ring + plot + depth + date, fin.data)
+# there are two ring3, plot2, shallow, 2013-03-22
+subset(fin.data, ring == "3" & plot == "2" & depth == "shallow" & date == as.Date("2013-03-22"))
 
 # save
 save(fin.data, file = "Data/TOC/processed.Rdata")
