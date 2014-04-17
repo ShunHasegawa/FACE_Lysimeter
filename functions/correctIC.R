@@ -1,5 +1,6 @@
-correctIC <- function(filename, scfile = "Data/TOC/", otfile = "Data//TOC//IC_corrected"){
-  d <- read.table(filename, skip = 13,  fill = TRUE, sep = "\t", header = TRUE)
+correctIC <- function(filename, scfile = "Data/TOC/ICNeedToCorrect/", otfile = "Data//TOC//IC_corrected/"){
+  f <- paste(scfile, filename, "_detailed.txt", sep = "")
+  d <- read.table(f, skip = 13,  fill = TRUE, sep = "\t", header = TRUE)
   # sep="\t" enables you to read data with space withough separating them to different columns
   
   # subset IC standard
