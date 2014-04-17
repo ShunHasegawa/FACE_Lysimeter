@@ -43,4 +43,4 @@ lys$ring <- as.factor(lys$ring)
 lys$plot <- as.factor(lys$plot)
 lys$depth <- as.factor(lys$depth)
 
-save(lys, file = "output/data/lysimeter.Rdata")
+save(lys, file = "output/data/FACE_lysimeter.Rdata")
