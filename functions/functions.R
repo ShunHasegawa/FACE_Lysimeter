@@ -140,14 +140,11 @@ prcs.all.dat <- function(filename){
 ######################
 # Process TOC output #
 ######################
-processTOC <- function(data){
+processTOC <- function(data, DateCol){
   # reformat date
-  names(data)[3] <- "date"
+  names(data)[DateCol] <- "date" # DateCol: position the column for date
   data$date <- as.Date(dmy(data$date))
-  
-  # combine ring, plot, depth and data
-  fnl <- merge(data, locs, by = "Sample.ID", all = TRUE)
-  return(fnl)
+  return(data)
 }
 
 
