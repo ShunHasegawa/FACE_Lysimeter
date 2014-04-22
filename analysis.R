@@ -2,6 +2,8 @@ rm(list=ls(all=TRUE))
 
 # functions
 source("functions/functions.R")
+source("functions/LibList.R")
+
 
 ################
 # Process data #
@@ -37,7 +39,7 @@ tn.s <- lyses[[5]]$shallow
 ring.mean <- ddply(lys, .(time, date, ring, depth, co2), 
                    function(x) colMeans(x[c("no", "nh", "po", "toc", "tc", "ic", "tn")], na.rm = TRUE))
 source("functions/Lysimeter_summary_excel_table.R")
-?summarize
+
 #########
 # Stats #
 #########
