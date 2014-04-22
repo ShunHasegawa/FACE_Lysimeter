@@ -21,11 +21,11 @@ anova(ml$model.reml)
 # there is co2:time interaction --> do contrast
 
 # contrast
-levels(nh.s$time)[3:8]
+levels(nh.s$time)[3:12]
 
 cntrst<- contrast(ml$model.reml,
-                  a=list(time=levels(nh.s$time)[3:8],co2="amb"),
-                  b=list(time=levels(nh.s$time)[3:8],co2="elev"))
+                  a=list(time=levels(nh.s$time)[3:12],co2="amb"),
+                  b=list(time=levels(nh.s$time)[3:12],co2="elev"))
 
 # not working...
 
