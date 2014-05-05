@@ -18,7 +18,7 @@ bxplts <- function(value, ofst = 0,data){
   boxplot(y^(1/3) ~ co2*time, main = "power(1/3)", data)
 }
 
-# function for mmodel simplification
+# function for model simplification
 ana<-function(model){
   mod2<-update(model,method="ML") #change method from REML to ML
   stai<-stepAIC(mod2,trace=FALSE) #model simplification by AIC
