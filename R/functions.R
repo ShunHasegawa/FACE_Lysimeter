@@ -7,12 +7,6 @@ ntr.splt <- function(data = lys, ntr){
   return(dl.spa)
 }
 
-# model simplificaiton after comparing with auto-correlation
-smpl.ml <- function(model){
-  models <- atcr.cmpr(model) #auto-correlation
-  ml <- models[[which(models[[6]]$AIC == min(models[[6]]$AIC))]] #min AIC
-  return(ana(ml))
-}
 
 ###################################
 # Coorect AQ2 result based on CCV #
