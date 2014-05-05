@@ -7,40 +7,6 @@ ntr.splt <- function(data = lys, ntr){
   return(dl.spa)
 }
 
-# produce box plots with transformed data (log, sqrt, power(1/3))
-bxplts <- function(value, ofst = 0,data){
-  dev.off()
-  par(mfrow = c(2,2))
-  y <- data[[value]] + ofst #ofst is added to make y >0
-  boxplot(y ~ co2*time, data)
-  boxplot(log(y) ~ co2*time, main = "log", data)
-  boxplot(sqrt(y) ~ co2*time, main = "sqrt", data)
-  boxplot(y^(1/3) ~ co2*time, main = "power(1/3)", data)
-}
-
-# function for model simplification
-ana<-function(model){
-  mod2<-update(model,method="ML") #change method from REML to ML
-  stai<-stepAIC(mod2,trace=FALSE) #model simplification by AIC
-  dr<-drop1(stai,test="Chisq") #test if removing a factor even more significantly lowers model
-  model<-update(stai,method="REML")
-  ifelse(all(dr[[4]]<0.05,na.rm=TRUE),anr<-anova(model),anr<-NA) 
-  #dr[[4]]<0.05-->unable to remove any more factors so finlize the results by changsing the method back to REML
-  return(list(step.aic=stai$anova,drop1=dr,anova.reml=anr,model.reml=model,model.ml=stai))
-}
-
-
-# compare different auto-correlation models
-atcr.cmpr <- function(model){
-  model2 <- update(model,corr=corCompSymm(form=~1|ring/plot))
-  model3 <- update(model,correlation=corARMA(q=2))
-  model4 <- update(model,correlation=corAR1()) 
-  model5 <- update(model,correlation=corARMA(q=1))
-  a <- anova(model,model2,model3,model4,model5)
-  models <- list(model, model2, model3, model4, model5, a)
-  return(models)
-}
-
 # model simplificaiton after comparing with auto-correlation
 smpl.ml <- function(model){
   models <- atcr.cmpr(model) #auto-correlation
@@ -147,4 +113,76 @@ processTOC <- function(data, DateCol){
   return(data)
 }
 
+##############
+# Correct IC #
+##############
+correctIC <- function(filename, scfile = "Data/TOC/ICNeedToCorrect/", otfile = "Data//TOC//IC_corrected/"){
+  f <- paste(scfile, filename, "_detailed.txt", sep = "")
+  d <- read.table(f, skip = 13,  fill = TRUE, sep = "\t", header = TRUE)
+  # sep="\t" enables you to read data with space withough separating them to different columns
+  
+  # subset IC standard
+  ICdata <- subset(d, Anal. == "IC" & Type == "Standard")
+  ICdata <- droplevels(ICdata)
+  
+  # conc. = 10 is wrong so remove
+  ICdata <- ICdata[ICdata$Conc. != 10.0, ]
+  
+  # injection vol for standard was 65, but it is 50 for sample assay, adjust it
+  ICdata$Mean.Area <- ICdata$Mean.Area * 50 / 65
+  
+  
+  # calibration curve with intercept = 0
+  ml <- lm(Mean.Area ~ -1 + Conc., data = ICdata)
+  coef(ml)[[1]]
+  
+  # re-calculate IC values
+  d$NewIC <- ifelse(d$Analysis.Inj.. %in% c("TC", "TN"), 
+                    d$Mean.Conc., 
+                    d$Mean.Area/coef(ml)[1])
+  d$NewIC[d$Sample.ID == "IC 5PPM"]
+  
+  # subset only mean value
+  
+  mean.res <- d[!duplicated(d[, c("Sample.Name", "Sample.ID", "Analysis.Inj..")]), ]
+  xtabs(~Sample.ID+Analysis.Inj.., data = mean.res)
+  
+  
+  # subset required columns
+  smry.res <- mean.res[ , c("Sample.Name", "Sample.ID", "Analysis.Inj..", "NewIC")]
+  unique(smry.res$Sample.ID)
+  
+  # remove unnecessary rows
+  smry.res <- subset(smry.res, !(Sample.ID %in% c("Untitled", "TC BLANK", "TC 50PPM", "IC 5PPM", "TN 25PPM", "IC BLANK", "TN BLANK")))
+  
+  colnames(smry.res)[c(3,4)] <- c("variable", "value")
+  
+  smry.res.cast <- cast(smry.res, Sample.Name + Sample.ID ~ variable)
+  
+  # calculate TOC
+  smry.res.cast$TOC <- with(smry.res.cast, TC - IC)
+  
+  # read a summary dataset to be re calculated
+  f2 <- paste(scfile, filename, ".txt", sep = "")
+  res <- read.table(f2, skip = 11, fill = TRUE, sep = "\t", header = TRUE)
+  
+  # marge corrected result and current result
+  nrow(res)
+  nrow(smry.res.cast)
+  
+  cmb <- merge(res, smry.res.cast, by = c("Sample.Name", "Sample.ID"), all.x = TRUE)
+  cr.cmb <- cmb
+  cr.cmb$Result.TOC. <- cmb$TOC
+  cr.cmb$Result.IC. <- cmb$IC
+  names(cr.cmb)[14:17]
+  cr.cmb <- cr.cmb[ , -c(14:17)]
+  
+  #extract unknown
+  cr.cmb <- subset(cr.cmb, Type == "Unknown")
+  
+  # save
+  f3 <- paste(otfile, filename, ".corrected.txt", sep = "")
+  write.table(cr.cmb, file = f3, sep = "\t", row.names = FALSE)
+  return(cr.cmb)
+}
 
