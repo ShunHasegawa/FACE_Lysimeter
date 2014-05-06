@@ -5,8 +5,10 @@
 
 range(lys$tc[lys$depth == "shallow" & lys$pre], na.rm = TRUE)
 
+bxcxplts(value = "tc", data = subsetD(lys, depth == "shallow" & pre), sval = 0, fval =1)
 bxplts(value = "tc", data = subsetD(lys, depth == "shallow" & pre))
-# log seems better
+dev.off()
+ # log seems fine
 
 # different random factor structure
 m1 <- lme(log(tc) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "shallow" & pre), 
@@ -54,7 +56,7 @@ plot(Fml_S_pre)
 qqnorm(Fml_S_pre, ~ resid(.)|id)
 qqnorm(residuals.lm(Fml_S_pre))
 qqline(residuals.lm(Fml_S_pre))
-
+  # not great
 ## ----Stat_FACE_Lys_TC_S_postCO2
 
 ############
@@ -63,13 +65,9 @@ qqline(residuals.lm(Fml_S_pre))
 
 range(lys$tc[lys$depth == "shallow" & lys$post], na.rm = TRUE)
 
+bxcxplts(value = "tc", data = subsetD(lys, depth == "shallow" & post), sval = 0, fval =10)
 bxplts(value = "tc", data = subsetD(lys, depth == "shallow" & post))
-bxplts(value = "tc", ofst = 1, data = subsetD(lys, depth == "shallow" & post))
-bxplts(value = "tc", ofst = 10, data = subsetD(lys, depth == "shallow" & post))
-bxcxplts(value = "tc", data = subsetD(lys, depth == "shallow" & post), sval=1, fval = 10)
-
-
-# log seems better
+  # log seems better
 
 # different random factor structure
 m1 <- lme(log(tc) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "shallow" & post), 
