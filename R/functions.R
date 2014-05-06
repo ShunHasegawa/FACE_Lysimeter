@@ -356,13 +356,16 @@ ggsavePP <- function(filename, plot, width, height){
 MdlSmpl <- function(model){
   mod2 <- update(model, method = "ML") #change method from REML to ML
   stai <- stepAIC(mod2, trace = FALSE) #model simplification by AIC
-  dr <- drop1(stai, test="Chisq") #test if removing a factor even more significantly lowers model
+  if(length(stai$coefficients$fixed) > 1)
+  dr <- drop1(stai, test="Chisq") else #test if removing a factor even more significantly lowers model
+    dr <- "All factors are removed"
   model <- update(stai, method="REML")
-  ifelse(all(dr[[4]] < 0.05, na.rm=TRUE), anr <- anova(model), anr<-NA) 
+  if(!is.character(dr))
+  ifelse(all(dr[[4]] < 0.05, na.rm=TRUE), anr <- anova(model), anr<-NA) else
+    anr  <- NA
   #dr[[4]]<0.05-->unable to remove any more factors so finlize the results by changsing the method back to REML
   return(list(step.aic = stai$anova, drop1 = dr, anova.reml = anr, model.reml = model, model.ml = stai))
 }
-
 #############################################
 # compare different auto-correlation models #
 #############################################
