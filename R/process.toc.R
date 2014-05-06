@@ -1,17 +1,12 @@
 rm(list=ls(all=TRUE))
 
 # library
-source("functions/list_library.R")
-source("functions/functions.R")
+source("R/functions.R")
 
 ##############
 # Correct IC #
 ##############
 # IC in some data files are wrong so correct
-
-# function
-source("functions/correctIC.R")
-
 ## March 2013 ##
 Mar13 <- correctIC("FACE.Lysimeter_21MAR2013")
 
@@ -115,5 +110,5 @@ xtabs(~ring + plot + depth + date, fin.data)
 subset(fin.data, ring == "3" & plot == "2" & depth == "shallow" & date == as.Date("2013-03-22"))
 
 # save
-save(fin.data, file = "Data/TOC/processed.Rdata")
+save(fin.data, file = "output/data/ProcessedTOC.RData")
 
