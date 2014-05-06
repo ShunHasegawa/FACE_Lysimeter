@@ -19,7 +19,7 @@ l_ply(1:7, function(x) ggsavePP(filename = fls[x], plot = RngFg[[x]], width = 6,
 
 # CO2 trt
 TrtFg <- dlply(TrtMean, .(variable), PltCO2Mean)
-fls <- paste("Output//Figs/WTC_LysimeterCO2Trt_", vars, sep = "")
+fls <- paste("output/figs/FACE_LysimeterCO2", vars, sep = "")
 
 # save as pdf and png
 l_ply(1:7, function(x) ggsavePP(filename = fls[x], plot = TrtFg[[x]], width = 6, height = 3))
@@ -42,4 +42,4 @@ ylabs <- c(expression(NO[3]^"-"-N),
 pl <- facet_wrap_labeller(p, labels = ylabs)
 
 
-ggsavePP(filename = "Output/Figs/WTC_LysimeterCO2", plot = pl, width = 8, height = 8)
+ggsavePP(filename = "output/figs/FACE_LysimeterCO2", plot = pl, width = 8, height = 8)
