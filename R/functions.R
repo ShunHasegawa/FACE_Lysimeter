@@ -423,6 +423,7 @@ bxcxplts <- function(value, data, sval, fval){
     BCmax[i] <- a$x[a$y == max(a$y)]
   }
   par(mfrow = c(5, 2))
+  par(omi = c(0, 0, 0, 0), mai = c(0.4, 0.4, 0.4, 0))
   sapply(1:10, function(x) {
     boxplot(y^BCmax[x] ~ co2*time, main = "", data = data)
     texcol <- ifelse(BCmax[x] < 0, "red", "black") 
