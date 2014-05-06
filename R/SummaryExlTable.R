@@ -1,27 +1,15 @@
 ntrs <- c("no", "nh", "po", "toc", "tc", "ic", "tn")
 
-# remove outlier
-LysRmOl <- lys
-
-# tc:shallow:0
-LysRmOl[which(LysRmOl$depth == "shallow" & LysRmOl$tc == 0), "tc"] <- NA
-
-# toc:shallow:0
-LysRmOl[which(LysRmOl$depth == "shallow" & LysRmOl$toc == 0), "toc"] <- NA
-
-summary(LysRmOl)
-
-
 # Melt data frame
-lysMlt <- melt(LysRmOl, id = c("time", "Date", "temp", "chamber", "location", "depth", "id"), na.rm = TRUE)
+lysMlt <- melt(lys, id = names(lys)[which(!(names(lys) %in% ntrs))], na.rm = TRUE)
 lysMlt$variable <- factor(lysMlt$variable, levels = c(ntrs)) # change the level order of variable 
 
-# chamber summary table & mean
-ChSmmryTbl <- dlply(lysMlt, .(variable, depth), function(x) CreateTable(x, fac = "chamber"))
-ChMean <- ddply(lysMlt, .(time, Date, temp, chamber,depth, variable), summarise, value = mean(value, na.rm = TRUE)) 
+# ring summary table & mean
+RngSmmryTbl <- dlply(lysMlt, .(variable, depth), function(x) CreateTable(x, fac = "ring", digit = 2, nsmall = 4))
+RngMean <- ddply(lysMlt, .(time, Date, co2, ring,depth, variable), summarise, value = mean(value, na.rm = TRUE)) 
 
 # treat summary table $ mean
-TrtSmmryTbl <- dlply(ChMean, .(variable, depth), function(x) CreateTable(x, fac = "temp"))
+TrtSmmryTbl <- dlply(RngMean, .(variable, depth), function(x) CreateTable(x, fac = "co2"))
 
 ########################
 # create xcel workbook #
@@ -35,13 +23,13 @@ addDataFrame(lys, sheet, showNA=TRUE, row.names=FALSE, characterNA="NA")
 sheet <- createSheet(wb,sheetName="row_data_withoutOutlier")
 addDataFrame(LysRmOl, sheet, showNA=TRUE, row.names=FALSE, characterNA="NA")
 
-# worksheets for chamber summary
+# worksheets for ring summary
 vars <- c("Nitrate", "Ammonium", "Phosphate", "TotalOrganicC", "TotalC", "InorganicC", "TotalN")
-shnames <- paste("ChamberMean", vars, sep = "_")
-MltcrSheet(tbl = ChSmmryTbl, shnames = shnames, ntrs = ntrs)
+shnames <- paste("RingMean", vars, sep = "_")
+MltcrSheet(tbl = RngSmmryTbl, shnames = shnames, ntrs = ntrs)
 
 # worksheets for temp trt summary
-shnames <- paste("Temp_mean.", vars, sep = "_")
+shnames <- paste("CO2_mean.", vars, sep = "_")
 MltcrSheet(tbl = TrtSmmryTbl, shnames = shnames, ntrs = ntrs)
 
 # save file

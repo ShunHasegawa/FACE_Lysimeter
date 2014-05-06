@@ -183,8 +183,8 @@ correctIC <- function(filename, scfile = "Data/TOC/ICNeedToCorrect/", otfile = "
 ##########################
 # Create a summary table #
 ##########################
-CreateTable <- function(dataset, fac){
-  a <- dataset[c("Date", fac, "value")] #extract required columns
+CreateTable <- function(dataset, fac, ...){
+  a <- dataset[c("date", fac, "value")] #extract required columns
   colnames(a) <- c("date","variable","value") #change column names for cast
   means <- cast(a, date~variable, mean, na.rm = TRUE) 
   ses <- cast(a,date~variable,function(x) ci(x,na.rm=TRUE)[4])
