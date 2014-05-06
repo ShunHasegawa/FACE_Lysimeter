@@ -393,7 +393,7 @@ atcr.cmpr <- function(model, rndmFac){
 ###########################################
 # produce box plots with transformed data #
 ###########################################
-# log OR sqrt OR power(1/3) OR inverse
+# log OR sqrt OR power(1/3) OR inverse OR box-cox
 bxplts <- function(value, ofst = 0, data, ...){
   data$y <- data[[value]] + ofst #ofst is added to make y >0
   a <- boxcox(y ~ co2 * time, data = data)
@@ -410,6 +410,26 @@ bxplts <- function(value, ofst = 0, data, ...){
           data = data)
   title(main = paste("Box Cox", round(BCmax, 4)), 
         col.main = texcol)
+  par(mfrow = c(1,1))
+}
+
+# multiple box-cox power plot for different constant values
+bxcxplts <- function(value, data, sval, fval){
+  ranges <- seq(sval, fval, (fval - sval)/9)
+  BCmax <- vector()
+  for (i in 1:10){
+    data$y <- data[[value]] + ranges[i]
+    a <- boxcox(y ~ co2 * time, data = data)
+    BCmax[i] <- a$x[a$y == max(a$y)]
+  }
+  par(mfrow = c(5, 2))
+  sapply(1:10, function(x) {
+    boxplot(y^BCmax[x] ~ co2*time, main = "", data = data)
+    texcol <- ifelse(BCmax[x] < 0, "red", "black") 
+    title(main = paste("constant=", ranges[x], 
+                       ", boxcox=", round(BCmax[x], 4)),
+          col.main = texcol)
+  })
   par(mfrow = c(1,1))
 }
 
