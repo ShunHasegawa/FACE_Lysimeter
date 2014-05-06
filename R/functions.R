@@ -413,6 +413,34 @@ bxplts <- function(value, ofst = 0, data, ...){
   par(mfrow = c(1,1))
 }
 
+
+par(mfrow =c(3,4))
+a
+
+a <- bxcxplts(
+value = "tc",
+data = subsetD(lys, depth == "shallow" & post),
+sval = 1,
+fval = 10)
+
+par(mfrow = c(5, 4))
+
+bxcxplts <- function(value, data, sval, fval){
+  ranges <- seq(sval, fval, (fval - sval)/9)
+  for (i in 1:10){
+    data$y <- data[[value]] + ranges[i]
+    figlst <- list()
+    a <- boxcox(y ~ co2 * time, data = data)
+    BCmax <- a$x[a$y == max(a$y)]
+    texcol <- ifelse(BCmax < 0, "red", "black") 
+    boxplot(y^(BCmax) ~ co2*time, 
+                           main = paste("constant=",ranges[i], 
+                                        ", boxcox=", round(BCmax, 4)),
+                           data = data)
+  }
+}
+
+
 ##############################
 # subset data and droplevels #
 ##############################
