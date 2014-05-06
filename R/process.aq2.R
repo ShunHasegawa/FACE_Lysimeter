@@ -1,11 +1,5 @@
 rm(list=ls(all=TRUE))
-
-# library
-source("functions/list_library.R")
-
-# functions
-source("functions/functions.R")
-
+source("R/functions.R")
 
 ############################
 # Correct NO3 based on CCV #
@@ -26,4 +20,4 @@ fls <- dir(path = "Data/AQ2//2014Apr/ReadyToProcess/", pattern = ".csv$")
 #save
 aq2 <- prcs.all.dat(filename = fls)
 
-save(aq2, file = "output//data//FACE.Lysimeter.Rdata")
+save(aq2, file = "output//data//ProcessedAQ2.RData")

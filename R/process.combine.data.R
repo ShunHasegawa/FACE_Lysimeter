@@ -1,5 +1,3 @@
-rm(list=ls(all=TRUE))
-
 lys<-read.table("Data/lys.time8.txt",header=T, colClasses = c("time" = "factor", "ring" = "factor", "ring" = "factor", "plot" = "factor"))
 # remove tn.corrected, coverage
 lys <- lys[, !(names(lys) %in% c("coverage", "actual.cov", "tn.corrected"))]
@@ -7,13 +5,12 @@ lys <- lys[, !(names(lys) %in% c("coverage", "actual.cov", "tn.corrected"))]
 lys$date <- as.Date(dmy(lys$date))
 
 # add more dataset and merge
-load("Data/TOC//processed.Rdata")
-load("output//data//FACE.Lysimeter.Rdata")
+load("output/data/ProcessedTOC.RData")
+load("output//data//processedAQ2.Rdata")
 
 # combine toc and aq2 data
 names(fin.data)
 names(aq2)
-
 
 # check date as well
 unique(fin.data$date)
@@ -43,4 +40,4 @@ lys$ring <- as.factor(lys$ring)
 lys$plot <- as.factor(lys$plot)
 lys$depth <- as.factor(lys$depth)
 
-save(lys, file = "output/data/FACE_lysimeter.Rdata")
+save(lys, file = "output/data/FACE_lysimeter.RData")
