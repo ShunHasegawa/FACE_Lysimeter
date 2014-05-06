@@ -395,14 +395,14 @@ atcr.cmpr <- function(model, rndmFac){
 ###########################################
 # log OR sqrt OR power(1/3) OR inverse
 bxplts <- function(value, ofst = 0, data, ...){
-  par(mfrow = c(2, 4))
   data$y <- data[[value]] + ofst #ofst is added to make y >0
+  a <- boxcox(y ~ co2 * time, data = data)
+  par(mfrow = c(2, 3))
   boxplot(y ~ co2*time, data, main = "row")
   boxplot(log(y) ~ co2*time, main = "log", data)
   boxplot(sqrt(y) ~ co2*time, main = "sqrt", data)
   boxplot(y^(1/3) ~ co2*time, main = "power(1/3)", data)
   boxplot(1/y ~ co2*time, main = "inverse", data)
-  a <- boxcox(y ~ co2 * time, data = data)
   BCmax <- a$x[a$y == max(a$y)]
   texcol <- ifelse(BCmax < 0, "red", "black") 
   boxplot(y^(BCmax) ~ co2*time, 
