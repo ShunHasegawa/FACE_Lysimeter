@@ -1,13 +1,13 @@
 rm(list=ls(all=TRUE))
 
 # functions
-source("functions/functions.R")
+source("R/functions.R")
 
 
 ################
 # Process data #
 ################
-# source("functions/process.combine.data.R")
+# source("R/process.combine.data.R")
 
 # load data
 load("output//data//FACE_lysimeter.Rdata")

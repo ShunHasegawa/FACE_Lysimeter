@@ -1,24 +1,24 @@
 ###########
 # Nitrate #
 ###########
-source("functions/nitrate.analysis.R")
+source("R/nitrate.analysis.R")
 
 ############
 # Ammonium #
 ############
-source("functions/ammonium.analysis.R")
+source("R/ammonium.analysis.R")
 
 #############
 # Phosphate #
 #############
-source("functions/phosphate.analysis.R")
+source("R/phosphate.analysis.R")
 
 #######
 # TOC #
 #######
-source("functions/toc.analysis.R")
+source("R/toc.analysis.R")
 
 ######
 # TN #
 ######
-source("functions/tn.analysis.R")
+source("R/tn.analysis.R")
