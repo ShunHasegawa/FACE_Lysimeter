@@ -237,4 +237,169 @@ MltcrSheet <- function(tbl, shnames, ntrs){
   })
 }
 
+############################
+# make a summary dataframe #
+############################
+Crt_SmryDF <- function(data, val = "value"){
+  x <- data[ ,val]
+  Mean <- mean(x, na.rm = TRUE)
+  SE <- ci(x, na.rm = TRUE)[[4]]
+  N  <- sum(!is.na(x))
+  data.frame(Mean, SE, N)
+}
+
+####################
+# plot mean and se #
+####################
+# general settings
+PltMean <- function(data, ...){
+  
+  # change factor level names for labelling on figs
+  data$depth <- factor(data$depth, levels = c("shallow", "deep"), labels = c("Shallow", "Deep")) 
+  data$temp <-  factor(data$temp, levels = c("amb", "elev"), labels = c("Ambient", "eTemp"))
+  
+  ylabs <- c(expression(NO[3]^"-"-N~(mg~l^-1)),
+             expression(NH[4]^"+"-N~(mg~l^-1)),
+             expression(PO[4]^"3-"-P~(mg~l^-1)),
+             expression(TOC~(mg~l^-1)),
+             expression(TC~(mg~l^-1)),
+             expression(IC~(mg~l^-1)),
+             expression(TN~(mg~l^-1)))
+  
+  # create ylab according to variable
+  ntrs <- c("no", "nh", "po", "toc", "tc", "ic", "tn")
+  
+  # when plotting multiple variables at the same time
+  if(length(unique(data$variable)) > 1) ylab <- expression((mg~l^-1)) else {
+    # only one variable
+    for (i in 1:7){
+      if(unique(data$variable) == ntrs[i]) ylab  <- ylabs[i]
+    }
+  }
+  
+  p <- ggplot(data, aes_string(x = "Date", y = "Mean", ...))
+  
+  p2 <- p + geom_line(size = 1) +
+    geom_errorbar(aes_string(ymin = "Mean - SE", ymax = "Mean + SE", ...) , width = 5) + 
+    labs(x = "Time", y = ylab)
+  return(p2)
+}
+
+#####################
+# Plot Chamber mean #
+#####################
+PltChMean <- function(data){
+  # change factor level names for labelling
+  p <- PltMean(data, col = "chamber") +
+    scale_color_manual(values = palette(), "Chamber", 
+                       labels = paste("Ch", c(1:12), sep = "_")) +
+    scale_linetype_manual(values = rep(c("solid", "dashed"), 6), 
+                          "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
+    facet_grid(depth~. )
+  return(p)
+}
+
+######################
+# Plot temp trt mean #
+######################
+PltTempMean <- function(data){
+  p <- PltMean(data, col = "temp", linetype = "depth") +
+    scale_color_manual(values = c("blue", "red"), "Temp trt") +
+    scale_linetype_manual(values = c("solid", "dashed"), "Depth")
+  return(p)
+}
+
+
+#################################
+# labells for facet_wrap graphs #
+#################################
+facet_wrap_labeller <- function(gg.plot,labels=NULL) {
+  #works with R 3.0.1 and ggplot2 0.9.3.1
+  # copied from http://stackoverflow.com/questions/19282897/
+  # how-to-add-expressions-to-labels-in-facet-wrap
+  # require(gridExtra)
+  
+  g <- ggplotGrob(gg.plot)
+  gg <- g$grobs      
+  strips <- grep("strip_t", names(gg))
+  
+  for(ii in seq_along(labels))  {
+    modgrob <- getGrob(gg[[strips[ii]]], "strip.text", 
+                       grep=TRUE, global=TRUE)
+    gg[[strips[ii]]]$children[[modgrob$name]] <- editGrob(modgrob,label=labels[ii])
+  }
+  
+  g$grobs <- gg
+  class(g) = c("arrange", "ggplot",class(g)) 
+  g
+}
+
+##############################
+# Save ggplot in PDF and PNG #
+##############################
+ggsavePP <- function(filename, plot, width, height){
+  ggsave(filename = paste(filename, ".pdf", sep = ""), 
+         plot = plot, 
+         width = width, 
+         height = height)
+  
+  ggsave(filename = paste(filename, ".png", sep = ""), 
+         plot = plot, 
+         width = width, 
+         height = height, 
+         dpi = 600)
+}
+
+#######################
+#model simplification #
+#######################
+MdlSmpl <- function(model){
+  mod2 <- update(model, method = "ML") #change method from REML to ML
+  stai <- stepAIC(mod2, trace = FALSE) #model simplification by AIC
+  dr <- drop1(stai, test="Chisq") #test if removing a factor even more significantly lowers model
+  model <- update(stai, method="REML")
+  ifelse(all(dr[[4]] < 0.05, na.rm=TRUE), anr <- anova(model), anr<-NA) 
+  #dr[[4]]<0.05-->unable to remove any more factors so finlize the results by changsing the method back to REML
+  return(list(step.aic = stai$anova, drop1 = dr, anova.reml = anr, model.reml = model, model.ml = stai))
+}
+
+#############################################
+# compare different auto-correlation models #
+#############################################
+
+atcr.cmpr <- function(model, rndmFac){
+  if(rndmFac == "chamber/location"){
+    model2 <- update(model,corr=corCompSymm(form=~1|chamber/location)) 
+  } else {
+    if(rndmFac == "chamber"){
+      model2 <- update(model,corr=corCompSymm(form=~1|chamber))
+    } else {
+      model2 <- update(model,corr=corCompSymm(form=~1|id))
+    }
+  }
+  
+  model3 <- update(model,correlation=corARMA(q=2))
+  model4 <- update(model,correlation=corAR1()) 
+  model5 <- update(model,correlation=corARMA(q=1))
+  a <- anova(model,model2,model3,model4,model5)
+  rownames(a) <- c("NULL", "corCompSymm", "corARMA(q=2)", "corAR1()", "corARMA(q=1)")
+  models <- list(model, model2, model3, model4, model5, 'models' = a)
+  return(models)
+}
+
+###########################################
+# produce box plots with transformed data #
+###########################################
+# log OR sqrt OR power(1/3) OR inverse
+bxplts <- function(value, ofst = 0, data){
+  par(mfrow = c(2, 3))
+  y <- data[[value]] + ofst #ofst is added to make y >0
+  boxplot(y ~ temp*time, data)
+  boxplot(log(y) ~ temp*time, main = "log", data)
+  boxplot(sqrt(y) ~ temp*time, main = "sqrt", data)
+  boxplot(y^(1/3) ~ temp*time, main = "power(1/3)", data)
+  boxplot(1/y ~ temp*time, main = "inverse", data)
+  par(mfrow = c(1,1))
+}
+
 
