@@ -4,10 +4,10 @@
 ###########
 
 range(lys$tc[lys$depth == "shallow" & lys$pre], na.rm = TRUE)
-
 bxcxplts(value = "tc", data = subsetD(lys, depth == "shallow" & pre), sval = 0, fval =1)
 bxplts(value = "tc", data = subsetD(lys, depth == "shallow" & pre))
 dev.off()
+
  # log seems fine
 
 # different random factor structure
@@ -64,7 +64,6 @@ qqline(residuals.lm(Fml_S_pre))
 ############
 
 range(lys$tc[lys$depth == "shallow" & lys$post], na.rm = TRUE)
-
 bxcxplts(value = "tc", data = subsetD(lys, depth == "shallow" & post), sval = 0, fval =10)
 bxplts(value = "tc", data = subsetD(lys, depth == "shallow" & post))
   # log seems better
