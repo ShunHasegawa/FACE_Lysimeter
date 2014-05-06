@@ -415,19 +415,26 @@ bxplts <- function(value, ofst = 0, data, ...){
 
 # multiple box-cox power plot for different constant values
 bxcxplts <- function(value, data, sval, fval){
+  data$yval <- data[[value]]
   ranges <- seq(sval, fval, (fval - sval)/9)
+  
+  # store parameters given from box-cox plot
   BCmax <- vector()
   for (i in 1:10){
-    data$y <- data[[value]] + ranges[i]
+    data$y <- data$yval + ranges[i]
     a <- boxcox(y ~ co2 * time, data = data)
     BCmax[i] <- a$x[a$y == max(a$y)]
   }
+  
+  # plot box plot with poer given from box-box for 
+  # each contstant value
   par(mfrow = c(5, 2))
   par(omi = c(0, 0, 0, 0), mai = c(0.4, 0.4, 0.4, 0))
   sapply(1:10, function(x) {
-    boxplot(y^BCmax[x] ~ co2*time, main = "", data = data)
+    boxplot((yval + ranges[x]) ^ BCmax[x] ~ co2 * time, 
+            main = "", data = data)
     texcol <- ifelse(BCmax[x] < 0, "red", "black") 
-    title(main = paste("constant=", ranges[x], 
+    title(main = paste("constant=", round(ranges[x], 4), 
                        ", boxcox=", round(BCmax[x], 4)),
           col.main = texcol)
   })
