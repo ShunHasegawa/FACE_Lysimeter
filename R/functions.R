@@ -180,3 +180,61 @@ correctIC <- function(filename, scfile = "Data/TOC/ICNeedToCorrect/", otfile = "
   return(cr.cmb)
 }
 
+##########################
+# Create a summary table #
+##########################
+CreateTable <- function(dataset, fac){
+  a <- dataset[c("Date", fac, "value")] #extract required columns
+  colnames(a) <- c("date","variable","value") #change column names for cast
+  means <- cast(a, date~variable, mean, na.rm = TRUE) 
+  ses <- cast(a,date~variable,function(x) ci(x,na.rm=TRUE)[4])
+  colnames(ses)[2:ncol(ses)] <- paste(colnames(ses)[2:ncol(ses)],"SE",sep=".")
+  samples <- cast(a,date~variable,function(x) sum(!is.na(x))) #sample size
+  colnames(samples)[2:ncol(samples)] <- paste(colnames(samples)[2:ncol(samples)],"N",sep=".")
+  mer <- Reduce(function(...) merge(..., by = "date"), list(means, ses, samples)) #merge datasets
+  mer <- mer[,c(1, order(names(mer)[-grep("date|N", names(mer))])+1, grep("N", names(mer)))] #re-order columns
+  mer$date <- as.character(mer$date) # date is turned into character for knitr output 
+  return(format(mer, ...))
+}
+
+#function which creates excel worksheets
+crSheet <- function(sheetname, datasetS, datasetD){
+  #create sheet
+  sheet <- createSheet(wb, sheetName = sheetname)
+  
+  #add data to the sheet
+  
+  # shallow
+  addDataFrame("shallow",sheet,row.names=FALSE,col.names=FALSE,startRow=2) # title of the table
+  addDataFrame(datasetS, sheet, showNA = TRUE, row.names = FALSE, startRow = 3,
+               characterNA = "NA")
+  
+  # deep
+  addDataFrame("deep",sheet,row.names=FALSE,col.names=FALSE,startRow=19) # title of the table
+  addDataFrame(datasetD, sheet, showNA = TRUE, row.names = FALSE, startRow = 20,
+               characterNA = "NA")
+  
+  #title of the sheet
+  addDataFrame(t(c(sheetname, "unit=ppm")), sheet, startRow = 1, row.names = FALSE, col.names = FALSE)
+}
+
+###############################
+# Created multiple worksheets #
+###############################
+# extract required data set from a list of summary tables
+# and put them in excel worksheets
+# the same nutrient but different layers will be placed 
+# in the same worksheet
+
+MltcrSheet <- function(tbl, shnames, ntrs){
+  l_ply(1:length(shnames), function(x) {
+    lnames <- paste(ntrs[x], c("shallow", "deep"), sep = ".") 
+    # names of the required data set in the list
+    
+    crSheet(sheetname = shnames[x], 
+            datasetS = tbl[[ lnames[1] ]], 
+            datasetD = tbl[[ lnames[2] ]])
+  })
+}
+
+
