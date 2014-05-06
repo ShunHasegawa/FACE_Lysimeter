@@ -77,7 +77,7 @@ anova(m1, m2, m3)
 atcr.cmpr(m1, rndmFac= "ring/plot")$models
 # model3 is best
 
-Iml_S_post <- atcr.cmpr(m3, rndmFac= "id")[[3]]
+Iml_S_post <- atcr.cmpr(m1, rndmFac= "ring/plot")[[3]]
 
 # The initial model is: 
 Iml_S_post$call
@@ -93,7 +93,7 @@ Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
 # The final model is:
 Fml_S_post$call
 
-anova(Fml_S_post)
+Anova(Fml_S_post)
 
 # model diagnosis
 plot(Fml_S_post)
