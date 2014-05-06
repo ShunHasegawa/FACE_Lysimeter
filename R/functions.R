@@ -397,7 +397,7 @@ atcr.cmpr <- function(model, rndmFac){
 bxplts <- function(value, ofst = 0, data){
   par(mfrow = c(2, 3))
   y <- data[[value]] + ofst #ofst is added to make y >0
-  boxplot(y ~ co2*time, data)
+  boxplot(y ~ co2*time, data, main = "row")
   boxplot(log(y) ~ co2*time, main = "log", data)
   boxplot(sqrt(y) ~ co2*time, main = "sqrt", data)
   boxplot(y^(1/3) ~ co2*time, main = "power(1/3)", data)
