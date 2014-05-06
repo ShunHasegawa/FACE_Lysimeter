@@ -256,7 +256,7 @@ PltMean <- function(data, ...){
   
   # change factor level names for labelling on figs
   data$depth <- factor(data$depth, levels = c("shallow", "deep"), labels = c("Shallow", "Deep")) 
-  data$temp <-  factor(data$temp, levels = c("amb", "elev"), labels = c("Ambient", "eTemp"))
+  data$co2 <-  factor(data$co2, levels = c("amb", "elev"), labels = c("Ambient", expression(eCO[2])))
   
   ylabs <- c(expression(NO[3]^"-"-N~(mg~l^-1)),
              expression(NH[4]^"+"-N~(mg~l^-1)),
@@ -277,7 +277,7 @@ PltMean <- function(data, ...){
     }
   }
   
-  p <- ggplot(data, aes_string(x = "Date", y = "Mean", ...))
+  p <- ggplot(data, aes_string(x = "date", y = "Mean", ...))
   
   p2 <- p + geom_line(size = 1) +
     geom_errorbar(aes_string(ymin = "Mean - SE", ymax = "Mean + SE", ...) , width = 5) + 
@@ -286,29 +286,29 @@ PltMean <- function(data, ...){
 }
 
 #####################
-# Plot Chamber mean #
+# Plot Ring mean #
 #####################
-PltChMean <- function(data){
+PltRngMean <- function(data){
   # change factor level names for labelling
-  p <- PltMean(data, col = "chamber") +
-    scale_color_manual(values = palette(), "Chamber", 
-                       labels = paste("Ch", c(1:12), sep = "_")) +
-    scale_linetype_manual(values = rep(c("solid", "dashed"), 6), 
-                          "Chamber", labels = paste("Chamber", c(1:12), sep = "_")) +
+  p <- PltMean(data, col = "ring", linetype = "co2") +
+    scale_color_manual(values = palette(), "Ring", 
+                       labels = paste("Ring", c(1:6), sep = "_")) +
+    scale_linetype_manual(values = c("dashed", "solid"), 
+                          expression(CO[2]~trt), 
+                          labels = c("Ambient", expression(eCO[2]))) +
     facet_grid(depth~. )
   return(p)
 }
 
 ######################
-# Plot temp trt mean #
+# Plot CO2 trt mean #
 ######################
-PltTempMean <- function(data){
-  p <- PltMean(data, col = "temp", linetype = "depth") +
-    scale_color_manual(values = c("blue", "red"), "Temp trt") +
+PltCO2Mean <- function(data){
+  p <- PltMean(data, col = "co2", linetype = "depth") +
+    scale_color_manual(values = c("blue", "red"), expression(CO[2]~trt)) +
     scale_linetype_manual(values = c("solid", "dashed"), "Depth")
   return(p)
 }
-
 
 #################################
 # labells for facet_wrap graphs #
@@ -368,11 +368,11 @@ MdlSmpl <- function(model){
 #############################################
 
 atcr.cmpr <- function(model, rndmFac){
-  if(rndmFac == "chamber/location"){
-    model2 <- update(model,corr=corCompSymm(form=~1|chamber/location)) 
+  if(rndmFac == "ring/plot"){
+    model2 <- update(model,corr=corCompSymm(form=~1|ring/plot)) 
   } else {
-    if(rndmFac == "chamber"){
-      model2 <- update(model,corr=corCompSymm(form=~1|chamber))
+    if(rndmFac == "ring"){
+      model2 <- update(model,corr=corCompSymm(form=~1|ring))
     } else {
       model2 <- update(model,corr=corCompSymm(form=~1|id))
     }
@@ -394,11 +394,11 @@ atcr.cmpr <- function(model, rndmFac){
 bxplts <- function(value, ofst = 0, data){
   par(mfrow = c(2, 3))
   y <- data[[value]] + ofst #ofst is added to make y >0
-  boxplot(y ~ temp*time, data)
-  boxplot(log(y) ~ temp*time, main = "log", data)
-  boxplot(sqrt(y) ~ temp*time, main = "sqrt", data)
-  boxplot(y^(1/3) ~ temp*time, main = "power(1/3)", data)
-  boxplot(1/y ~ temp*time, main = "inverse", data)
+  boxplot(y ~ co2*time, data)
+  boxplot(log(y) ~ co2*time, main = "log", data)
+  boxplot(sqrt(y) ~ co2*time, main = "sqrt", data)
+  boxplot(y^(1/3) ~ co2*time, main = "power(1/3)", data)
+  boxplot(1/y ~ co2*time, main = "inverse", data)
   par(mfrow = c(1,1))
 }
 
