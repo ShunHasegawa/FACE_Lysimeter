@@ -124,3 +124,6 @@ Anova(Iml_S_post)
 # The final model is :
 Fml_S_post$call
 Anova(Fml_S_post)
+
+print(xtable(FACE_Lys_NH_S_postCO2_CntrstDf, floating = FALSE), 
+      include.rawnames = FALSE)
