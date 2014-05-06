@@ -406,8 +406,10 @@ bxplts <- function(value, ofst = 0, data, ...){
   BCmax <- a$x[a$y == max(a$y)]
   texcol <- ifelse(BCmax < 0, "red", "black") 
   boxplot(y^(BCmax) ~ co2*time, 
-          main = paste("Box Cox", round(BCmax, 4), sep = "="), 
-          data = data, col = texcol)
+          main = "", sep = "=", 
+          data = data)
+  title(main = paste("Box Cox", round(BCmax, 4)), 
+        col.main = texcol)
   par(mfrow = c(1,1))
 }
 
