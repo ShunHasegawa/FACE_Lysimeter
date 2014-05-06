@@ -21,11 +21,11 @@ anova(m1, m2, m3)
 # m3 is slightly better
 
 # autocorrelation
-atml <- atcr.cmpr(m2, rndmFac= "ring")
+atml <- atcr.cmpr(m3, rndmFac= "id")
 atml$models
-# model3 is best
+# no need for correlation
 
-Iml_S_pre <- atml[[3]]
+Iml_S_pre <- atml[[1]]
 
 # The initial model is: 
 Iml_S_pre$call
