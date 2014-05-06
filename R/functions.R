@@ -402,4 +402,9 @@ bxplts <- function(value, ofst = 0, data){
   par(mfrow = c(1,1))
 }
 
-
+##############################
+# subset data and droplevels #
+##############################
+subsetD <- function(...){
+  droplevels(subset(...))
+}
