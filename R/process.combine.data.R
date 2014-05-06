@@ -40,4 +40,13 @@ lys$ring <- as.factor(lys$ring)
 lys$plot <- as.factor(lys$plot)
 lys$depth <- as.factor(lys$depth)
 
+# pre and post co2: note that last month of pre is used as
+# base line for post co2
+lys$pre <- ifelse(lys$time %in% c(1:3), TRUE, FALSE)
+lys$post <- ifelse(!(lys$time %in% c(1:2)), TRUE, FALSE)
+
+# id for layter analysis
+lys$id <- lys$ring:lys$plot
+
 save(lys, file = "output/data/FACE_lysimeter.RData")
+
