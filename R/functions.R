@@ -419,3 +419,21 @@ bxplts <- function(value, ofst = 0, data, ...){
 subsetD <- function(...){
   droplevels(subset(...))
 }
+
+####################################
+# create table of contrast results #
+####################################
+cntrstTbl <- function(cntrstRes, data, ...){
+  d <- unique(data$date)
+  ds <- format(d, format = "%b-%Y")
+  
+  Df <- data.frame(
+    date = ds,
+    contrast  =  cntrst$Contrast,
+    SE = cntrst$SE,
+    t = cntrst$testStat,
+    df = cntrst$df,
+    P.value = cntrst$Pvalue)
+  return(format(Df, ...))
+}
+
