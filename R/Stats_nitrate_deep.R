@@ -13,7 +13,7 @@ m1 <- lme(sqrt(no) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, dept
 m2 <- lme(sqrt(no) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "deep" & pre))
 m3 <- lme(sqrt(no) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "deep" & pre))
 anova(m1, m2, m3)
-# 13 is slightly better
+# m1 is sl better
 
 # autocorrelation
 atcr.cmpr(m1, rndmFac= "ring/plot")$models
@@ -83,7 +83,7 @@ Fml_D_post <- MdlSmpl(Iml_D_post)$model.reml
 # The final model is:
 Fml_D_post$call
 
-anova(Fml_D_post)
+Anova(Fml_D_post)
 
 # model diagnosis
 plot(Fml_D_post)
