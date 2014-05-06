@@ -15,6 +15,7 @@ library(contrast)
 library(effects)
 library(ggplot2)
 library(xtable)
+library(gridExtra)
 
 source("R/functions.R")
 
@@ -26,6 +27,15 @@ source("R/functions.R")
 # load data
 load("output//data//FACE_lysimeter.RData")
 
+#######################
+# Excel summary table #
+#######################
+source("R/SummaryExlTable.R")
+
+########
+# Figs #
+########
+source("R//Figs.R")
 
 #########
 # Stats #
