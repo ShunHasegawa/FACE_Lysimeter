@@ -110,20 +110,20 @@ FACE_Lys_NH_S_postCO2_CntrstDf
 ## ----Stat_FACE_Lys_Ammonium_S_preCO2_Smmry
 # The initial model is:
 Iml_S_pre$call
-Anova(Iml_S_pre)
+xtable(Anova(Iml_S_pre), floating = FALSE)
 
 # The final model is :
 Fml_S_pre$call
-anova(Fml_S_pre)
+xtable(anova(Fml_S_pre), floating = FALSE)
 
 ## ----Stat_FACE_Lys_Ammonium_S_postCO2_Smmry
 # The initial model is:
 Iml_S_post$call
-Anova(Iml_S_post)
+xtable(Anova(Iml_S_post), floating = FALSE)
 
 # The final model is :
 Fml_S_post$call
-Anova(Fml_S_post)
+xtable(Anova(Fml_S_post), floating = FALSE)
 
 print(xtable(FACE_Lys_NH_S_postCO2_CntrstDf, floating = FALSE), 
       include.rawnames = FALSE)

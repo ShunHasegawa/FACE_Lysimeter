@@ -31,7 +31,7 @@ Iml_S_pre$call
 Anova(Iml_S_pre)
 
 # model simplification
-MdlSmpl(Iml_S_pre)
+# MdlSmpl(Iml_S_pre)
 # error message due to autocorrelation
 # how about 2nd best autocorrelation (model 5)
 Iml_S_pre <- atml[[5]]
@@ -108,17 +108,17 @@ qqline(residuals.lm(Fml_S_post))
 ## ----Stat_FACE_Lys_TOC_S_preCO2_Smmry
 # The initial model is:
 Iml_S_pre$call
-Anova(Iml_S_pre)
+xtable(Anova(Iml_S_pre), floating = FALSE)
 
 # The final model is :
 Fml_S_pre$call
-anova(Fml_S_pre)
+xtable(Anova(Fml_S_pre), floating = FALSE)
 
 ## ----Stat_FACE_Lys_TOC_S_postCO2_Smmry
 # The initial model is:
 Iml_S_post$call
-Anova(Iml_S_post)
+xtable(Anova(Iml_S_post), floating = FALSE)
 
 # The final model is :
 Fml_S_post$call
-Anova(Fml_S_post)
+xtable(Anova(Fml_S_post), floating = FALSE)

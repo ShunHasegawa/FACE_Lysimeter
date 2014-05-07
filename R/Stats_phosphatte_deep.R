@@ -102,17 +102,17 @@ qqline(residuals.lm(Fml_D_post))
 ## ----Stat_FACE_Lys_Phospahte_D_preCO2_Dmmry
 # The initial model is:
 Iml_D_pre$call
-Anova(Iml_D_pre)
+xtable(Anova(Iml_D_pre), floating = FALSE)
 
 # The final model is :
 Fml_D_pre$call
-anova(Fml_D_pre)
+xtable(Anova(Fml_D_pre), floating = FALSE)
 
 ## ----Stat_FACE_Lys_Phospahte_D_postCO2_Dmmry
 # The initial model is:
 Iml_D_post$call
-Anova(Iml_D_post)
+xtable(Anova(Iml_D_post), floating = FALSE)
 
 # The final model is :
 Fml_D_post$call
-Anova(Fml_D_post)
+xtable(Anova(Fml_D_post), floating = FALSE)
