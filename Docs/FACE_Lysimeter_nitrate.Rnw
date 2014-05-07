@@ -55,19 +55,19 @@ source("R/Stats_nitrate.R")
 # The initial model is:
 Iml_S_pre$call
 
-<<Stat_FACE_Lys_Nitrate_S_preCO2_2, echo=TRUE, results='asis'>>=
+<<Stat_FACE_Lys_Nitrate_S_preCO2_2, echo=FALSE, results='asis'>>=
 xtable(Anova(Iml_S_pre), floating = FALSE)
 
 <<Stat_FACE_Lys_Nitrate_S_preCO2_3, echo=TRUE, results='markup'>>=
 # The final model is :
 Fml_S_pre$call
 
-<<Stat_FACE_Lys_Nitrate_S_preCO2_4, echo=TRUE, results='asis'>>=
+<<Stat_FACE_Lys_Nitrate_S_preCO2_4, echo=FALSE, results='asis'>>=
 xtable(anova(Fml_S_pre), floating = FALSE)
 @
 
 %%% Detailed stats %%%
-% <<Stat_FACE_Lys_Nitrate_S_preCO2, echo=TRUE, results='markup'>>=
+% <<Stat_FACE_Lys_Nitrate_S_preCO2, echo=FALSE, results='markup'>>=
 % @
 
 \paragraph{Post-CO$_2$}
@@ -108,14 +108,14 @@ xtable(anova(Fml_S_post), floating = FALSE)
 # The initial model is:
 Iml_D_pre$call
 
-<<Stat_FACE_Lys_Nitrate_D_preCO2_2, echo=TRUE, results='asis'>>=
+<<Stat_FACE_Lys_Nitrate_D_preCO2_2, echo=FALSE, results='asis'>>=
 xtable(Anova(Iml_D_pre), floating = FALSE)
 
 <<Stat_FACE_Lys_Nitrate_D_preCO2_3, echo=TRUE, results='markup'>>=
 # The final model is :
 Fml_D_pre$call
 
-<<Stat_FACE_Lys_Nitrate_D_preCO2_4, echo=TRUE, results='asis'>>=
+<<Stat_FACE_Lys_Nitrate_D_preCO2_4, echo=FALSE, results='asis'>>=
 xtable(anova(Fml_D_pre), floating = FALSE)
 @
 
