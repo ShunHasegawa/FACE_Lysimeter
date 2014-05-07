@@ -70,48 +70,10 @@ read_chunk('R/Stats_TN_deep.R')
 @
 
 
-%%%%%%%%%%%%%%%%%%%%%
-%%% Summary stats %%%
-%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%
-% Shallow %
-%%%%%%%%%%%
-
-\paragraph{Shallow}
-\paragraph{Pre-CO$_2$}
-\noindent
-
-<<Stat_FACE_Lys_TN_S_preCO2_Smmry, echo=TRUE, results='markup'>>=
-@
-
-\paragraph{Post-CO$_2$}
-\noindent
-
-<<Stat_FACE_Lys_TN_S_postCO2_Smmry, echo=TRUE, results='markup'>>=
-@
-
-%%%%%%%%
-% Deep %
-%%%%%%%%
-
-\paragraph{Deep}
-\paragraph{Pre-CO$_2$}
-\noindent
-
-<<Stat_FACE_Lys_TN_D_preCO2_Smmry, echo=TRUE, results='markup'>>=
-@
-
-\paragraph{Post-CO$_2$}
-\noindent
-
-<<Stat_FACE_Lys_TN_D_postCO2_Smmry, echo=TRUE, results='markup'>>=
-@
-
-%%%%%%%%%%%%%%%%%%%%%%
-%%% Detailed Stats %%%
-%%%%%%%%%%%%%%%%%%%%%%
-
+% %%%%%%%%%%%%%%%%%%%%%
+% %%% Summary stats %%%
+% %%%%%%%%%%%%%%%%%%%%%
+% 
 % %%%%%%%%%%%
 % % Shallow %
 % %%%%%%%%%%%
@@ -120,13 +82,13 @@ read_chunk('R/Stats_TN_deep.R')
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
-% <<Stat_FACE_Lys_TN_S_preCO2, echo=TRUE, results='markup'>>=
+% <<Stat_FACE_Lys_TN_S_preCO2_Smmry, echo=TRUE, results='markup'>>=
 % @
 % 
 % \paragraph{Post-CO$_2$}
 % \noindent
 % 
-% <<Stat_FACE_Lys_TN_S_postCO2, echo=TRUE, results='markup'>>=
+% <<Stat_FACE_Lys_TN_S_postCO2_Smmry, echo=TRUE, results='markup'>>=
 % @
 % 
 % %%%%%%%%
@@ -137,14 +99,52 @@ read_chunk('R/Stats_TN_deep.R')
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
-% <<Stat_FACE_Lys_TN_D_preCO2, echo=TRUE, results='markup'>>=
+% <<Stat_FACE_Lys_TN_D_preCO2_Smmry, echo=TRUE, results='markup'>>=
 % @
 % 
 % \paragraph{Post-CO$_2$}
 % \noindent
 % 
-% <<Stat_FACE_Lys_TN_D_postCO2, echo=TRUE, results='markup'>>=
+% <<Stat_FACE_Lys_TN_D_postCO2_Smmry, echo=TRUE, results='markup'>>=
 % @
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%% Detailed Stats %%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%
+% Shallow %
+%%%%%%%%%%%
+
+\paragraph{Shallow}
+\paragraph{Pre-CO$_2$}
+\noindent
+
+<<Stat_FACE_Lys_TN_S_preCO2, echo=TRUE, results='markup'>>=
+@
+
+\paragraph{Post-CO$_2$}
+\noindent
+
+<<Stat_FACE_Lys_TN_S_postCO2, echo=TRUE, results='markup'>>=
+@
+
+%%%%%%%%
+% Deep %
+%%%%%%%%
+
+\paragraph{Deep}
+\paragraph{Pre-CO$_2$}
+\noindent
+
+<<Stat_FACE_Lys_TN_D_preCO2, echo=TRUE, results='markup'>>=
+@
+
+\paragraph{Post-CO$_2$}
+\noindent
+
+<<Stat_FACE_Lys_TN_D_postCO2, echo=TRUE, results='markup'>>=
+@
 
 
 %%%%%%%%%%%%
