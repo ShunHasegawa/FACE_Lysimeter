@@ -419,6 +419,7 @@ bxcxplts <- function(value, data, sval, fval){
   ranges <- seq(sval, fval, (fval - sval)/9)
   
   # store parameters given from box-cox plot
+  par(mfrow = c(5, 2))
   BCmax <- vector()
   for (i in 1:10){
     data$y <- data$yval + ranges[i]
