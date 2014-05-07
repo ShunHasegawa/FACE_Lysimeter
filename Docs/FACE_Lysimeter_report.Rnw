@@ -59,37 +59,37 @@ source("R//Figs.R")
 % Ammonium %
 %%%%%%%%%%%%
 \clearpage
-% \Sexpr{knit_child('.Rnw')}
+\Sexpr{knit_child('FACE_Lysimeter_Ammonium.Rnw')}
 
 %%%%%%%%%%%%%
 % Phosphate %
 %%%%%%%%%%%%%
 \clearpage
-% \Sexpr{knit_child('.Rnw')}
+\Sexpr{knit_child('FACE_Lysimeter_Phosphate.Rnw')}
 
 %%%%%%%
 % TOC %
 %%%%%%%
 \clearpage
-% \Sexpr{knit_child('.Rnw')}
+\Sexpr{knit_child('FACE_Lysimeter_TOC.Rnw')}
 
 %%%%%%
 % TC %
 %%%%%%
 \clearpage
-% \Sexpr{knit_child('.Rnw')}
+\Sexpr{knit_child('FACE_Lysimeter_TC.Rnw')}
 
 %%%%%%
 % IC %
 %%%%%%
 \clearpage
-% \Sexpr{knit_child('.Rnw')}
+\Sexpr{knit_child('FACE_Lysimeter_IC.Rnw')}
 
 %%%%%%
 % TN %
 %%%%%%
 \clearpage
-% \Sexpr{knit_child('.Rnw')}
+\Sexpr{knit_child('FACE_Lysimeter_TN.Rnw')}
 
 
 %%%%%%%%%%%%%%%%
