@@ -1,7 +1,25 @@
 ntrs <- c("no", "nh", "po", "toc", "tc", "ic", "tn")
 
+# remove outlier
+RmOl <- lys
+
+## po : shallow : pre OR post (time = 3)##
+boxplot(lys$po[lys$depth == "shallow" & lys$pre])
+ol <- max(lys$po[lys$depth == "shallow" & lys$pre])
+RmOl$po[which(RmOl$po == ol)] <- NA
+
+## po : deep : post ##
+boxplot(lys$po[lys$depth == "deep" & lys$post])
+ol <- max(lys$po[lys$depth == "deep" & lys$post])
+RmOl$po[which(RmOl$po == ol)] <- NA
+
+## ph : shallow : post ##
+boxplot(lys$nh[lys$depth == "shallow" & lys$post])
+ol <- max(lys$nh[lys$depth == "shallow" & lys$post])
+RmOl$nh[which(RmOl$nh == ol)] <- NA
+
 # Melt data frame
-lysMlt <- melt(lys, id = names(lys)[which(!(names(lys) %in% ntrs))], na.rm = TRUE)
+lysMlt <- melt(RmOl, id = names(RmOl)[which(!(names(RmOl) %in% ntrs))], na.rm = TRUE)
 lysMlt$variable <- factor(lysMlt$variable, levels = c(ntrs)) # change the level order of variable 
 
 # ring summary table & mean
@@ -16,9 +34,14 @@ TrtSmmryTbl <- dlply(RngMean, .(variable, depth), function(x) CreateTable(x, fac
 ########################
 wb <- createWorkbook()
 
-# worksheet for rowdata and rowdata without outlier
-sheet <- createSheet(wb,sheetName="row_data")
+# worksheet for rowdata
+
+sheet <- createSheet(wb, sheetName="row_data")
 addDataFrame(lys, sheet, showNA=TRUE, row.names=FALSE, characterNA="NA")
+
+# worksheet for rowdata without outlier
+sheet <- createSheet(wb, sheetName="row_data_withoutOutlier")
+addDataFrame(RmOl, sheet, showNA=TRUE, row.names=FALSE, characterNA="NA")
 
 # worksheets for ring summary
 vars <- c("Nitrate", "Ammonium", "Phosphate", "TotalOrganicC", "TotalC", "InorganicC", "TotalN")
