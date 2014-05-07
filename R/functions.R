@@ -466,3 +466,30 @@ cntrstTbl <- function(cntrstRes, data, ...){
   return(format(Df, ...))
 }
 
+###############
+# Print table #
+###############
+printTbl <- function(tbl, caption, label, ...){
+  print(xtable(tbl,
+               caption = caption, 
+               label = label, 
+               align = rep("l", ncol(tbl) + 1)),
+        caption.placement = "top", 
+        include.rownames = FALSE,
+        table.placement = "H", ...)
+}
+
+printRngTbl <- function(tbl, caption, label, ...){
+  printTbl(tbl[, 1:7], 
+           caption = caption,
+           label = label,
+           ...)
+  printTbl(tbl[, c(1, 8:13)], 
+           caption = NULL,
+           label = NULL,
+           ...)
+  printTbl(tbl[, c(1, 14:19)], 
+           caption = NULL,
+           label = NULL,
+           ...)
+}
