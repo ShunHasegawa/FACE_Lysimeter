@@ -113,7 +113,7 @@ Anova(Iml_D_post)
 
 # The final model is :
 Fml_D_post$call
-(Anova(Fml_D_post)
+Anova(Fml_D_post)
 
 # contrast
 FACE_Lys_NH_D_postCO2_CntrstDf
