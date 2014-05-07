@@ -111,21 +111,20 @@ qqline(residuals.lm(Fml_D_post))
 ## ----Stat_FACE_Lys_TC_D_preCO2_Smmry
 # The initial model is:
 Iml_D_pre$call
-xtable(Anova(Iml_D_pre), floating = FALSE)
+Anova(Iml_D_pre)
 
 # The final model is :
 Fml_D_pre$call
-xtable(Anova(Fml_D_pre), floating = FALSE)
+Anova(Fml_D_pre)
 
 ## ----Stat_FACE_Lys_TC_D_postCO2_Smmry
 # The initial model is:
 Iml_D_post$call
-xtable(Anova(Iml_D_post), floating = FALSE)
+Anova(Iml_D_post)
 
 # The final model is :
 Fml_D_post$call
-xtable(Anova(Fml_D_post), floating = FALSE)
+Anova(Fml_D_post)
 
 # contrast
-print(xtable(FACE_Lys_TC_D_postCO2_CntrstDf, floating = FALSE),
-      include.rownames = FALSE)
+FACE_Lys_TC_D_postCO2_CntrstDf
