@@ -67,9 +67,9 @@ bxplts(value = "po", ofst= 0.03, data = subsetD(PRmOl, depth == "shallow" & post
 
 
 # different random factor structure
-m1 <- lme((po + .03)^(-1.2323) ~ co2 * time, random = ~1|ring/plot, data = subsetD(NhRmOl, depth == "shallow" & post))
-m2 <- lme((po + .03)^(-1.2323) ~ co2 * time, random = ~1|ring, data = subsetD(NhRmOl, depth == "shallow" & post))
-m3 <- lme((po + .03)^(-1.2323) ~ co2 * time, random = ~1|id, data = subsetD(NhRmOl, depth == "shallow" & post))
+m1 <- lme((po + .03)^(-1.2323) ~ co2 * time, random = ~1|ring/plot, data = subsetD(PRmOl, depth == "shallow" & post))
+m2 <- lme((po + .03)^(-1.2323) ~ co2 * time, random = ~1|ring, data = subsetD(PRmOl, depth == "shallow" & post))
+m3 <- lme((po + .03)^(-1.2323) ~ co2 * time, random = ~1|id, data = subsetD(PRmOl, depth == "shallow" & post))
 anova(m1, m2, m3)
 # m3 is better
 
