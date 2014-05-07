@@ -28,7 +28,7 @@ Iml_S_pre$call
 Anova(Iml_S_pre)
 
 # model simplification
-MdlSmpl(Iml_S_pre)
+# MdlSmpl(Iml_S_pre)
 # error message
 # probably because if time is removed we can't use 
 # autocorrelation any more, so let's do it without 
