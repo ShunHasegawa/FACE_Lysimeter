@@ -116,5 +116,9 @@ Fml_D_post$call
 xtable(Anova(Fml_D_post), floating = FALSE)
 
 # contrast
-print(xtable(FACE_Lys_NH_D_postCO2_CntrstDf, floating = FALSE), 
-      include.rawnames = FALSE)
+print(xtable(FACE_Lys_NH_D_postCO2_CntrstDf, 
+             floating = FALSE, 
+             caption = "Contrast"), 
+      include.rawnames = FALSE
+      )
+
