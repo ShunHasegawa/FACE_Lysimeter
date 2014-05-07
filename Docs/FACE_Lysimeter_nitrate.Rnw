@@ -1,0 +1,130 @@
+\Sexpr{set_parent('FACE_Lysimeter_report.Rnw')}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% source files & libraries & setup options                                  %%
+%% need to be loaded here if one wants to compile this child document to PDF %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Nitrate}
+
+%%% CO2 trt %%%
+\subsubsection{CO$_2$ trt}
+
+\begin{figure}[!h]\label{figure:FACECO2LysNitrate}
+
+\begin{center}
+
+<<Fig_FACE_CO2_Lys_Nitrate, echo=FALSE, fig.height=3, fig.width=6>>=
+TrtFg[[1]]
+@
+
+\caption{Nitrate in soil water at CO$_2$ treatments}
+\end{center}
+\end{figure}
+
+<<Table_FACE_CO2_Lys_Nitrate, echo=FALSE, results='asis'>>=
+printTbl(TrtSmmryTbl[[1]], 
+         caption = "CO2 trt mean of Nitrate in soil water",
+         label = "table:FACE_CO2_Lys_Nitrate")
+@
+
+%% Stats %%
+<<ReadScript_FACE_Lys_Nitrate, echo=FALSE, cache=FALSE, include=FALSE>>=
+source("R/Stats_nitrate.R")
+#read_chunk('R/Stats_nitrate_shallow.R')
+# read_chunk('R/Stats_nitrate_deep.R')
+
+@
+
+\paragraph{Stats}
+
+\paragraph{Shallow}
+
+\paragraph{Pre-CO$_2$}
+\noindent
+
+%%% Summary stats %%%
+<<Stat_FACE_Lys_Nitrate_S_preCO2_1, echo=TRUE, results='markup'>>=
+# The initial model is:
+Iml_S_pre$call
+
+<<Stat_FACE_Lys_Nitrate_S_preCO2_2, echo=TRUE, results='asis'>>=
+xtable(Anova(Iml_S_pre), floating = FALSE)
+
+<<Stat_FACE_Lys_Nitrate_S_preCO2_3, echo=TRUE, results='markup'>>=
+# The final model is :
+Fml_S_pre$call
+
+<<Stat_FACE_Lys_Nitrate_S_preCO2_4, echo=TRUE, results='asis'>>=
+xtable(anova(Fml_S_pre), floating = FALSE)
+@
+
+%%% Detailed stats %%%
+% <<Stat_FACE_Lys_Nitrate_S_preCO2, echo=TRUE, results='markup'>>=
+% @
+
+\paragraph{Post-CO$_2$}
+\noindent
+
+%%% Summary stats %%%
+<<Stat_FACE_Lys_Nitrate_S_postCO2_1, echo=TRUE, results='markup'>>=
+# The initial model is:
+Iml_S_post$call
+
+<<Stat_FACE_Lys_Nitrate_S_postCO2_2, echo=FALSE, results='asis'>>=
+xtable(Anova(Iml_S_post), floating = FALSE)
+
+<<Stat_FACE_Lys_Nitrate_S_postCO2_3, echo=TRUE, results='markup'>>=
+# The final model is :
+Fml_S_post$call
+
+<<Stat_FACE_Lys_Nitrate_S_postCO2_4, echo=FALSE, results='asis'>>=
+xtable(anova(Fml_S_post), floating = FALSE)
+@
+
+%%% Detailed stats %%%
+% <<Stat_FACE_Lys_Nitrate_S_postCO2, echo=TRUE, results='markup'>>=
+% @
+
+
+\paragraph{Deep}
+\noindent
+
+% %%% Summary stats %%%
+% <<Stat_FACE_Lys_Nitrate_S_preCO2_1, echo=TRUE, results='markup'>>=
+% # The initial model is:
+% Iml_S_pre$call
+% 
+% <<Stat_FACE_Lys_Nitrate_S_preCO2_2, echo=TRUE, results='asis'>>=
+% xtable(Anova(Iml_S_pre), floating = FALSE)
+% 
+% <<Stat_FACE_Lys_Nitrate_S_postCO2_1, echo=TRUE, results='markup'>>=
+% # The final model is :
+% Fml_S_pre$call
+% 
+% <<Stat_FACE_Lys_Nitrate_S_postCO2_2, echo=TRUE, results='asis'>>=
+% xtable(anova(Fml_S_pre), floating = FALSE)
+% @
+
+
+%%% Ring %%%
+\clearpage
+\subsubsection{Ring}
+
+\begin{figure}[!h]\label{figure:FACERingLysNitrate}
+\begin{center}
+
+<<Fig_FACE_Ring_Lys_Nitrate, echo=FALSE, fig.height=6, fig.width=6>>=
+RngFg[[1]]
+@
+
+\caption{Nitrate rates in each ring}
+\end{center}
+\end{figure}
+
+<<Table_FACE_Ring_Lys_Nitrate, echo=FALSE, results='asis'>>=
+printRngTbl(RngSmmryTbl[[1]], 
+            caption = "Ring mean of Nitrate in soil water", 
+            label = "table:FACE_Ring_Lys_Nitrate",
+            size = "small")
+@
