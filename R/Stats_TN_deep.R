@@ -108,7 +108,7 @@ Anova(Iml_D_pre)
 
 # The final model is :
 Fml_D_pre$call
-anova(Fml_D_pre)
+Anova(Fml_D_pre)
 
 ## ----Stat_FACE_Lys_TN_D_postCO2_Smmry
 # The initial model is:
@@ -118,7 +118,3 @@ Anova(Iml_D_post)
 # The final model is :
 Fml_D_post$call
 Anova(Fml_D_post)
-
-# contrast
-print(xtable(FACE_Lys_TN_D_postCO2_CntrstDf, floating = FALSE),
-      include.rownames = FALSE)
