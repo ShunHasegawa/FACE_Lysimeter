@@ -91,7 +91,7 @@ qqnorm(Fml_D_post, ~ resid(.)|id)
 qqnorm(residuals.lm(Fml_D_post))
 qqline(residuals.lm(Fml_D_post))
 
-## ----Stat_FACE_Lys_Nitrrate_S_preCO2_Smmry
+## ----Stat_FACE_Lys_Nitrrate_D_preCO2_Smmry
 # The initial model is:
 Iml_D_pre$call
 xtable(Anova(Iml_D_pre), floating = FALSE)
@@ -100,7 +100,7 @@ xtable(Anova(Iml_D_pre), floating = FALSE)
 Fml_D_pre$call
 xtable(anova(Fml_D_pre), floating = FALSE)
 
-## ----Stat_FACE_Lys_Nitrrate_S_postCO2_Smmry
+## ----Stat_FACE_Lys_Nitrrate_D_postCO2_Smmry
 # The initial model is:
 Iml_D_post$call
 xtable(Anova(Iml_D_post), floating = FALSE)
