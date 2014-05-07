@@ -28,7 +28,9 @@ printTbl(TrtSmmryTbl[[1]],
          label = "table:FACE_CO2_Lys_Nitrate")
 @
 
+%%%%%%%%%%%
 %% Stats %%
+%%%%%%%%%%%
 <<ReadScript_FACE_Lys_Nitrate, echo=FALSE, cache=FALSE, include=FALSE>>=
 source("R/Stats_nitrate.R")
 #read_chunk('R/Stats_nitrate_shallow.R')
@@ -37,6 +39,11 @@ source("R/Stats_nitrate.R")
 @
 
 \paragraph{Stats}
+
+
+%%%%%%%%%%%
+% Shallow %
+%%%%%%%%%%%
 
 \paragraph{Shallow}
 
@@ -86,26 +93,58 @@ xtable(anova(Fml_S_post), floating = FALSE)
 % <<Stat_FACE_Lys_Nitrate_S_postCO2, echo=TRUE, results='markup'>>=
 % @
 
+%%%%%%%%
+% Deep %
+%%%%%%%%
 
 \paragraph{Deep}
 \noindent
 
-% %%% Summary stats %%%
-% <<Stat_FACE_Lys_Nitrate_S_preCO2_1, echo=TRUE, results='markup'>>=
-% # The initial model is:
-% Iml_S_pre$call
-% 
-% <<Stat_FACE_Lys_Nitrate_S_preCO2_2, echo=TRUE, results='asis'>>=
-% xtable(Anova(Iml_S_pre), floating = FALSE)
-% 
-% <<Stat_FACE_Lys_Nitrate_S_postCO2_1, echo=TRUE, results='markup'>>=
-% # The final model is :
-% Fml_S_pre$call
-% 
-% <<Stat_FACE_Lys_Nitrate_S_postCO2_2, echo=TRUE, results='asis'>>=
-% xtable(anova(Fml_S_pre), floating = FALSE)
+\paragraph{Pre-CO$_2$}
+\noindent
+
+%%% Summary stats %%%
+<<Stat_FACE_Lys_Nitrate_D_preCO2_1, echo=TRUE, results='markup'>>=
+# The initial model is:
+Iml_D_pre$call
+
+<<Stat_FACE_Lys_Nitrate_D_preCO2_2, echo=TRUE, results='asis'>>=
+xtable(Anova(Iml_D_pre), floating = FALSE)
+
+<<Stat_FACE_Lys_Nitrate_D_preCO2_3, echo=TRUE, results='markup'>>=
+# The final model is :
+Fml_D_pre$call
+
+<<Stat_FACE_Lys_Nitrate_D_preCO2_4, echo=TRUE, results='asis'>>=
+xtable(anova(Fml_D_pre), floating = FALSE)
+@
+
+%%% Detailed stats %%%
+% <<Stat_FACE_Lys_Nitrate_D_preCO2, echo=TRUE, results='markup'>>=
 % @
 
+\paragraph{Post-CO$_2$}
+\noindent
+
+%%% Summary stats %%%
+<<Stat_FACE_Lys_Nitrate_D_postCO2_1, echo=TRUE, results='markup'>>=
+# The initial model is:
+Iml_D_post$call
+
+<<Stat_FACE_Lys_Nitrate_D_postCO2_2, echo=FALSE, results='asis'>>=
+xtable(Anova(Iml_D_post), floating = FALSE)
+
+<<Stat_FACE_Lys_Nitrate_D_postCO2_3, echo=TRUE, results='markup'>>=
+# The final model is :
+Fml_D_post$call
+
+<<Stat_FACE_Lys_Nitrate_D_postCO2_4, echo=FALSE, results='asis'>>=
+xtable(anova(Fml_D_post), floating = FALSE)
+@
+
+%%% Detailed stats %%%
+% <<Stat_FACE_Lys_Nitrate_D_postCO2, echo=TRUE, results='markup'>>=
+% @
 
 %%% Ring %%%
 \clearpage
