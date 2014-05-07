@@ -31,6 +31,7 @@ printTbl(TrtSmmryTbl[[1]],
 %%%%%%%%%%%
 %% Stats %%
 %%%%%%%%%%%
+\clearpage
 \paragraph{Stats}
 
 <<ReadScript_FACE_Lys_Nitrate, echo=FALSE, cache=FALSE, include=FALSE>>=
@@ -45,45 +46,6 @@ read_chunk('R/Stats_nitrate_deep.R')
 %%% Summary stats %%%
 %%%%%%%%%%%%%%%%%%%%%
 
-% %%%%%%%%%%%
-% % Shallow %
-% %%%%%%%%%%%
-% 
-% \paragraph{Shallow}
-% \paragraph{Pre-CO$_2$}
-% \noindent
-% 
-% <<Stat_FACE_Lys_Nitrate_S_preCO2_Smmry, echo=TRUE, results='markup'>>=
-% @
-% 
-% \paragraph{Post-CO$_2$}
-% \noindent
-% 
-% <<Stat_FACE_Lys_Nitrate_S_postCO2_Smmry, echo=TRUE, results='markup'>>=
-% @
-% 
-% %%%%%%%%
-% % Deep %
-% %%%%%%%%
-% 
-% \paragraph{Deep}
-% \paragraph{Pre-CO$_2$}
-% \noindent
-% 
-% <<Stat_FACE_Lys_Nitrate_D_preCO2_Smmry, echo=TRUE, results='markup'>>=
-% @
-% 
-% \paragraph{Post-CO$_2$}
-% \noindent
-% 
-% <<Stat_FACE_Lys_Nitrate_D_postCO2_Smmry, echo=TRUE, results='markup'>>=
-% @
-
-
-%%%%%%%%%%%%%%%%%%%%%%
-%%% Detailed Stats %%%
-%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%
 % Shallow %
 %%%%%%%%%%%
@@ -92,13 +54,13 @@ read_chunk('R/Stats_nitrate_deep.R')
 \paragraph{Pre-CO$_2$}
 \noindent
 
-<<Stat_FACE_Lys_Nitrate_S_preCO2, echo=TRUE, results='markup'>>=
+<<Stat_FACE_Lys_Nitrate_S_preCO2_Smmry, echo=TRUE, results='markup'>>=
 @
 
 \paragraph{Post-CO$_2$}
 \noindent
 
-<<Stat_FACE_Lys_Nitrate_S_postCO2, echo=TRUE, results='markup'>>=
+<<Stat_FACE_Lys_Nitrate_S_postCO2_Smmry, echo=TRUE, results='markup'>>=
 @
 
 %%%%%%%%
@@ -109,14 +71,52 @@ read_chunk('R/Stats_nitrate_deep.R')
 \paragraph{Pre-CO$_2$}
 \noindent
 
-<<Stat_FACE_Lys_Nitrate_D_preCO2, echo=TRUE, results='markup'>>=
+<<Stat_FACE_Lys_Nitrate_D_preCO2_Smmry, echo=TRUE, results='markup'>>=
 @
 
 \paragraph{Post-CO$_2$}
 \noindent
 
-<<Stat_FACE_Lys_Nitrate_D_postCO2, echo=TRUE, results='markup'>>=
+<<Stat_FACE_Lys_Nitrate_D_postCO2_Smmry, echo=TRUE, results='markup'>>=
 @
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%% Detailed Stats %%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%%%%%%%%
+% % Shallow %
+% %%%%%%%%%%%
+% 
+% \paragraph{Shallow}
+% \paragraph{Pre-CO$_2$}
+% \noindent
+% 
+% <<Stat_FACE_Lys_Nitrate_S_preCO2, echo=TRUE, results='markup'>>=
+% @
+% 
+% \paragraph{Post-CO$_2$}
+% \noindent
+% 
+% <<Stat_FACE_Lys_Nitrate_S_postCO2, echo=TRUE, results='markup'>>=
+% @
+% 
+% %%%%%%%%
+% % Deep %
+% %%%%%%%%
+% 
+% \paragraph{Deep}
+% \paragraph{Pre-CO$_2$}
+% \noindent
+% 
+% <<Stat_FACE_Lys_Nitrate_D_preCO2, echo=TRUE, results='markup'>>=
+% @
+% 
+% \paragraph{Post-CO$_2$}
+% \noindent
+% 
+% <<Stat_FACE_Lys_Nitrate_D_postCO2, echo=TRUE, results='markup'>>=
+% @
 
 
 %%%%%%%%%%%%
