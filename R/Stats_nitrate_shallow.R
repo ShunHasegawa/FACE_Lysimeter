@@ -104,17 +104,17 @@ qqline(residuals.lm(Fml_S_post))
 ## ----Stat_FACE_Lys_Nitrate_S_preCO2_Smmry
 # The initial model is:
 Iml_S_pre$call
-# xtable(Anova(Iml_S_pre), floating = FALSE)
+Anova(Iml_S_pre)
 
 # The final model is :
-#Fml_S_pre$call
-xtable(anova(Fml_S_pre), floating = FALSE)
+Fml_S_pre$call
+anova(Fml_S_pre)
 
 ## ----Stat_FACE_Lys_Nitrate_S_postCO2_Smmry
 # The initial model is:
 Iml_S_post$call
-xtable(Anova(Iml_S_post), floating = FALSE)
+Anova(Iml_S_post)
 
 # The final model is :
 Fml_S_post$call
-xtable(Anova(Fml_S_post), floating = FALSE)
+Anova(Fml_S_post)
