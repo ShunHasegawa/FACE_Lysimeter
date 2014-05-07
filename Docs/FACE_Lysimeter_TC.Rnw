@@ -1,0 +1,174 @@
+\Sexpr{set_parent('FACE_Lysimeter_report.Rnw')}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% source files & libraries & setup options                                  %%
+% need to be loaded here if one wants to compile this child document to PDF %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% <<setup, include=FALSE>>=
+% opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
+% opts_knit$set(root.dir=normalizePath('../'))
+% @
+% 
+% 
+% <<readFiles, include=FALSE>>=
+% library(car)
+% library(gmodels)
+% library(lme4)
+% library(lubridate)
+% library(MASS)
+% library(nlme)
+% library(packrat)
+% library(plyr)
+% library(reshape)
+% library(xlsx)
+% library(contrast)
+% library(effects)
+% library(ggplot2)
+% library(xtable)
+% library(gridExtra)
+% 
+% source("R//functions.R")
+% load("output//data//FACE_lysimeter.Rdata")
+% source("R//SummaryExlTable.R")
+% source("R//Figs.R")
+% @
+
+
+\subsection{TC}
+
+%%% CO2 trt %%%
+\subsubsection{CO$_2$ trt}
+
+\begin{figure}[!h]\label{figure:FACECO2LysTC}
+
+\begin{center}
+
+<<Fig_FACE_CO2_Lys_TC, echo=FALSE, fig.height=3, fig.width=6>>=
+TrtFg[[5]]
+@
+
+\caption{TC in soil water at CO$_2$ treatments}
+\end{center}
+\end{figure}
+
+<<Table_FACE_CO2_Lys_TC, echo=FALSE, results='asis'>>=
+printTbl(TrtSmmryTbl[[5]], 
+         caption = "CO2 trt mean of TC in soil water",
+         label = "table:FACE_CO2_Lys_TC")
+@
+
+%%%%%%%%%%%
+%% Stats %%
+%%%%%%%%%%%
+\clearpage
+\paragraph{Stats}
+
+<<ReadScript_FACE_Lys_TC, echo=FALSE, cache=FALSE, include=FALSE>>=
+source("R/Stats_TC.R")
+read_chunk('R/Stats_TC_shallow.R')
+read_chunk('R/Stats_TC_deep.R')
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%% Summary stats %%%
+%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%
+% Shallow %
+%%%%%%%%%%%
+
+\paragraph{Shallow}
+\paragraph{Pre-CO$_2$}
+\noindent
+
+<<Stat_FACE_Lys_TC_S_preCO2_Smmry, echo=TRUE, results='markup'>>=
+@
+
+\paragraph{Post-CO$_2$}
+\noindent
+
+<<Stat_FACE_Lys_TC_S_postCO2_Smmry, echo=TRUE, results='markup'>>=
+@
+
+%%%%%%%%
+% Deep %
+%%%%%%%%
+
+\paragraph{Deep}
+\paragraph{Pre-CO$_2$}
+\noindent
+
+<<Stat_FACE_Lys_TC_D_preCO2_Smmry, echo=TRUE, results='markup'>>=
+@
+
+\paragraph{Post-CO$_2$}
+\noindent
+
+<<Stat_FACE_Lys_TC_D_postCO2_Smmry, echo=TRUE, results='markup'>>=
+@
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%% Detailed Stats %%%
+%%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%%%%%%%%
+% % Shallow %
+% %%%%%%%%%%%
+% 
+% \paragraph{Shallow}
+% \paragraph{Pre-CO$_2$}
+% \noindent
+% 
+% <<Stat_FACE_Lys_TC_S_preCO2, echo=TRUE, results='markup'>>=
+% @
+% 
+% \paragraph{Post-CO$_2$}
+% \noindent
+% 
+% <<Stat_FACE_Lys_TC_S_postCO2, echo=TRUE, results='markup'>>=
+% @
+% 
+% %%%%%%%%
+% % Deep %
+% %%%%%%%%
+% 
+% \paragraph{Deep}
+% \paragraph{Pre-CO$_2$}
+% \noindent
+% 
+% <<Stat_FACE_Lys_TC_D_preCO2, echo=TRUE, results='markup'>>=
+% @
+% 
+% \paragraph{Post-CO$_2$}
+% \noindent
+% 
+% <<Stat_FACE_Lys_TC_D_postCO2, echo=TRUE, results='markup'>>=
+% @
+
+
+%%%%%%%%%%%%
+%%% Ring %%%
+%%%%%%%%%%%%
+
+\clearpage
+\subsubsection{Ring}
+
+\begin{figure}[!h]\label{figure:FACERingLysTC}
+\begin{center}
+
+<<Fig_FACE_Ring_Lys_TC, echo=FALSE, fig.height=6, fig.width=6>>=
+RngFg[[5]]
+@
+
+\caption{TC rates in each ring}
+\end{center}
+\end{figure}
+
+<<Table_FACE_Ring_Lys_TC, echo=FALSE, results='asis'>>=
+printRngTbl(RngSmmryTbl[[5]], 
+            caption = "Ring mean of TC in soil water", 
+            label = "table:FACE_Ring_Lys_TC",
+            size = "small")
+@
