@@ -1,4 +1,4 @@
-## ----Stat_FACE_Lys_Nitrrate_S_preCO2
+## ----Stat_FACE_Lys_Nitrate_S_preCO2
 ###########
 # Pre-CO2 #
 ###########
@@ -54,7 +54,7 @@ qqline(residuals.lm(Fml_S_pre))
 # not very great though
 
 
-## ----Stat_FACE_Lys_Nitrrate_S_postCO2
+## ----Stat_FACE_Lys_Nitrate_S_postCO2
 
 ###########
 # Post-CO2 #
@@ -101,7 +101,7 @@ qqnorm(Fml_S_post, ~ resid(.)|id)
 qqnorm(residuals.lm(Fml_S_post))
 qqline(residuals.lm(Fml_S_post))
 
-## ----Stat_FACE_Lys_Nitrrate_S_preCO2_Smmry
+## ----Stat_FACE_Lys_Nitrate_S_preCO2_Smmry
 # The initial model is:
 Iml_S_pre$call
 xtable(Anova(Iml_S_pre), floating = FALSE)
@@ -110,7 +110,7 @@ xtable(Anova(Iml_S_pre), floating = FALSE)
 Fml_S_pre$call
 xtable(anova(Fml_S_pre), floating = FALSE)
 
-## ----Stat_FACE_Lys_Nitrrate_S_postCO2_Smmry
+## ----Stat_FACE_Lys_Nitrate_S_postCO2_Smmry
 # The initial model is:
 Iml_S_post$call
 xtable(Anova(Iml_S_post), floating = FALSE)
