@@ -59,7 +59,7 @@ source("R//Figs.R")
 % Ammonium %
 %%%%%%%%%%%%
 \clearpage
-% \Sexpr{knit_child('.Rnw')}
+\Sexpr{knit_child('FACE_Lysimeter_ammonium.Rnw')}
 
 %%%%%%%%%%%%%
 % Phosphate %
