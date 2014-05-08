@@ -1,13 +1,3 @@
-# split dataset to each nutrient & depth ##
-ntr.splt <- function(data = lys, ntr){
-  a <- data[c("time", "date", "ring", "plot", "depth", "co2", ntr)]
-  a <- a[complete.cases(a), ]
-  sp.a <- split(a, a$depth)
-  dl.spa <- lapply(sp.a, droplevels)
-  return(dl.spa)
-}
-
-
 ###################################
 # Coorect AQ2 result based on CCV #
 ###################################
