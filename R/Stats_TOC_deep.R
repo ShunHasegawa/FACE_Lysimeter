@@ -56,14 +56,15 @@ qqline(residuals.lm(Fml_D_pre))
 range(lys$toc[lys$depth == "deep" & lys$post], na.rm = TRUE)
 
 bxplts(value = "toc", data = subsetD(lys, depth == "deep" & post))
-# log seems better
+bxcxplts(value = "toc", data = subsetD(lys, depth == "deep" & post), sval = 0, fval = 1)
+# use box-cox lamda
 
 # different random factor structure
-m1 <- lme(log(toc) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "deep" & post), 
+m1 <- lme((toc)^(-0.2626) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "deep" & post), 
           na.action = "na.omit")
-m2 <- lme(log(toc) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "deep" & post),
+m2 <- lme((toc)^(-0.2626) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "deep" & post),
           na.action = "na.omit")
-m3 <- lme(log(toc) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "deep" & post),
+m3 <- lme((toc)^(-0.2626) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "deep" & post),
           na.action = "na.omit")
 anova(m1, m2, m3)
 # m1 is better
@@ -71,9 +72,9 @@ anova(m1, m2, m3)
 # autocorrelation
 atml <- atcr.cmpr(m1, rndmFac= "ring/plot")
 atml$models
-# model3 is best
+# model5 is best
 
-Iml_D_post <- atml[[3]]
+Iml_D_post <- atml[[5]]
 
 # The initial model is: 
 Iml_D_post$call
@@ -101,11 +102,9 @@ FACE_Lys_TOC_D_postCO2_CntrstDf
 
 # model diagnosis
 plot(Fml_D_post)
-  #wedge-shaped
 qqnorm(Fml_D_post, ~ resid(.)|id)
 qqnorm(residuals.lm(Fml_D_post))
 qqline(residuals.lm(Fml_D_post))
-  # not too bad actually
 
 ## ----Stat_FACE_Lys_TOC_D_preCO2_Smmry
 # The initial model is:
@@ -124,3 +123,6 @@ Anova(Iml_D_post)
 # The final model is :
 Fml_D_post$call
 Anova(Fml_D_post)
+
+# Contrast 
+FACE_Lys_TOC_D_postCO2_CntrstDf
