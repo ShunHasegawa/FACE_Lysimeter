@@ -271,7 +271,10 @@ PltMean <- function(data, ...){
   
   p2 <- p + geom_line(size = 1) +
     geom_errorbar(aes_string(ymin = "Mean - SE", ymax = "Mean + SE", ...) , width = 5) + 
-    labs(x = "Time", y = ylab)
+    labs(x = "Time", y = ylab) +
+    geom_vline(xintercept = as.numeric(as.Date("2012-09-18")), 
+               linetype = "dashed", 
+               col = "black")
   return(p2)
 }
 
