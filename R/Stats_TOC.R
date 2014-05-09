@@ -57,6 +57,8 @@ atml$models
 
 Iml_Leach_post <- atml[[5]]
 
+MdlSmpl(Iml_Leach_post)
+
 # The initial model is: 
 Iml_Leach_post$call
 
