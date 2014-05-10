@@ -486,3 +486,20 @@ printRngTbl <- function(tbl, caption, label, ...){
            label = NULL,
            ...)
 }
+
+###########################################
+# print tables for shallow and deep layer #
+###########################################
+printLysTbl <- function(data, pos, variable, site,  ...){
+  caps <- paste("Ring mean of", variable, "in soil water in a", c("shallow", "deep"), "layer")
+  labs <- paste("table:", site, "_Lys_", variable, "_", c("S", "D"),sep = "")
+  printRngTbl(RngSmmryTbl[[3]], 
+              caption = caps[1], 
+              label = labs[1],
+              ...)
+  printRngTbl(RngSmmryTbl[[4]], 
+              caption = caps[2], 
+              label = labs[2],
+              ...)
+}
+
