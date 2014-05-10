@@ -53,9 +53,7 @@ TrtFg[[5]]
 \end{figure}
 
 <<Table_FACE_CO2_Lys_TC, echo=FALSE, results='asis'>>=
-printTbl(TrtSmmryTbl[[5]], 
-         caption = "CO2 trt mean of TC in soil water",
-         label = "table:FACE_CO2_Lys_TC")
+printLysCO2Tbl(data = TrtSmmryTbl, variable = "TC", datatype = "tc")
 @
 
 %%%%%%%%%%%
@@ -167,8 +165,5 @@ RngFg[[5]]
 \end{figure}
 
 <<Table_FACE_Ring_Lys_TC, echo=FALSE, results='asis'>>=
-printRngTbl(RngSmmryTbl[[5]], 
-            caption = "Ring mean of TC in soil water", 
-            label = "table:FACE_Ring_Lys_TC",
-            size = "small")
+printLysRngTbl(data = RngSmmryTbl, datatype = "tc", variable = "TC", size = "small")
 @
