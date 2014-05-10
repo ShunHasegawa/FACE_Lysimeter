@@ -53,9 +53,12 @@ TrtFg[[2]]
 \end{figure}
 
 <<Table_FACE_CO2_Lys_Ammonium, echo=FALSE, results='asis'>>=
-printTbl(TrtSmmryTbl[[2]], 
-         caption = "CO2 trt mean of Ammonium in soil water",
-         label = "table:FACE_CO2_Lys_Ammonium")
+printTbl(TrtSmmryTbl[[3]], 
+         caption = "CO2 trt mean of Ammonium in soil water at a shllow layser",
+         label = "table:FACE_CO2_Lys_Ammonium_S")
+printTbl(TrtSmmryTbl[[4]], 
+         caption = "CO2 trt mean of Ammonium in soil water at a deep layser",
+         label = "table:FACE_CO2_Lys_Ammonium_D")
 @
 
 %%%%%%%%%%%
@@ -167,8 +170,5 @@ RngFg[[2]]
 \end{figure}
 
 <<Table_FACE_Ring_Lys_Ammonium, echo=FALSE, results='asis'>>=
-printRngTbl(RngSmmryTbl[[2]], 
-            caption = "Ring mean of Ammonium in soil water", 
-            label = "table:FACE_Ring_Lys_Ammonium",
-            size = "small")
+printLysTbl(data = RngSmmryTbl, pos = 3, variable = "Ammonium", site = "FACE_Ring", size = "small")
 @
