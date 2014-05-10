@@ -38,7 +38,7 @@ xtabs(~ring + plot + depth + date, data = lys)
 # update stracture
 lys$ring <- as.factor(lys$ring)
 lys$plot <- as.factor(lys$plot)
-lys$depth <- as.factor(lys$depth)
+lys$depth <- factor(lys$depth, levels=c("shallow", "deep"))
 
 # pre and post co2: note that last month of pre is used as
 # base line for post co2
