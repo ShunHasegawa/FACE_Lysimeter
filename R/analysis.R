@@ -14,6 +14,7 @@ library(xlsx)
 library(contrast)
 library(effects)
 library(ggplot2)
+library(scales)
 library(xtable)
 library(gridExtra)
 
