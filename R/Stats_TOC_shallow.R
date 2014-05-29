@@ -67,13 +67,15 @@ bxplts(value = "toc", data = subsetD(lys, depth == "shallow" & post))
 bxcxplts(value = "toc", data = subsetD(lys, depth == "shallow" & post), sval = 1, fval = 0.1)
   # log seems better
 
+# orthogonal contrast
+lysPost <- subsetD(lys, depth == "shallow" & post)
+contrasts(lysPost$time) <- contr.poly(length(levels(lysPost$time)), as.numeric(levels(lysPost$time)))
+contrasts(lysPost$co2) <- "contr.helmert"
+
 # different random factor structure
-m1 <- lme(log(toc) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "shallow" & post), 
-          na.action = "na.omit")
-m2 <- lme(log(toc) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "shallow" & post),
-          na.action = "na.omit")
-m3 <- lme(log(toc) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "shallow" & post),
-          na.action = "na.omit")
+m1 <- lme(log(toc) ~ co2 * time, random = ~1|ring/plot, data = lysPost, na.action = "na.omit")
+m2 <- lme(log(toc) ~ co2 * time, random = ~1|ring, data = lysPost, na.action = "na.omit")
+m3 <- lme(log(toc) ~ co2 * time, random = ~1|id, data = lysPost, na.action = "na.omit")
 anova(m1, m2, m3)
 # m3 is better
 
@@ -83,13 +85,14 @@ atml$models
 # model3 is best
 
 Iml_S_post <- atml[[3]]
-
+summary(Iml_S_post)
 # The initial model is: 
 Iml_S_post$call
 
-Anova(Iml_S_post)
-
+Anova(Iml_S_post, type="III")
+anova(Iml_S_post, type = "marginal")
 # model simplification
+
 MdlSmpl(Iml_S_post)
 # CO2:time and CO2 are removed
 
