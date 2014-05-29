@@ -64,6 +64,7 @@ qqline(residuals.lm(Fml_S_pre))
 range(lys$toc[lys$depth == "shallow" & lys$post], na.rm = TRUE)
 
 bxplts(value = "toc", data = subsetD(lys, depth == "shallow" & post))
+bxcxplts(value = "toc", data = subsetD(lys, depth == "shallow" & post), sval = 1, fval = 0.1)
   # log seems better
 
 # different random factor structure
