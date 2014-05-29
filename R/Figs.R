@@ -34,7 +34,7 @@ p <- PltCO2Mean(TrtMean) +
 ylabs <- c(expression(NO[3]^"-"-N),
            expression(NH[4]^"+"-N),
            expression(PO[4]^"3-"-P),
-           expression(TOC),
+           expression(DOC),
            expression(TC),
            expression(IC),
            expression(TN))

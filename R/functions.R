@@ -251,7 +251,7 @@ PltMean <- function(data, ...){
   ylabs <- c(expression(NO[3]^"-"-N~(mg~l^-1)),
              expression(NH[4]^"+"-N~(mg~l^-1)),
              expression(PO[4]^"3-"-P~(mg~l^-1)),
-             expression(TOC~(mg~l^-1)),
+             expression(DOC~(mg~l^-1)),
              expression(TC~(mg~l^-1)),
              expression(IC~(mg~l^-1)),
              expression(TN~(mg~l^-1)))
@@ -302,7 +302,9 @@ PltRngMean <- function(data){
 ######################
 PltCO2Mean <- function(data){
   p <- PltMean(data, col = "co2", linetype = "depth") +
-    scale_color_manual(values = c("blue", "red"), expression(CO[2]~trt)) +
+    scale_color_manual(values = c("blue", "red"), 
+                       expression(CO[2]~trt),
+                       labels = c("Ambient", expression(eCO[2]))) +
     scale_linetype_manual(values = c("solid", "dashed"), "Depth")
   return(p)
 }
