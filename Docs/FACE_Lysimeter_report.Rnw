@@ -50,6 +50,20 @@ source("R//Figs.R")
 
 \section{Lysimeter}
 
+%%%%%%%%%%%%%%%
+% summary fig %
+%%%%%%%%%%%%%%%
+\subsection{Summary results}
+\begin{center}
+\begin{figure}[!ht]\label{figure:FACE_Lysimeter_Allres}
+
+\includegraphics[width=\textwidth]{../output/figs/FACE_LysimeterCO2.pdf}
+
+\caption{Dissoluved nutrients in soil water}
+
+\end{figure}
+\end{center}
+
 %%%%%%%%%%%
 % Nitrate %
 %%%%%%%%%%%
