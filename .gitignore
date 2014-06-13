@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+Data/
+*.Rproj
+output/
+Oldscript/
+library
+*tex
+*lof
+*log
+*pdf
+*gz
+*toc
