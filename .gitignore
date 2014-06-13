@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 Data/
-*.Rproj
 output/
 Oldscript/
 library
