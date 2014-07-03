@@ -30,8 +30,10 @@ library(xlsx)
 library(contrast)
 library(effects)
 library(ggplot2)
+library(scales)
 library(xtable)
 library(gridExtra)
+
 
 source("R//functions.R")
 load("output//data//FACE_lysimeter.Rdata")
