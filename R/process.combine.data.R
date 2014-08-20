@@ -48,5 +48,8 @@ lys$post <- ifelse(!(lys$time %in% c(1:2)), TRUE, FALSE)
 # id for layter analysis
 lys$id <- lys$ring:lys$plot
 
+# add block
+lys$block <- recode(lys$ring, "c(1,2) = 'A'; c(3,4) = 'B'; c(5,6) = 'C'")
+
 save(lys, file = "output/data/FACE_lysimeter.RData")
 
