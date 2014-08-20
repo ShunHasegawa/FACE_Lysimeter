@@ -459,16 +459,28 @@ subsetD <- function(...){
 # create table of contrast results #
 ####################################
 cntrstTbl <- function(cntrstRes, data, ...){
-  d <- unique(data$date)
-  ds <- format(d, format = "%b-%Y")
-  
+  # data & time
+  d <- unique(data[c("date", "time")])
+    
   Df <- data.frame(
-    date = ds,
-    contrast  =  cntrst$Contrast,
-    SE = cntrst$SE,
-    t = cntrst$testStat,
-    df = cntrst$df,
-    P.value = cntrst$Pvalue)
+    time = levels(data$time),
+    contrast  =  cntrstRes$Contrast,
+    SE = cntrstRes$SE,
+    t = cntrstRes$testStat,
+    df = cntrstRes$df,
+    P.value = cntrstRes$Pvalue)
+  
+  # merge Resulted df and date df by time (levels of time may not be the
+  # numerical order, so use merge with date column)
+  Df <- merge(d, Df, by = "time")
+  Df <- Df[order(Df$date), ]
+  
+  # reformat date
+  Df$date <- format(Df$date, format = "%b-%Y")
+  
+  # remove time column
+  Df$time <- NULL
+  
   return(format(Df, ...))
 }
 

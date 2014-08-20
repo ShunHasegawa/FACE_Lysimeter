@@ -50,43 +50,48 @@ qqline(residuals.lm(Fml_D_pre))
 
 range(lys$nh[lys$depth == "deep" & lys$post])
 bxplts(value = "nh", ofst=0.08, data = subsetD(lys, depth == "deep" & post))
-  # box-cox
+  # use sqrt
 
 # different random factor structure
-m1 <- lme((nh + .08)^(.424) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "deep" & post))
-m2 <- lme((nh + .08)^(.424) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "deep" & post))
-m3 <- lme((nh + .08)^(.424) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "deep" & post))
-anova(m1, m2, m3)
-# m2 is better
+m1 <- lme(sqrt(nh + .08) ~ co2 * time, random = ~1|block/ring/plot, data = subsetD(lys, depth == "deep" & post))
+Rnml <- RndmComp(m1)
+Rnml$anova
+# m5 is slightly better but use m1 this time
 
-# autocorrelation
-atcr.cmpr(m2, rndmFac= "ring")$models
-# no need for autocorrelation
+# autocorelation
+atml <- atcr.cmpr(Rnml[[1]])
+atml$models
+# m2 looks better
 
-Iml_D_post <- atcr.cmpr(m1, rndmFac= "ring/plot")[[1]]
+# Note: when corCompSymm is chosen rondom factors need to be manually defined as
+# below
+Iml_D_post <- update(m1, )
 
 # The initial model is: 
 Iml_D_post$call
 
 Anova(Iml_D_post)
+anova(Iml_D_post)
+# no factor can be removed
 
-# model simplification
-MdlSmpl(Iml_D_post)
-# no factor was removed
-
-Fml_D_post <- MdlSmpl(Iml_D_post)$model.reml
+Fml_D_post <- Iml_D_post
 
 # The final model is:
 Fml_D_post$call
 
 Anova(Fml_D_post)
+anova(Fml_D_post)
 
 # contrast
-# Contrast
+templys <- lys
+templys$time <- factor(templys$time, levels = c(7, 6, 5, 4, 3, 2, 1, 8:12))
+Fml_D_post <- lme(sqrt(nh + .08) ~ co2 * time, random = ~1|block/ring/plot, 
+                  corr=corCompSymm(form = ~1 | block/ring/plot),
+                  data = subsetD(templys, depth == "deep" & post))
 cntrst<- contrast(Fml_D_post, 
-                  a = list(time = levels(NhRmOl$time[lys$post, drop = TRUE]), co2 = "amb"),
-                  b = list(time = levels(NhRmOl$time[lys$post, drop = TRUE]), co2 = "elev"))
-FACE_Lys_NH_D_postCO2_CntrstDf <- cntrstTbl(cntrst, data = subsetD(lys, depth == "shallow" & post), digit = 2)
+                  a = list(time = levels(templys$time[templys$post, drop = TRUE]), co2 = "amb"),
+                  b = list(time = levels(templys$time[templys$post, drop = TRUE]), co2 = "elev"))
+FACE_Lys_NH_D_postCO2_CntrstDf <- cntrstTbl(cntrst, data = subsetD(templys, depth == "shallow" & post), digit = 2)
 
 FACE_Lys_NH_D_postCO2_CntrstDf
 
