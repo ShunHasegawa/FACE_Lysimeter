@@ -365,25 +365,32 @@ MdlSmpl <- function(model){
   #dr[[4]]<0.05-->unable to remove any more factors so finlize the results by changsing the method back to REML
   return(list(step.aic = stai$anova, drop1 = dr, anova.reml = anr, model.reml = model, model.ml = stai))
 }
+
+##############################################
+# Compare different random factor structures #
+##############################################
+RndmComp <- function(model){
+  m2 <- update(model, random = ~ 1|block/ring)
+  m3 <- update(model, random = ~ 1|block/id)
+  m4 <- update(model, random = ~ 1|ring/plot)
+  m5 <- update(model, random = ~ 1|ring)
+  m6 <- update(model, random = ~ 1|id)
+  ms <- list(model, m2, m3, m4, m5, m6)
+  a <- anova(model, m2, m3, m4, m5, m6)
+  rownames(a) <- sapply(ms, function(x) as.character(x$call$random[2]))
+  ms[[length(ms) + 1]] <- a
+  names(ms)[length(ms)] <- 'anova'
+  return(ms)
+}
 #############################################
 # compare different auto-correlation models #
 #############################################
-
-atcr.cmpr <- function(model, rndmFac){
-  if(rndmFac == "ring/plot"){
-    model2 <- update(model,corr=corCompSymm(form=~1|ring/plot)) 
-  } else {
-    if(rndmFac == "ring"){
-      model2 <- update(model,corr=corCompSymm(form=~1|ring))
-    } else {
-      model2 <- update(model,corr=corCompSymm(form=~1|id))
-    }
-  }
-  
-  model3 <- update(model,correlation=corARMA(q=2))
+atcr.cmpr <- function(model){
+  model2 <- update(model,corr=corCompSymm(form = model$call$random))
+  model3 <- update(model,correlation=corARMA(q = 2))
   model4 <- update(model,correlation=corAR1()) 
-  model5 <- update(model,correlation=corARMA(q=1))
-  a <- anova(model,model2,model3,model4,model5)
+  model5 <- update(model,correlation=corARMA(q = 1))
+  a <- anova(model, model2, model3, model4, model5)
   rownames(a) <- c("NULL", "corCompSymm", "corARMA(q=2)", "corAR1()", "corARMA(q=1)")
   models <- list(model, model2, model3, model4, model5, 'models' = a)
   return(models)
@@ -395,7 +402,7 @@ atcr.cmpr <- function(model, rndmFac){
 # log OR sqrt OR power(1/3) OR inverse OR box-cox
 bxplts <- function(value, ofst = 0, data, ...){
   data$y <- data[[value]] + ofst #ofst is added to make y >0
-  a <- boxcox(y ~ co2 * time, data = data)
+  a <- boxcox(y ~ co2 * time, data = data, ...)
   par(mfrow = c(2, 3))
   boxplot(y ~ co2*time, data, main = "row")
   boxplot(log(y) ~ co2*time, main = "log", data)
