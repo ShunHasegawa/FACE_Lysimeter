@@ -11,3 +11,4 @@ library
 *pdf
 *gz
 *toc
+packrat/lib*/
