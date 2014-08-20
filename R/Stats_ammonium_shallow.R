@@ -58,21 +58,28 @@ boxplot(lys$nh[lys$depth == "shallow" & lys$post])
 NhRmOl <- subset(lys, nh < max(nh))
 bxplts(value = "nh", ofst= 0.06, data = subsetD(NhRmOl, depth == "shallow" & post))
 bxplts(value = "nh", ofst= 0.07, data = subsetD(NhRmOl, depth == "shallow" & post))
- # use box-cox
 
+bxcxplts(value= "nh", data= subsetD(NhRmOl, depth == "shallow" & post),
+         sval = 0.06, fval = 2, lambda = seq(-10, 0, .5))
+
+bxplts(value = "nh", ofst= 1, data = subsetD(NhRmOl, depth == "shallow" & post),
+       lambda = seq(-7, -5, .05))
+ # use log
+?boxcox
 
 # different random factor structure
-m1 <- lme((nh + .07)^(-0.34) ~ co2 * time, random = ~1|ring/plot, data = subsetD(NhRmOl, depth == "shallow" & post))
-m2 <- lme((nh + .07)^(-0.34) ~ co2 * time, random = ~1|ring, data = subsetD(NhRmOl, depth == "shallow" & post))
-m3 <- lme((nh + .07)^(-0.34) ~ co2 * time, random = ~1|id, data = subsetD(NhRmOl, depth == "shallow" & post))
-anova(m1, m2, m3)
-# m3 is better
+m1 <- lme((nh + 1)^(-5.78) ~ co2 * time, random = ~1|block/ring/plot, 
+          data = subsetD(NhRmOl, depth == "shallow" & post))
+Rnml <- RndmComp(m1)
+Rnml$anova
+# m5 is slightly better but use m1 this time
 
-# autocorrelation
-atcr.cmpr(m3, rndmFac= "id")$models
-# model3 is best
+# autocorelation
+atml <- atcr.cmpr(Rnml[[1]])
+atml$models
+# m3 looks better
 
-Iml_S_post <- atcr.cmpr(m3, rndmFac= "id")[[3]]
+Iml_S_post <- atml[[3]]
 
 # The initial model is: 
 Iml_S_post$call
@@ -81,7 +88,6 @@ Anova(Iml_S_post)
 
 # model simplification
 MdlSmpl(Iml_S_post)
-  # no factor is removed
 
 Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
 
@@ -98,14 +104,22 @@ qqnorm(residuals.lm(Fml_S_post))
 qqline(residuals.lm(Fml_S_post))
   # not great....
 
-# Contrast
-cntrst<- contrast(Fml_S_post, 
-                  a = list(time = levels(NhRmOl$time[NhRmOl$post, drop = TRUE]), co2 = "amb"),
-                  b = list(time = levels(NhRmOl$time[NhRmOl$post, drop = TRUE]), co2 = "elev"))
-FACE_Lys_NH_S_postCO2_CntrstDf <- cntrstTbl(cntrst, data = subsetD(NhRmOl, depth == "shallow" & post), digit = 2)
+# box-cox plot doesn't really improve the model so just use the simpler
+# transformation
+m1 <- lme(log(nh + .07) ~ co2 * time, random = ~1|block/ring/plot, 
+          data = subsetD(NhRmOl, depth == "shallow" & post))
+atml <- atcr.cmpr(m1)
+atml$models
 
-FACE_Lys_NH_S_postCO2_CntrstDf
+# The initial model is: 
+Iml_S_post <- atml[[4]]
+Iml_S_post$call
+Anova(Iml_S_post)
 
+# The final model is :
+Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
+Fml_S_post$call
+Anova(Fml_S_post)
 
 ## ----Stat_FACE_Lys_Ammonium_S_preCO2_Smmry
 # The initial model is:
