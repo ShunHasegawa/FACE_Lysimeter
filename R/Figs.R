@@ -58,8 +58,9 @@ df$grp <- df$co2:df$depth
 # relevel grp
 df$grp <- factor(df$grp, levels = c("amb:shallow", "elev:shallow", "amb:deep", "elev:deep"))
 
-legLab <- c("Shallow-Ambient", expression(Shallow-eCO[2]),
-            "Deep-Ambient", expression(Deep-eCO[2]))
+legLab <- c("Shallow-Ambient", expression(Shallow*-eCO[2]),
+            "Deep-Ambient", expression(Deep*-eCO[2]))
+  # * was placed right before "-" to remove spaces before and after "-".
 
 p <- ggplot(df, aes(x = date, y = Mean, group = grp))
 
