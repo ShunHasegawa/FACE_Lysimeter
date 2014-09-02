@@ -55,11 +55,15 @@ science_theme <- theme(panel.grid.major = element_line(size = 0.2, color = "grey
 # subset Nitrate, ammonium, phosphate and TOC
 df <- subsetD(TrtMean, variable %in% c("no", "nh", "po", "toc"))
 df$grp <- df$co2:df$depth
-legLab <- c("Ambient-Shallow", "Ambient-Deep", expression(eCO[2]-Shallow), expression(eCO[2]-Deep))
+# relevel grp
+df$grp <- factor(df$grp, levels = c("amb:shallow", "elev:shallow", "amb:deep", "elev:deep"))
+
+legLab <- c("Shallow-Ambient", expression(Shallow-eCO[2]),
+            "Deep-Ambient", expression(Deep-eCO[2]))
 
 p <- ggplot(df, aes(x = date, y = Mean, group = grp))
 
-p2 <- p + geom_line(aes(linetype = grp), alpha = .8) + 
+p2 <- p + geom_line(aes(linetype = grp), alpha = .6) + 
   geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
                 width = 15, size = .3,
                 position = position_dodge(20)) + 
@@ -70,9 +74,9 @@ p2 <- p + geom_line(aes(linetype = grp), alpha = .8) +
   scale_x_date(breaks= date_breaks("2 month"),
                labels = date_format("%b-%y"),
                limits = as.Date(c("2012-7-1", "2014-4-2"))) +
-  scale_shape_manual(values = c(21:24), labels = legLab) +
-  scale_fill_manual(values = rep(c("black", "white"), each = 2), labels = legLab) +
-  scale_linetype_manual(values = rep(c("solid", "dashed"), 2), labels = legLab) +
+  scale_shape_manual(values = rep(c(21, 24), each = 2), labels = legLab) +
+  scale_fill_manual(values = rep(c("black", "white"), 2), labels = legLab) +
+  scale_linetype_manual(values = rep(c("solid", "dashed"), each = 2), labels = legLab) +
   facet_wrap( ~variable, ncol = 2, scale = "free_y") +
   science_theme
 
@@ -84,11 +88,3 @@ ylabs <- c(expression(NO[3]^"-"),
 
 pl <- facet_wrap_labeller(p2, labels = ylabs)
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl, width = 7, height = 6)
-
-
-# white-black figure
-WBFig <- function(data, ylab, facetLab = ylab_label, figTheme = science_theme){
-  
-  return(p2)
-}
-
