@@ -88,7 +88,6 @@ p2 <- p + geom_line(aes(linetype = grp), alpha = .6) +
   scale_linetype_manual(values = rep(c("solid", "dashed"), each = 2), labels = legLab) +
   facet_wrap( ~variable, ncol = 2, scale = "free_y") +
   geom_text(aes(x = xv, y = yv * .95, label = labels),
-            hjust = .8,
             fontface = "bold",
             data = subLabDF) +
   science_theme
