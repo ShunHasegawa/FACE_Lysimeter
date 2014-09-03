@@ -50,6 +50,7 @@ ggsavePP(filename = "output/figs/FACE_LysimeterCO2", plot = pl, width = 8, heigh
 science_theme <- theme(panel.grid.major = element_line(size = 0.2, color = "grey"), 
                        axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1),
                        legend.position = "top",
+                       legend.direction = "horizontal",
                        legend.title = element_blank())
 
 # subset Nitrate, ammonium, phosphate and TOC
@@ -61,6 +62,13 @@ df$grp <- factor(df$grp, levels = c("amb:shallow", "elev:shallow", "amb:deep", "
 legLab <- c("Shallow-Ambient", expression(Shallow*-eCO[2]),
             "Deep-Ambient", expression(Deep*-eCO[2]))
   # * was placed right before "-" to remove spaces before and after "-".
+
+# create data frame for fig sub labels
+subLabDF <- data.frame(xv = as.Date("2012-06-15"),
+                       ddply(df, .(variable), summarise, yv = max(Mean + SE, na.rm = TRUE)),
+                       labels = LETTERS[1:length(levels(df$variable))],
+                       co2 = "amb", 
+                       grp = "amb:shallow")
 
 p <- ggplot(df, aes(x = date, y = Mean, group = grp))
 
@@ -74,11 +82,15 @@ p2 <- p + geom_line(aes(linetype = grp), alpha = .6) +
              linetype = "dashed", col = "black") +
   scale_x_date(breaks= date_breaks("2 month"),
                labels = date_format("%b-%y"),
-               limits = as.Date(c("2012-7-1", "2014-4-2"))) +
+               limits = as.Date(c("2012-6-15", "2014-4-2"))) +
   scale_shape_manual(values = rep(c(21, 24), each = 2), labels = legLab) +
   scale_fill_manual(values = rep(c("black", "white"), 2), labels = legLab) +
   scale_linetype_manual(values = rep(c("solid", "dashed"), each = 2), labels = legLab) +
   facet_wrap( ~variable, ncol = 2, scale = "free_y") +
+  geom_text(aes(x = xv, y = yv * .95, label = labels),
+            hjust = .8,
+            fontface = "bold",
+            data = subLabDF) +
   science_theme
 
 # modify labels
