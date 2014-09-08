@@ -59,52 +59,48 @@ bxplts(value = "toc", data = subsetD(lys, depth == "deep" & post))
 bxcxplts(value = "toc", data = subsetD(lys, depth == "deep" & post), sval = 0, fval = 1)
 # use box-cox lamda
 
-# different random factor structure
-m1 <- lme((toc)^(-0.2626) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "deep" & post), 
-          na.action = "na.omit")
-m2 <- lme((toc)^(-0.2626) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "deep" & post),
-          na.action = "na.omit")
-m3 <- lme((toc)^(-0.2626) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "deep" & post),
-          na.action = "na.omit")
-anova(m1, m2, m3)
-# m1 is better
+# The initial model
 
-# autocorrelation
-atml <- atcr.cmpr(m1, rndmFac= "ring/plot")
-atml$models
-# model5 is best
-
-Iml_D_post <- atml[[5]]
-
-# The initial model is: 
-Iml_D_post$call
-
+# box-cox 
+Iml_D_post <- lmer(toc^(-0.2626) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                   data = subsetD(lys, depth == "deep" & post), na.action = "na.omit")
 Anova(Iml_D_post)
 
-# model simplification
-MdlSmpl(Iml_D_post)
-# no factor is removed
+# log
+Iml_D_post <- lmer(log(toc) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                   data = subsetD(lys, depth == "deep" & post), na.action = "na.omit")
+Anova(Iml_D_post)
+# not much difference between the above transformations so use log for
+# simplicity purposes
 
-Fml_D_post <- MdlSmpl(Iml_D_post)$model.reml
+Anova(Iml_D_post, test.statistic = "F")
+# not need to remove interaction
 
-# The final model is:
-Fml_D_post$call
-
+# The final model
+Fml_D_post <- Iml_D_post
 Anova(Fml_D_post)
+AnvF_toc_D_post <- Anova(Fml_D_post, test.statistic = "F")
+AnvF_toc_D_post
+
+summary(Fml_D_post)
+
+# model diagnosis
+plot(Fml_D_post)
+qqnorm(resid(Fml_D_post))
+qqline(resid(Fml_D_post))
 
 # contrast
-cntrst<- contrast(Fml_D_post, 
+# Note that contrast doesn't work with lmer model so use lme
+LmeMod <- lme(log(toc) ~ co2 * time, random = ~1|block/ring/id, 
+              data = subsetD(lys, depth == "deep" & post), na.action = "na.omit")
+
+cntrst<- contrast(LmeMod, 
                   a = list(time = levels(lys$time[lys$post, drop = TRUE]), co2 = "amb"),
                   b = list(time = levels(lys$time[lys$post, drop = TRUE]), co2 = "elev"))
 FACE_Lys_TOC_D_postCO2_CntrstDf <- cntrstTbl(cntrst, data = subsetD(lys, depth == "deep" & post), digit = 2)
 
 FACE_Lys_TOC_D_postCO2_CntrstDf
 
-# model diagnosis
-plot(Fml_D_post)
-qqnorm(Fml_D_post, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_D_post))
-qqline(residuals.lm(Fml_D_post))
 
 ## ----Stat_FACE_Lys_TOC_D_preCO2_Smmry
 # The initial model is:
@@ -117,12 +113,17 @@ Anova(Fml_D_pre)
 
 ## ----Stat_FACE_Lys_TOC_D_postCO2_Smmry
 # The initial model is:
-Iml_D_post$call
+Iml_D_post@call
 Anova(Iml_D_post)
 
 # The final model is :
-Fml_D_post$call
+Fml_D_post@call
+
+# Chi-squre test
 Anova(Fml_D_post)
+
+# F test
+AnvF_toc_D_post
 
 # Contrast 
 FACE_Lys_TOC_D_postCO2_CntrstDf
