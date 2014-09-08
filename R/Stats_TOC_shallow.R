@@ -9,6 +9,7 @@ bxplts(value = "toc", data = subsetD(lys, depth == "shallow" & pre))
   # log seems better
 
 # different random factor structure
+
 m1 <- lme(log(toc) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "shallow" & pre), 
           na.action = "na.omit")
 m2 <- lme(log(toc) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "shallow" & pre),
