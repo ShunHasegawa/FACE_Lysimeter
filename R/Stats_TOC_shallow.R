@@ -100,9 +100,14 @@ Anova(Fml_S_pre)
 
 ## ----Stat_FACE_Lys_TOC_S_postCO2_Smmry
 # The initial model is:
-Iml_S_post$call
+Iml_S_post@call
 Anova(Iml_S_post)
 
 # The final model is :
-Fml_S_post$call
+Fml_S_post@call
+
+# Chi-square
 Anova(Fml_S_post)
+
+# F test
+AnvF_toc_S_post
