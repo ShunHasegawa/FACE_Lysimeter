@@ -9,7 +9,6 @@ bxplts(value = "toc", data = subsetD(lys, depth == "shallow" & pre))
   # log seems better
 
 # different random factor structure
-
 m1 <- lme(log(toc) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "shallow" & pre), 
           na.action = "na.omit")
 m2 <- lme(log(toc) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "shallow" & pre),
@@ -70,44 +69,25 @@ bxcxplts(value = "toc", data = subsetD(lys, depth == "shallow" & post), sval = 0
          lambda = seq(-5, 5, 0.01))
   # log seems better
 
-# different random factor structure
-m1 <- lme(log(toc) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "shallow" & post), 
-          na.action = "na.omit")
-m2 <- lme(log(toc) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "shallow" & post),
-          na.action = "na.omit")
-m3 <- lme(log(toc) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "shallow" & post),
-          na.action = "na.omit")
-anova(m1, m2, m3)
-# m3 is better
-
-# autocorrelation
-atml <- atcr.cmpr(m3, rndmFac= "id")
-atml$models
-# model3 is best
-
-Iml_S_post <- atml[[3]]
-
-# The initial model is: 
-Iml_S_post$call
-
+# The initial model
+Iml_S_post <- lmer(toc^(-0.2626) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                   data = subsetD(lys, depth == "shallow" & post), na.action = "na.omit")
 Anova(Iml_S_post)
 
 # model simplification
-MdlSmpl(Iml_S_post)
-# CO2:time and CO2 are removed
-
-Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
-
-# The final model is:
-Fml_S_post$call
+Fml_S_post <- stepLmer(Iml_S_post)
+Fml_S_post@call
 
 Anova(Fml_S_post)
+AnvF_toc_S_post <- Anova(Fml_S_post, test.statistic = "F")
+AnvF_toc_S_post
 
 # model diagnosis
 plot(Fml_S_post)
-qqnorm(Fml_S_post, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_S_post))
-qqline(residuals.lm(Fml_S_post))
+qqnorm(residuals(Fml_S_post))
+qqline(residuals(Fml_S_post))
+  # not great...
+
 
 ## ----Stat_FACE_Lys_TOC_S_preCO2_Smmry
 # The initial model is:
