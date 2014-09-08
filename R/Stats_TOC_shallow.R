@@ -19,7 +19,7 @@ anova(m1, m2, m3)
 # m3 is slightly better
 
 # autocorrelation
-atml <- atcr.cmpr(m3, rndmFac= "id")
+atml <- atcr.cmpr(m3)
 atml$models
 # model3 is best
 
