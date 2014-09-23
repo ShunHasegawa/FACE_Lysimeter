@@ -69,14 +69,14 @@ subLabDF <- data.frame(xv = as.Date("2012-06-15"),
 subLabDF <- expand.grid.df(subLabDF, data.frame(depth = c("Shallow", "Deep")))
 # Add labels after sorting by variable
 subLabDF <- subLabDF[order(subLabDF$variable), ]
-subLabDF$labels <-  LETTERS[1:nrow(subLabDF)]
+subLabDF$labels <- sort(c(LETTERS[1:4], paste(LETTERS[1:4], "'", sep = "")))
 
 
 # plot theme
-science_theme <- theme(panel.grid.major = element_blank(),
+science_theme <- theme(panel.grid.major = element_line(size = 0.2, color = "grey"),
                        panel.grid.minor = element_blank(),
                        axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1),
-                       legend.position = c(.2, .93),
+                       legend.position = c(.2, .94),
                        legend.title = element_blank())
 
 
@@ -107,4 +107,4 @@ pl <- p + geom_line(aes(linetype = co2), alpha = .6) +
   science_theme
 
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl,
-         width = 7, height = 8)
+         width = 7, height = 7)
