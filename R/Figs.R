@@ -1,6 +1,7 @@
 # summary data frame
 RngMean <- ddply(lysMlt, .(time, date, co2, ring, depth, variable), Crt_SmryDF)
 TrtMean <- ddply(RngMean, .(time, date, co2, depth, variable), function(x) Crt_SmryDF(x, val = "Mean"))
+save(TrtMean, file = "output//data/FACE_Lysimeter_CO2Mean.RData")
 
 # set background of figure
 theme_set(theme_bw())
