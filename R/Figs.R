@@ -60,36 +60,77 @@ df$variable <- factor(df$variable,
                                  expression(DOC)))
 df$depth <- factor(df$depth, labels = c("Shallow", "Deep"))
 
-# create data frame for fig sub labels
+###########################
+## df for fig sub labels ##
+###########################
 subLabDF <- data.frame(xv = as.Date("2012-06-15"),
                        ddply(df, .(variable), summarise, 
                              yv = max(Mean + SE, na.rm = TRUE)),
                        co2 = "amb")
-# Add depth, not that I want the same yv value for each depth so repeat the
+# Add depth, note that I want the same yv value for each depth so repeat the
 # above data frame for each depth
 subLabDF <- expand.grid.df(subLabDF, data.frame(depth = c("Shallow", "Deep")))
-# Add labels after sorting by variable
+
+## Add labels after sorting by variable
 subLabDF <- subLabDF[order(subLabDF$variable), ]
 subLabDF$labels <- sort(c(LETTERS[1:4], paste(LETTERS[1:4], "'", sep = "")))
 
+#######################
+## df for stat table ##
+#######################
+# load stat summary table; note that if you need the updated result, you need to
+# run Stats.R first
+load("output//data//FACE_lysimeter_CO2xTime_Stats.RData")
 
-# plot theme
-science_theme <- theme(panel.grid.major = element_line(size = 0.2, color = "grey"),
+## compute ylength and ymax for each variable
+ylengthDF <- ddply(df, .(variable), 
+                   function(x) 
+                     data.frame(ylength = max(x$Mean +x$SE, na.rm = TRUE) -
+                                  min(x$Mean - x$SE, na.rm = TRUE),
+                                ymax = max(x$Mean +x$SE, na.rm = TRUE)))
+# ylength is given as the difference between max and min
+
+## relabel Stat_CO2Time to be consistent with the data df
+Stat_CO2Time <- within(Stat_CO2Time, {
+  variable <- factor(variable, 
+                     levels = c("no", "nh", "po", "toc"),
+                     labels = c(expression(NH[4]^"+"),
+                                expression(NO[3]^"-"),
+                                expression(PO[4]^"3-"),
+                                expression(DOC)))
+  depth <- factor(depth, levels = c("shallow", "deep"), labels = c("Shallow", "Deep"))
+  
+})
+
+statDF <- StatPositionDF(StatRes = Stat_CO2Time, 
+                         variable = levels(ylengthDF$variable), 
+                         ytop = ylengthDF$ymax,
+                         ylength = ylengthDF$ylength)
+
+################
+## plot theme ##
+################
+science_theme <- theme(
+#   panel.grid.major = element_line(size = 0.2, color = "grey"),
                        panel.grid.minor = element_blank(),
+                       panel.grid.major = element_blank(),
                        axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1),
-                       legend.position = c(.2, .94),
+                       legend.position = c(.4, .94),
                        legend.title = element_blank())
 
-
-# creat a plot
+##################
+## creat a plot ##
+##################
 p <- ggplot(df, aes(x = date, y = Mean, group = co2))
 
-pl <- p + geom_line(aes(linetype = co2), alpha = .6) + 
+pl <- p + geom_line(aes(linetype = co2), 
+                    position = position_dodge(20)) + 
   geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
                 width = 15, size = .3,
                 position = position_dodge(20)) + 
-  geom_point(aes(shape = co2, fill = co2), position = position_dodge(20), alpha = .8) +
-  labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
+  geom_point(aes(shape = co2, fill = co2), 
+             position = position_dodge(20)) +
+  labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~water~(mg~l^"-1"))) +
   geom_vline(xintercept = as.numeric(as.Date("2012-09-18")), 
              linetype = "dashed", col = "black") +
   scale_x_date(breaks= date_breaks("2 month"),
@@ -105,7 +146,14 @@ pl <- p + geom_line(aes(linetype = co2), alpha = .6) +
             fontface = "bold",
             data = subLabDF) +
   facet_grid(variable ~ depth, scale = "free_y", labeller = label_parsed) +
-  science_theme
-
+  science_theme +
+  geom_text(data = subset(statDF, predictor != ""), 
+            aes(x = as.Date("2013-2-20"), y = yval, label = predictor),
+            size = 2, hjust = 1, parse = TRUE) +
+  # unless remove [" "] with predictor != "", labels will be messed up due to
+  # this empty level
+  geom_text(data = statDF, 
+            aes(x = as.Date("2013-4-20"), y = yval, label = p), 
+            size = 2, parse = TRUE)
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl,
          width = 7, height = 7)
