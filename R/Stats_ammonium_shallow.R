@@ -16,10 +16,10 @@ anova(m1, m2, m3)
 # m3 is slightly better
 
 # autocorrelation
-atcr.cmpr(m3, rndmFac= "id")$models
+atcr.cmpr(m3)$models
 # model5 is best
 
-Iml_S_pre <- atcr.cmpr(m3, rndmFac= "id")[[5]]
+Iml_S_pre <- atcr.cmpr(m3)[[5]]
 
 # The initial model is: 
 Iml_S_pre$call
@@ -65,7 +65,6 @@ bxcxplts(value= "nh", data= subsetD(NhRmOl, depth == "shallow" & post),
 bxplts(value = "nh", ofst= 1, data = subsetD(NhRmOl, depth == "shallow" & post),
        lambda = seq(-7, -5, .05))
  # use log
-?boxcox
 
 # different random factor structure
 m1 <- lme((nh + 1)^(-5.78) ~ co2 * time, random = ~1|block/ring/plot, 
@@ -95,6 +94,10 @@ Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
 Fml_S_post$call
 
 Anova(Fml_S_post)
+
+AnvF_nh_S_Post <- Anova(Fml_S_post, test.statistic = "F")
+AnvF_nh_S_Post
+
 
 # model diagnosis
 plot(Fml_S_post)
@@ -137,8 +140,9 @@ Anova(Iml_S_post)
 
 # The final model is :
 Fml_S_post$call
+
+# Chi
 Anova(Fml_S_post)
 
-# Contrast 
-FACE_Lys_NH_S_postCO2_CntrstDf
-
+# F
+AnvF_nh_S_Post

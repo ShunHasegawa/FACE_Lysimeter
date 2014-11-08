@@ -16,10 +16,10 @@ anova(m1, m2, m3)
 # m1 is sl better
 
 # autocorrelation
-atcr.cmpr(m1, rndmFac= "ring/plot")$models
+atcr.cmpr(m1)$models
 # model5 is best
 
-Iml_D_pre <- atcr.cmpr(m1, rndmFac= "ring/plot")[[5]]
+Iml_D_pre <- atcr.cmpr(m1)[[5]]
 
 # The initial model is: 
 Iml_D_pre$call
@@ -64,10 +64,10 @@ anova(m1, m2, m3)
 # m1 is better
 
 # autocorrelation
-atcr.cmpr(m1, rndmFac= "ring/plot")$models
+atcr.cmpr(m1)$models
 # model4 is best
 
-Iml_D_post <- atcr.cmpr(m1, rndmFac= "ring/plot")[[4]]
+Iml_D_post <- atcr.cmpr(m1)[[4]]
 
 # The initial model is: 
 Iml_D_post$call
@@ -84,6 +84,10 @@ Fml_D_post <- MdlSmpl(Iml_D_post)$model.reml
 Fml_D_post$call
 
 Anova(Fml_D_post)
+
+AnvF_Nit_D_Post <- Anova(Fml_D_post, test.statistic = "F")
+AnvF_Nit_D_Post
+
 
 # model diagnosis
 plot(Fml_D_post)
@@ -107,4 +111,9 @@ Anova(Iml_D_post)
 
 # The final model is :
 Fml_D_post$call
+
+# Chi
 Anova(Fml_D_post)
+
+# F
+AnvF_Nit_D_Post

@@ -15,10 +15,10 @@ anova(m1, m2, m3)
 # m2 is slightly better
 
 # autocorrelation
-atcr.cmpr(m2, rndmFac= "ring")$models
+atcr.cmpr(m2)$models
   # no need for autocorrelation
 
-Iml_D_pre <- atcr.cmpr(m2, rndmFac= "ring")[[1]]
+Iml_D_pre <- atcr.cmpr(m2)[[1]]
 
 # The initial model is: 
 Iml_D_pre$call
@@ -33,8 +33,6 @@ Fml_D_pre <- MdlSmpl(Iml_D_pre)$model.reml
 
 # The final model is:
 Fml_D_pre$call
-
-Anova(Fml_D_pre)
 
 # model diagnosis
 plot(Fml_D_pre)
@@ -82,6 +80,9 @@ Fml_D_post$call
 Anova(Fml_D_post)
 anova(Fml_D_post)
 
+AnvF_nh_D_Post <- Anova(Fml_D_post)
+AnvF_nh_D_Post
+
 # contrast
 templys <- lys
 templys$time <- factor(templys$time, levels = c(7, 6, 5, 4, 3, 2, 1, 8:12))
@@ -118,7 +119,12 @@ Anova(Iml_D_post)
 
 # The final model is :
 Fml_D_post$call
+
+# Chi
 Anova(Fml_D_post)
+
+# F
+AnvF_nh_D_Post
 
 # contrast
 FACE_Lys_NH_D_postCO2_CntrstDf

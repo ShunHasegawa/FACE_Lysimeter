@@ -21,7 +21,7 @@ anova(m1, m2, m3)
 # m3 is slightly better
 
 # autocorrelation
-atml <- atcr.cmpr(m3, rndmFac= "id")
+atml <- atcr.cmpr(m3)
 atml$models
 # no need for correlation
 
@@ -74,7 +74,7 @@ anova(m1, m2, m3)
 # m3 is better
 
 # autocorrelation
-atml <- atcr.cmpr(m3, rndmFac= "id")
+atml <- atcr.cmpr(m3)
 atml$models
 # model4 is best
 
@@ -95,6 +95,8 @@ Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
 Fml_S_post$call
 
 Anova(Fml_S_post)
+
+AnvF_P_S_Post <- Anova(Fml_S_post, test.statistic = "F")
 
 # model diagnosis
 plot(Fml_S_post)
@@ -119,5 +121,9 @@ Anova(Iml_S_post)
 
 # The final model is :
 Fml_S_post$call
+
+# Chi
 Anova(Fml_S_post)
 
+# F
+AnvF_P_S_Post

@@ -17,10 +17,10 @@ anova(m1, m2, m3)
 # m3 is slightly better
 
 # autocorrelation
-atcr.cmpr(m3, rndmFac= "id")$models
+atcr.cmpr(m3)$models
 # model3 is best
 
-Iml_S_pre <- atcr.cmpr(m3, rndmFac= "id")[[3]]
+Iml_S_pre <- atcr.cmpr(m3)[[3]]
 
 # The initial model is: 
 Iml_S_pre$call
@@ -34,7 +34,7 @@ Anova(Iml_S_pre)
 # autocorrelation any more, so let's do it without 
 # autocorrelation again
 
-Iml_S_pre <- atcr.cmpr(m3, rndmFac= "id")[[1]]
+Iml_S_pre <- atcr.cmpr(m3)[[1]]
 Iml_S_pre$call
 
 MdlSmpl(Iml_S_pre)
@@ -74,10 +74,10 @@ anova(m1, m2, m3)
 # m1 is better
 
 # autocorrelation
-atcr.cmpr(m1, rndmFac= "ring/plot")$models
+atcr.cmpr(m1)$models
 # model3 is best
 
-Iml_S_post <- atcr.cmpr(m1, rndmFac= "ring/plot")[[3]]
+Iml_S_post <- atcr.cmpr(m1)[[3]]
 
 # The initial model is: 
 Iml_S_post$call
@@ -94,6 +94,9 @@ Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
 Fml_S_post$call
 
 Anova(Fml_S_post)
+
+AnvF_Nit_S_Post <- Anova(Fml_S_post, test.statistic = "F")
+AnvF_Nit_S_Post
 
 # model diagnosis
 plot(Fml_S_post)
@@ -117,4 +120,11 @@ Anova(Iml_S_post)
 
 # The final model is :
 Fml_S_post$call
+
+# Chi
 Anova(Fml_S_post)
+
+# F
+AnvF_Nit_S_Post
+
+
