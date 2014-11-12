@@ -13,7 +13,7 @@ boxplot(lys$po[lys$depth == "deep" & lys$post])
 ol <- max(lys$po[lys$depth == "deep" & lys$post])
 RmOl$po[which(RmOl$po == ol)] <- NA
 
-## ph : shallow : post ##
+## nh : shallow : post ##
 boxplot(lys$nh[lys$depth == "shallow" & lys$post])
 ol <- max(lys$nh[lys$depth == "shallow" & lys$post])
 RmOl$nh[which(RmOl$nh == ol)] <- NA
