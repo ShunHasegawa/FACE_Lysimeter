@@ -22,6 +22,9 @@ RmOl$nh[which(RmOl$nh == ol)] <- NA
 lysMlt <- melt(RmOl, id = names(RmOl)[which(!(names(RmOl) %in% ntrs))], na.rm = TRUE)
 lysMlt$variable <- factor(lysMlt$variable, levels = c(ntrs)) # change the level order of variable 
 
+# response ratio calculated for each block
+BlockRatio(lysMlt)
+
 # ring summary table & mean
 RngSmmryTbl <- dlply(lysMlt, .(variable, depth), function(x) CreateTable(x, fac = "ring", digit = 2, nsmall = 4))
 RngMean <- ddply(lysMlt, .(time, date, co2, ring, depth, variable), summarise, value = mean(value, na.rm = TRUE)) 

@@ -632,3 +632,13 @@ StatPositionDF <- function(StatRes, variable, ytop, ylength, gap = .07){
   d3$co2 <- "amb" # co2 column is required for ggplot
   return(d3)
 }
+
+###############################
+# Compute block ratio (e-a)/a #
+###############################
+BlockRatio <- function(data){
+  Rmean <- ddply(data, .(date, time, block, ring, co2, depth, variable), summarise, Mean = mean(value, na.rm = TRUE))
+  blockR <- ddply(Rmean, .(date, time, block, depth, variable), summarise, R = Mean[co2 == "elev"]/Mean[co2 == "amb"]-1)
+  blockRMean <- ddply(blockR, .(date, time, depth, variable), summarise, value = mean(R, na.rm = TRUE))
+  cast(blockRMean, date+time+depth~variable)
+}
