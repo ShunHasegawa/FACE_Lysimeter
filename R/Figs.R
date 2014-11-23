@@ -25,6 +25,24 @@ fls <- paste("output/figs/FACE_LysimeterCO2", vars, sep = "")
 # save as pdf and png
 l_ply(1:7, function(x) ggsavePP(filename = fls[x], plot = TrtFg[[x]], width = 6, height = 3))
 
+################
+## for poster ##
+################
+poster_theme <- theme(panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(),
+                      axis.text.x = element_text(angle=45, vjust= 1, hjust = 1, 
+                                                 size = 13),
+                      legend.position = "non",
+                      axis.title.y = element_text(size = 15),
+                      plot.title = element_text(size = 25, face = "bold"))
+
+pl  <- PltCO2Mean(subsetD(TrtMean, variable == "toc")) +
+  ggtitle("Dissoved organic C") +
+  labs(x = NULL, y = expression((mg~l^"-1")))+
+  poster_theme
+ggsavePP(filename = "output//figs//GSBI_Poster/FACE_DOC_CO2", plot = pl, width = 6, height = 4)
+
+
 ################################
 ## plot all nutrients togther ##
 ################################
