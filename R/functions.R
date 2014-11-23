@@ -304,11 +304,10 @@ PltRngMean <- function(data){
 # Plot CO2 trt mean #
 ######################
 PltCO2Mean <- function(data){
-  p <- PltMean(data, col = "co2", linetype = "depth") +
+  p <- PltMean(data, col = "co2") +
     scale_color_manual(values = c("blue", "red"), 
                        expression(CO[2]~trt),
-                       labels = c("Ambient", expression(eCO[2]))) +
-    scale_linetype_manual(values = c("solid", "dashed"), "Depth")
+                       labels = c("Ambient", expression(eCO[2])))
   return(p)
 }
 
