@@ -34,13 +34,15 @@ poster_theme <- theme(panel.grid.major = element_blank(),
                                                  size = 13),
                       legend.position = "non",
                       axis.title.y = element_text(size = 15),
-                      plot.title = element_text(size = 25, face = "bold"))
+                      plot.title = element_text(size = 25, face = "bold"),
+                      strip.text.y = element_text(size =15))
 
 pl  <- PltCO2Mean(subsetD(TrtMean, variable == "toc")) +
+  facet_grid(depth ~ .) +
   ggtitle("Dissoved organic C") +
   labs(x = NULL, y = expression((mg~l^"-1")))+
   poster_theme
-ggsavePP(filename = "output//figs//GSBI_Poster/FACE_DOC_CO2", plot = pl, width = 6, height = 4)
+ggsavePP(filename = "output//figs//GSBI_Poster/FACE_DOC_CO2", plot = pl, width = 6, height = 5)
 
 
 ################################
