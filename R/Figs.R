@@ -25,26 +25,6 @@ fls <- paste("output/figs/FACE_LysimeterCO2", vars, sep = "")
 # save as pdf and png
 l_ply(1:7, function(x) ggsavePP(filename = fls[x], plot = TrtFg[[x]], width = 6, height = 3))
 
-################
-## for poster ##
-################
-poster_theme <- theme(panel.grid.major = element_blank(),
-                      panel.grid.minor = element_blank(),
-                      axis.text.x = element_text(angle=45, vjust= 1, hjust = 1, 
-                                                 size = 13),
-                      legend.position = "non",
-                      axis.title.y = element_text(size = 15),
-                      plot.title = element_text(size = 25, face = "bold"),
-                      strip.text.y = element_text(size =15))
-
-pl  <- PltCO2Mean(subsetD(TrtMean, variable == "toc")) +
-  facet_grid(depth ~ .) +
-  ggtitle("Dissoved organic C") +
-  labs(x = NULL, y = expression((mg~l^"-1")))+
-  poster_theme
-ggsavePP(filename = "output//figs//GSBI_Poster/FACE_DOC_CO2", plot = pl, width = 6, height = 5)
-
-
 ################################
 ## plot all nutrients togther ##
 ################################
@@ -140,9 +120,9 @@ statDF[statDF$depth == "Shallow" & statDF$ variable == "DOC", ]$yval <-
   statDF[statDF$depth == "Shallow" & statDF$ variable == "DOC", ]$yval - 50
 
 
-############
-# COntrast #
-############
+##############
+## COntrast ##
+##############
 # load contrastDF to annotate stat result and combine with max values from
 # TrtMean as y position
 load("output//data/FACE_Lysimeter_ContrastDF.RData")
@@ -223,3 +203,25 @@ pl <- p + geom_line(aes(linetype = co2),
             vjust = 0, parse = TRUE)
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl,
          width = 7, height = 7)
+
+################
+## for poster ##
+################
+poster_theme <- theme(panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(),
+                      axis.text.x = element_text(angle=45, vjust= 1, hjust = 1, 
+                                                 size = 13),
+                      legend.position = "non",
+                      axis.title.y = element_text(size = 15),
+                      plot.title = element_text(size = 25, face = "bold"),
+                      strip.text.y = element_text(size =15))
+
+pl  <- PltCO2Mean(subsetD(TrtMean, variable == "toc")) +
+  facet_grid(depth ~ .) +
+  ggtitle("Dissoved organic C") +
+  labs(x = NULL, y = expression((mg~l^"-1")))+
+  poster_theme +
+  geom_text(data = subset(Antt_CntrstDF, variable == "DOC"),
+            aes(x = date, y = yval, label = stars), 
+            col = "black", vjust = 0, parse = TRUE)
+ggsavePP(filename = "output//figs//GSBI_Poster/FACE_DOC_CO2", plot = pl, width = 6, height = 5)
