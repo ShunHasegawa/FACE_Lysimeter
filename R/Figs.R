@@ -223,5 +223,5 @@ pl  <- PltCO2Mean(subsetD(TrtMean, variable == "toc")) +
   poster_theme +
   geom_text(data = subset(Antt_CntrstDF, variable == "DOC"),
             aes(x = date, y = yval, label = stars), 
-            col = "black", vjust = 0, parse = TRUE)
+            col = "black", vjust = 0, parse = TRUE, size = 7)
 ggsavePP(filename = "output//figs//GSBI_Poster/FACE_DOC_CO2", plot = pl, width = 6, height = 5)
