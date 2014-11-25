@@ -96,8 +96,8 @@ ylengthDF <- ddply(df, .(variable),
 Stat_CO2Time <- within(Stat_CO2Time, {
   variable <- factor(variable, 
                      levels = c("no", "nh", "po", "toc"),
-                     labels = c(expression(NH[4]^"+"),
-                                expression(NO[3]^"-"),
+                     labels = c(expression(NO[3]^"-"),
+                                expression(NH[4]^"+"),
                                 expression(PO[4]^"3-"),
                                 expression(DOC)))
   depth <- factor(depth, levels = c("shallow", "deep"), labels = c("Shallow", "Deep"))
