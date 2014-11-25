@@ -173,7 +173,7 @@ pl <- p + geom_line(aes(linetype = co2),
                 position = position_dodge(20)) + 
   geom_point(aes(shape = co2, fill = co2), 
              position = position_dodge(20)) +
-  labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~water~(mg~l^"-1"))) +
+  labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
   geom_vline(xintercept = as.numeric(as.Date("2012-09-18")), 
              linetype = "dashed", col = "black") +
   scale_x_date(breaks= date_breaks("2 month"),
