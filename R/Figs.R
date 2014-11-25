@@ -53,12 +53,14 @@ ggsavePP(filename = "output/figs/FACE_LysimeterCO2", plot = pl, width = 8, heigh
 df <- subsetD(TrtMean, variable %in% c("no", "nh", "po", "toc"))
 
 # change variable and depth labels for plotting
-df$variable <- factor(df$variable, 
-                      labels = c(expression(NO[3]^"-"),
-                                 expression(NH[4]^"+"),
-                                 expression(PO[4]^"3-"),
-                                 expression(DOC)))
-df$depth <- factor(df$depth, labels = c("Shallow", "Deep"))
+df <- within(df, {
+  variable <- factor(variable, 
+                        labels = c(expression(NO[3]^"-"),
+                                   expression(NH[4]^"+"),
+                                   expression(PO[4]^"3-"),
+                                   expression(DOC)))
+  depth <- factor(depth, labels = c("Shallow", "Deep"))
+})
 
 ###########################
 ## df for fig sub labels ##
