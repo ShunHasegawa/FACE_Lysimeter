@@ -461,30 +461,19 @@ subsetD <- function(...){
 ####################################
 # create table of contrast results #
 ####################################
-cntrstTbl <- function(cntrstRes, data, ...){
-  # data & time
-  d <- unique(data[c("date", "time")])
-    
+cntrstTbl <- function(cntrstRes, data, variable, depth, ...){
+  d <- unique(data[, c("date", "time")])
   Df <- data.frame(
-    time = levels(data$time),
+    d,
     contrast  =  cntrstRes$Contrast,
     SE = cntrstRes$SE,
     t = cntrstRes$testStat,
     df = cntrstRes$df,
-    P.value = cntrstRes$Pvalue)
-  
-  # merge Resulted df and date df by time (levels of time may not be the
-  # numerical order, so use merge with date column)
-  Df <- merge(d, Df, by = "time")
-  Df <- Df[order(Df$date), ]
-  
-  # reformat date
-  Df$date <- format(Df$date, format = "%b-%Y")
-  
-  # remove time column
-  Df$time <- NULL
-  
-  return(format(Df, ...))
+    P.value = cntrstRes$Pvalue,
+    FormatPval(cntrstRes$Pvalue),
+    variable = variable, 
+    depth = depth)
+  return(Df)
 }
 
 ###############
@@ -565,11 +554,11 @@ stepLmer <- function(model, red.rndm = FALSE, ddf = "Kenward-Roger", ...){
 # Return star based on P value #
 ################################
 FormatPval <- function(Pval) {
-  stars <- ifelse(Pval > .1, "ns",
-                  ifelse(Pval > .05, ".",
-                         ifelse(Pval > .01, "*",
-                                ifelse(Pval > .001, "**",
-                                       c("***")))))
+  stars <- ifelse(Pval > .1, "",
+                  ifelse(Pval > .05, "scriptstyle('\u2020')",
+                         ifelse(Pval > .01, "'*'",
+                                ifelse(Pval > .001, "'**'",
+                                       c("'***'")))))
   
   p <- as.character(ifelse(Pval > .1, round(Pval, 3),
                            ifelse(Pval < .001, "bold('<0.001')", 

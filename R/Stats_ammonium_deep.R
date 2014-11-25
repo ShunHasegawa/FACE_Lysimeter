@@ -50,58 +50,39 @@ range(lys$nh[lys$depth == "deep" & lys$post])
 bxplts(value = "nh", ofst=0.08, data = subsetD(lys, depth == "deep" & post))
   # use sqrt
 
-# different random factor structure
-m1 <- lme(sqrt(nh + .08) ~ co2 * time, random = ~1|block/ring/plot, data = subsetD(lys, depth == "deep" & post))
-Rnml <- RndmComp(m1)
-Rnml$anova
-# m5 is slightly better but use m1 this time
-
-# autocorelation
-atml <- atcr.cmpr(Rnml[[1]])
-atml$models
-# m2 looks better
-
-# Note: when corCompSymm is chosen rondom factors need to be manually defined as
-# below
-Iml_D_post <- update(m1, )
-
-# The initial model is: 
-Iml_D_post$call
-
+# The initial model
+Iml_D_post <- lmer(sqrt(nh + .08) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                   data = subsetD(lys, depth == "deep" & post), na.action = "na.omit")
 Anova(Iml_D_post)
-anova(Iml_D_post)
-# no factor can be removed
 
-Fml_D_post <- Iml_D_post
-
-# The final model is:
-Fml_D_post$call
-
+# The final model
+Fml_D_post <- stepLmer(Iml_D_post)
 Anova(Fml_D_post)
-anova(Fml_D_post)
-
-AnvF_nh_D_Post <- Anova(Fml_D_post)
+AnvF_nh_D_Post <- Anova(Fml_D_post, test.statistic = "F")
 AnvF_nh_D_Post
-
-# contrast
-templys <- lys
-templys$time <- factor(templys$time, levels = c(7, 6, 5, 4, 3, 2, 1, 8:12))
-Fml_D_post <- lme(sqrt(nh + .08) ~ co2 * time, random = ~1|block/ring/plot, 
-                  corr=corCompSymm(form = ~1 | block/ring/plot),
-                  data = subsetD(templys, depth == "deep" & post))
-cntrst<- contrast(Fml_D_post, 
-                  a = list(time = levels(templys$time[templys$post, drop = TRUE]), co2 = "amb"),
-                  b = list(time = levels(templys$time[templys$post, drop = TRUE]), co2 = "elev"))
-FACE_Lys_NH_D_postCO2_CntrstDf <- cntrstTbl(cntrst, data = subsetD(templys, depth == "shallow" & post), digit = 2)
-
-FACE_Lys_NH_D_postCO2_CntrstDf
 
 # model diagnosis
 plot(Fml_D_post)
-qqnorm(Fml_D_post, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_D_post))
-qqline(residuals.lm(Fml_D_post))
+qqnorm(resid(Fml_D_post))
+qqline(resid(Fml_D_post))
   # homogeneity of variance is still violated...
+
+############
+# contrast #
+############
+# Note that contrast doesn't work with lmer model so use lme
+tempDF <- within(subsetD(lys, depth == "deep" & post), {time  <- relevel(time, "5")})
+
+LmeMod <- lme(sqrt(nh + .08) ~ co2 * time, random = ~1|block/ring/id, 
+              data = tempDF, na.action = "na.omit")
+
+cntrst<- contrast(LmeMod, 
+                  a = list(time = levels(lys$time[lys$post, drop = TRUE]), co2 = "amb"),
+                  b = list(time = levels(lys$time[lys$post, drop = TRUE]), co2 = "elev"))
+
+FACE_Lys_NH_D_postCO2_CntrstDf <- cntrstTbl(cntrst, data = subsetD(lys, depth == "deep" & post), 
+                                             variable = "nh", depth = "deep")
+FACE_Lys_NH_D_postCO2_CntrstDf
 
 ## ----Stat_FACE_Lys_Ammonium_D_preCO2_Smmry
 # The initial model is:
@@ -114,11 +95,11 @@ Anova(Fml_D_pre)
 
 ## ----Stat_FACE_Lys_Ammonium_D_postCO2_Smmry
 # The initial model is:
-Iml_D_post$call
+Iml_D_post@call
 Anova(Iml_D_post)
 
 # The final model is :
-Fml_D_post$call
+Fml_D_post@call
 
 # Chi
 Anova(Fml_D_post)

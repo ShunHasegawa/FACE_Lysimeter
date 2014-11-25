@@ -64,65 +64,44 @@ bxcxplts(value= "nh", data= subsetD(NhRmOl, depth == "shallow" & post),
 
 bxplts(value = "nh", ofst= 1, data = subsetD(NhRmOl, depth == "shallow" & post),
        lambda = seq(-7, -5, .05))
- # use log
+ # use box-cox
 
-# different random factor structure
-m1 <- lme((nh + 1)^(-5.78) ~ co2 * time, random = ~1|block/ring/plot, 
-          data = subsetD(NhRmOl, depth == "shallow" & post))
-Rnml <- RndmComp(m1)
-Rnml$anova
-# m5 is slightly better but use m1 this time
-
-# autocorelation
-atml <- atcr.cmpr(Rnml[[1]])
-atml$models
-# m3 looks better
-
-Iml_S_post <- atml[[3]]
-
-# The initial model is: 
-Iml_S_post$call
-
+# The initial model is
+Iml_S_post <- lmer((nh + 1)^(-5.78) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                   data = subsetD(NhRmOl, depth == "shallow" & post),
+                   na.action = "na.omit")
 Anova(Iml_S_post)
 
-# model simplification
-MdlSmpl(Iml_S_post)
-
-Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
-
-# The final model is:
-Fml_S_post$call
-
+# The final model
+Fml_S_post <- stepLmer(Iml_S_post)
 Anova(Fml_S_post)
-
 AnvF_nh_S_Post <- Anova(Fml_S_post, test.statistic = "F")
 AnvF_nh_S_Post
 
+summary(Fml_S_post)
 
 # model diagnosis
 plot(Fml_S_post)
-  # wedge-shaped
-qqnorm(Fml_S_post, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_S_post))
-qqline(residuals.lm(Fml_S_post))
-  # not great....
+qqnorm(resid(Fml_S_post))
+qqline(resid(Fml_S_post))
 
 # box-cox plot doesn't really improve the model so just use the simpler
 # transformation
-m1 <- lme(log(nh + .07) ~ co2 * time, random = ~1|block/ring/plot, 
+Iml_S_post <- lmer(log(nh + .07) ~ co2 * time + + (1|block) + (1|ring) + (1|id), 
           data = subsetD(NhRmOl, depth == "shallow" & post))
-atml <- atcr.cmpr(m1)
-atml$models
 
-# The initial model is: 
-Iml_S_post <- atml[[4]]
-Iml_S_post$call
-Anova(Iml_S_post)
-
-# The final model is :
-Fml_S_post <- MdlSmpl(Iml_S_post)$model.reml
-Fml_S_post$call
+# The final model
+Fml_S_post <- stepLmer(Iml_S_post)
 Anova(Fml_S_post)
+AnvF_nh_S_Post <- Anova(Fml_S_post, test.statistic = "F")
+AnvF_nh_S_Post
+
+summary(Fml_S_post)
+
+# model diagnosis
+plot(Fml_S_post)
+qqnorm(resid(Fml_S_post))
+qqline(resid(Fml_S_post))
 
 ## ----Stat_FACE_Lys_Ammonium_S_preCO2_Smmry
 # The initial model is:

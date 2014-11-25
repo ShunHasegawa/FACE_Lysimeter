@@ -56,44 +56,22 @@ range(lys$no[lys$depth == "deep" & lys$post])
 bxplts(value = "no", data = subsetD(lys, depth == "deep" & post))
   # log looks slightly better
 
-# different random factor structure
-m1 <- lme(log(no) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "deep" & post))
-m2 <- lme(log(no) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "deep" & post))
-m3 <- lme(log(no) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "deep" & post))
-anova(m1, m2, m3)
-# m1 is better
-
-# autocorrelation
-atcr.cmpr(m1)$models
-# model4 is best
-
-Iml_D_post <- atcr.cmpr(m1)[[4]]
-
-# The initial model is: 
-Iml_D_post$call
-
+Iml_D_post <- lmer(log(no) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                   data = subsetD(lys, depth == "deep" & post), na.action = "na.omit")
 Anova(Iml_D_post)
 
-# model simplification
-MdlSmpl(Iml_D_post)
-  # CO2:time interactin and co2 are removed
-
-Fml_D_post <- MdlSmpl(Iml_D_post)$model.reml
-
-# The final model is:
-Fml_D_post$call
-
+# The final model
+Fml_D_post <- stepLmer(Iml_D_post)
 Anova(Fml_D_post)
-
 AnvF_Nit_D_Post <- Anova(Fml_D_post, test.statistic = "F")
 AnvF_Nit_D_Post
 
+summary(Fml_D_post)
 
 # model diagnosis
 plot(Fml_D_post)
-qqnorm(Fml_D_post, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_D_post))
-qqline(residuals.lm(Fml_D_post))
+qqnorm(resid(Fml_D_post))
+qqline(resid(Fml_D_post))
 
 ## ----Stat_FACE_Lys_Nitrate_D_preCO2_Smmry
 # The initial model is:
@@ -106,11 +84,11 @@ anova(Fml_D_pre)
 
 ## ----Stat_FACE_Lys_Nitrate_D_postCO2_Smmry
 # The initial model is:
-Iml_D_post$call
+Iml_D_post@call
 Anova(Iml_D_post)
 
 # The final model is :
-Fml_D_post$call
+Fml_D_post@call
 
 # Chi
 Anova(Fml_D_post)
