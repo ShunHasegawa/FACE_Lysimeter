@@ -58,3 +58,15 @@ Stat_CO2Time <- within(Stat_CO2Time, {
 })
 
 save(Stat_CO2Time, file = "output//data/FACE_lysimeter_CO2xTime_Stats.RData")
+
+########################
+## Result of contrast ##
+########################
+ContrastDF <- rbind.fill(list(
+  FACE_Lys_NH_D_postCO2_CntrstDf,
+  FACE_Lys_P_D_postCO2_CntrstDf,
+  FACE_Lys_TOC_D_postCO2_CntrstDf
+  ))
+save(ContrastDF, file = "output//data/FACE_Lysimeter_ContrastDF.RData")
+
+

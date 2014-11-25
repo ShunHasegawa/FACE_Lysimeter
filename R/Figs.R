@@ -120,6 +120,36 @@ statDF[statDF$depth == "Shallow" & statDF$ variable == "DOC", ]$yval <-
   statDF[statDF$depth == "Shallow" & statDF$ variable == "DOC", ]$yval - 50
 
 
+############
+# COntrast #
+############
+# load contrastDF to annotate stat result and combine with max values from
+# TrtMean as y position
+load("output//data/FACE_Lysimeter_ContrastDF.RData")
+
+# relabel variable
+ContrastDF <- within(ContrastDF, {
+  depth <- factor(depth, levels = c("shallow", "deep"), labels = c("Shallow", "Deep"))
+  variable <- factor(variable,
+                     levels = c("nh", "po", "toc"),
+                     labels = c(expression(NH[4]^"+"),
+                                expression(PO[4]^"3-"),
+                                expression(DOC)))
+})
+
+# determin y position
+yposDF <- ddply(df, .(date, variable, depth),
+                function(x) {x$SE <- ifelse(is.na(x$SE), 0, x$SE)
+                             # turn NA in SE into 0
+                              data.frame(yval = max(x$Mean + x$SE))})
+# merge
+Antt_CntrstDF <- merge(ContrastDF, 
+                       yposDF, 
+                       by = c("date", "variable", "depth"), all.x = TRUE)
+Antt_CntrstDF$co2 <- "amb" # co2 column is required as it's used for mapping
+Antt_CntrstDF <- subset(Antt_CntrstDF, stars != "") 
+# remove empty rows as they causes trouble when using geom_text
+
 ################
 ## plot theme ##
 ################
@@ -167,7 +197,9 @@ pl <- p + geom_line(aes(linetype = co2),
   # this empty level
   geom_text(data = statDF, 
             aes(x = xval + 56, y = yval, label = p), 
-            size = 2, parse = TRUE)
-pl
+            size = 2, parse = TRUE) +
+  # stat symbols
+  geom_text(data = Antt_CntrstDF, aes(x = date, y = yval, label = stars), 
+            vjust = 0, parse = TRUE)
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl,
          width = 7, height = 7)
