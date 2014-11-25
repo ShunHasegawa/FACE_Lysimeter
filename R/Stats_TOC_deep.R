@@ -97,7 +97,8 @@ LmeMod <- lme(log(toc) ~ co2 * time, random = ~1|block/ring/id,
 cntrst<- contrast(LmeMod, 
                   a = list(time = levels(lys$time[lys$post, drop = TRUE]), co2 = "amb"),
                   b = list(time = levels(lys$time[lys$post, drop = TRUE]), co2 = "elev"))
-FACE_Lys_TOC_D_postCO2_CntrstDf <- cntrstTbl(cntrst, data = subsetD(lys, depth == "deep" & post), digit = 2)
+FACE_Lys_TOC_D_postCO2_CntrstDf <- cntrstTbl(cntrst, data = subsetD(lys, depth == "deep" & post), 
+                                             variable = "toc", depth = "deep")
 
 FACE_Lys_TOC_D_postCO2_CntrstDf
 
