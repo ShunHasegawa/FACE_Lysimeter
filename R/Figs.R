@@ -108,6 +108,17 @@ statDF <- StatPositionDF(StatRes = Stat_CO2Time,
                          variable = levels(ylengthDF$variable), 
                          ytop = ylengthDF$ymax,
                          ylength = ylengthDF$ylength)
+# x positin for statDF
+varDepDF <- unique(data.frame(statDF[, c("variable", "depth")]))
+xvalDF <- data.frame(varDepDF,
+                     xval = as.Date(c("2014-1-20", "2014-1-20", 
+                                      "2013-11-1", "2014-1-20", 
+                                      "2014-1-20", "2013-11-1",
+                                      "2013-7-20", "2014-1-20")))
+statDF <- merge(statDF, xvalDF, by = c("variable", "depth"))
+statDF[statDF$depth == "Shallow" & statDF$ variable == "DOC", ]$yval <- 
+  statDF[statDF$depth == "Shallow" & statDF$ variable == "DOC", ]$yval - 50
+
 
 ################
 ## plot theme ##
@@ -117,7 +128,7 @@ science_theme <- theme(
                        panel.grid.minor = element_blank(),
                        panel.grid.major = element_blank(),
                        axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1),
-                       legend.position = c(.4, .94),
+                       legend.position = c(.2, .94),
                        legend.title = element_blank())
 
 ##################
@@ -150,12 +161,13 @@ pl <- p + geom_line(aes(linetype = co2),
   facet_grid(variable ~ depth, scale = "free_y", labeller = label_parsed) +
   science_theme +
   geom_text(data = subset(statDF, predictor != ""), 
-            aes(x = as.Date("2013-2-20"), y = yval, label = predictor),
+            aes(x = xval, y = yval, label = predictor),
             size = 2, hjust = 1, parse = TRUE) +
   # unless remove [" "] with predictor != "", labels will be messed up due to
   # this empty level
   geom_text(data = statDF, 
-            aes(x = as.Date("2013-4-20"), y = yval, label = p), 
+            aes(x = xval + 56, y = yval, label = p), 
             size = 2, parse = TRUE)
+pl
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl,
          width = 7, height = 7)
