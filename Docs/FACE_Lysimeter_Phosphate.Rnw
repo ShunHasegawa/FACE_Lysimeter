@@ -5,49 +5,30 @@
 %% need to be loaded here if one wants to compile this child document to PDF %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-% <<setup, include=FALSE>>=
-% opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
-% opts_knit$set(root.dir=normalizePath('../'))
-% @
-% 
-% 
-% <<readFiles, include=FALSE>>=
-% library(car)
-% library(gmodels)
-% library(lme4)
-% library(lubridate)
-% library(MASS)
-% library(nlme)
-% library(packrat)
-% library(plyr)
-% library(reshape)
-% library(xlsx)
-% library(contrast)
-% library(effects)
-% library(ggplot2)
-% library(xtable)
-% library(gridExtra)
-% 
-% source("R//functions.R")
-% load("output//data//FACE_lysimeter.Rdata")
-% source("R//SummaryExlTable.R")
-% source("R//Figs.R")
-% @
+<<setup, include=FALSE>>=
+opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
+opts_knit$set(root.dir=normalizePath('../'))
+@
 
 
-\subsection{Phosphate}
+<<readFiles, include=FALSE>>=
+source("R/pckg.R")
+load("output//data/AllObj.RData") 
+# if one has already run the above lines and save all object, just load as it's
+# a lot quicker
+@
+
+
+\section{Phosphate}
 
 %%% CO2 trt %%%
-\subsubsection{CO$_2$ trt}
+\subsection{CO$_2$ trt}
 
 \begin{figure}[!h]\label{figure:FACECO2LysPhosphate}
 
 \begin{center}
 
-<<Fig_FACE_CO2_Lys_Phosphate, echo=FALSE, fig.height=3, fig.width=6>>=
-TrtFg[[3]]
-@
+\includegraphics[width=6in]{../output//figs/FACE_LysimeterCO2Phosphate.pdf}
 
 \caption{Phosphate in soil water at CO$_2$ treatments}
 \end{center}
@@ -61,7 +42,7 @@ printLysCO2Tbl(data = TrtSmmryTbl, variable = "Phosphate", datatype = "po")
 %% Stats %%
 %%%%%%%%%%%
 \clearpage
-\paragraph{Stats}
+\subsection{Stats}
 
 <<ReadScript_FACE_Lys_Phosphate, echo=FALSE, cache=FALSE, include=FALSE>>=
 source("R/Stats_phosphate.R")
@@ -78,7 +59,7 @@ read_chunk('R/Stats_phosphate_deep.R')
 % Shallow %
 %%%%%%%%%%%
 
-\paragraph{Shallow}
+\subsubsection{Shallow}
 \paragraph{Pre-CO$_2$}
 \noindent
 
@@ -95,7 +76,7 @@ read_chunk('R/Stats_phosphate_deep.R')
 % Deep %
 %%%%%%%%
 
-\paragraph{Deep}
+\subsubsection{Deep}
 \paragraph{Pre-CO$_2$}
 \noindent
 
@@ -116,7 +97,7 @@ read_chunk('R/Stats_phosphate_deep.R')
 % % Shallow %
 % %%%%%%%%%%%
 % 
-% \paragraph{Shallow}
+% \subsubsection{Shallow}
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
@@ -133,7 +114,7 @@ read_chunk('R/Stats_phosphate_deep.R')
 % % Deep %
 % %%%%%%%%
 % 
-% \paragraph{Deep}
+% \subsubsection{Deep}
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
@@ -152,14 +133,12 @@ read_chunk('R/Stats_phosphate_deep.R')
 %%%%%%%%%%%%
 
 \clearpage
-\subsubsection{Ring}
+\subsection{Ring}
 
 \begin{figure}[!h]\label{figure:FACERingLysPhosphate}
 \begin{center}
 
-<<Fig_FACE_Ring_Lys_Phosphate, echo=FALSE, fig.height=6, fig.width=6>>=
-RngFg[[3]]
-@
+\includegraphics[width=6in]{../output//figs/FACE_LysimeterRingPhosphate.pdf}
 
 \caption{Phosphate rates in each ring}
 \end{center}

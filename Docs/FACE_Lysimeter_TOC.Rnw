@@ -18,10 +18,10 @@ load("output//data/AllObj.RData") # if one has already run the above lines and
 @
 
 
-\subsection{TOC}
+\section{TOC}
 
 %%% CO2 trt %%%
-\subsubsection{CO$_2$ trt}
+\subsection{CO$_2$ trt}
 
 \begin{figure}[!h]\label{figure:FACECO2LysTOC}
 
@@ -41,7 +41,7 @@ printLysCO2Tbl(data = TrtSmmryTbl, variable = "TOC", datatype = "toc")
 %% Stats %%
 %%%%%%%%%%%
 \clearpage
-\paragraph{Stats}
+\subsection{Stats}
 
 <<ReadScript_FACE_Lys_TOC, echo=FALSE, cache=FALSE, include=FALSE>>=
 source("R/Stats_TOC.R")
@@ -58,7 +58,7 @@ read_chunk('R/Stats_TOC_deep.R')
 % Shallow %
 %%%%%%%%%%%
 
-\paragraph{Shallow}
+\subsubsection{Shallow}
 \paragraph{Pre-CO$_2$}
 \noindent
 
@@ -75,7 +75,7 @@ read_chunk('R/Stats_TOC_deep.R')
 % Deep %
 %%%%%%%%
 
-\paragraph{Deep}
+\subsubsection{Deep}
 \paragraph{Pre-CO$_2$}
 \noindent
 
@@ -96,7 +96,7 @@ read_chunk('R/Stats_TOC_deep.R')
 % % Shallow %
 % %%%%%%%%%%%
 % 
-% \paragraph{Shallow}
+% \subsubsection{Shallow}
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
@@ -113,7 +113,7 @@ read_chunk('R/Stats_TOC_deep.R')
 % % Deep %
 % %%%%%%%%
 % 
-% \paragraph{Deep}
+% \subsubsection{Deep}
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
@@ -132,7 +132,7 @@ read_chunk('R/Stats_TOC_deep.R')
 %%%%%%%%%%%%
 
 \clearpage
-\subsubsection{Ring}
+\subsection{Ring}
 
 \begin{figure}[!h]\label{figure:FACERingLysTOC}
 \begin{center}

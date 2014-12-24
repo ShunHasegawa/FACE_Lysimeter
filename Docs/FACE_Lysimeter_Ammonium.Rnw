@@ -13,19 +13,15 @@ opts_knit$set(root.dir=normalizePath('../'))
 
 <<readFiles, include=FALSE>>=
 source("R/pckg.R")
-# source("R//functions.R")
-# load("output//data//FACE_lysimeter.Rdata")
-# source("R//SummaryExlTable.R")
-# source("R//Figs.R")
-load("output//data/AllObj.RData") # if one has already run the above lines and 
-                                  # save all object, just load as it's a lot 
-                                  # quicker
+load("output//data/AllObj.RData") 
+# if one has already run the above lines and save all object, just load as it's
+# a lot quicker
 @
 
-\subsection{Ammonium}
+\section{Ammonium}
 
 %%% CO2 trt %%%
-\subsubsection{CO$_2$ trt}
+\subsection{CO$_2$ trt}
 
 \begin{figure}[!h]\label{figure:FACECO2LysAmmonium}
 \begin{center}
@@ -42,7 +38,7 @@ printLysCO2Tbl(data = TrtSmmryTbl, variable = "Ammonium", datatype = "nh")
 %% Stats %%
 %%%%%%%%%%%
 \clearpage
-\paragraph{Stats}
+\subsection{Stats}
 
 <<ReadScript_FACE_Lys_Ammonium, echo=FALSE, cache=FALSE, include=FALSE>>=
 source("R/Stats_ammonium.R")
@@ -59,7 +55,7 @@ read_chunk('R/Stats_ammonium_deep.R')
 % Shallow %
 %%%%%%%%%%%
 
-\paragraph{Shallow}
+\subsubsection{Shallow}
 \paragraph{Pre-CO$_2$}
 \noindent
 
@@ -76,7 +72,7 @@ read_chunk('R/Stats_ammonium_deep.R')
 % Deep %
 %%%%%%%%
 
-\paragraph{Deep}
+\subsubsection{Deep}
 \paragraph{Pre-CO$_2$}
 \noindent
 
@@ -97,7 +93,7 @@ read_chunk('R/Stats_ammonium_deep.R')
 % % Shallow %
 % %%%%%%%%%%%
 % 
-% \paragraph{Shallow}
+% \subsubsection{Shallow}
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
@@ -114,7 +110,7 @@ read_chunk('R/Stats_ammonium_deep.R')
 % % Deep %
 % %%%%%%%%
 % 
-% \paragraph{Deep}
+% \subsubsection{Deep}
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
@@ -133,7 +129,7 @@ read_chunk('R/Stats_ammonium_deep.R')
 %%%%%%%%%%%%
 
 \clearpage
-\subsubsection{Ring}
+\subsection{Ring}
 
 \begin{figure}[!h]\label{figure:FACERingLysAmmonium}
 \begin{center}
