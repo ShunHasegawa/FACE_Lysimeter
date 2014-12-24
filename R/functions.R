@@ -173,19 +173,34 @@ correctIC <- function(filename, scfile = "Data/TOC/ICNeedToCorrect/", otfile = "
 ##########################
 # Create a summary table #
 ##########################
+dataset = subsetD(RngMean, depth == "shallow" & variable == "no")
+fac = "co2"
 CreateTable <- function(dataset, fac, ...){
   a <- dataset[c("date", fac, "value")] #extract required columns
   colnames(a) <- c("date","variable","value") #change column names for cast
+  
+  # mean
   means <- cast(a, date~variable, mean, na.rm = TRUE) 
+  
+  # SE
   ses <- cast(a,date~variable,function(x) ci(x,na.rm=TRUE)[4])
   colnames(ses)[2:ncol(ses)] <- paste(colnames(ses)[2:ncol(ses)],"SE",sep=".")
+  
+  # Sample size
   samples <- cast(a,date~variable,function(x) sum(!is.na(x))) #sample size
   colnames(samples)[2:ncol(samples)] <- paste(colnames(samples)[2:ncol(samples)],"N",sep=".")
-  mer <- Reduce(function(...) merge(..., by = "date"), list(means, ses, samples)) #merge datasets
-  mer <- mer[,c(1, order(names(mer)[-grep("date|N", names(mer))])+1, grep("N", names(mer)))] #re-order columns
+  
+  # Response ratio (e/a-1) cluculated for each block
+  blockR <- ddply(dataset, .(date, block), summarise, R = value[co2 == "elev"]/value[co2 == "amb"]-1)
+  blockRMean <- ddply(blockR, .(date), summarise, Ratio = mean(R, na.rm = TRUE))
+  
+  # merge
+  mer <- Reduce(function(...) merge(..., by = "date"), list(means, ses, samples, blockRMean)) #merge datasets
+  mer <- mer[,c(1, order(names(mer)[-grep("date|N|Ratio", names(mer))])+1, grep("N|Ratio", names(mer)))] #re-order columns
   mer$date <- as.character(mer$date) # date is turned into character for knitr output 
   return(format(mer, ...))
 }
+
 
 #function which creates excel worksheets
 crSheet <- function(sheetname, datasetS, datasetD){
@@ -623,14 +638,4 @@ StatPositionDF <- function(StatRes, variable, ytop, ylength, gap = .07){
   d3 <- merge(d2, StatRes, by = c("variable", "predictor"))
   d3$co2 <- "amb" # co2 column is required for ggplot
   return(d3)
-}
-
-###############################
-# Compute block ratio (e-a)/a #
-###############################
-BlockRatio <- function(data){
-  Rmean <- ddply(data, .(date, time, block, ring, co2, depth, variable), summarise, Mean = mean(value, na.rm = TRUE))
-  blockR <- ddply(Rmean, .(date, time, block, depth, variable), summarise, R = Mean[co2 == "elev"]/Mean[co2 == "amb"]-1)
-  blockRMean <- ddply(blockR, .(date, time, depth, variable), summarise, value = mean(R, na.rm = TRUE))
-  cast(blockRMean, date+time+depth~variable)
 }

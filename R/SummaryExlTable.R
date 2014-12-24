@@ -27,7 +27,7 @@ BlockRatio(lysMlt)
 
 # ring summary table & mean
 RngSmmryTbl <- dlply(lysMlt, .(variable, depth), function(x) CreateTable(x, fac = "ring", digit = 2, nsmall = 4))
-RngMean <- ddply(lysMlt, .(time, date, co2, ring, depth, variable), summarise, value = mean(value, na.rm = TRUE)) 
+RngMean <- ddply(lysMlt, .(time, date, co2, ring, block, depth, variable), summarise, value = mean(value, na.rm = TRUE)) 
 
 # treat summary table $ mean
 TrtSmmryTbl <- dlply(RngMean, .(variable, depth), function(x) CreateTable(x, fac = "co2", digit = 2, nsamll = 4))
