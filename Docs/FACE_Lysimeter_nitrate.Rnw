@@ -5,18 +5,16 @@
 %% need to be loaded here if one wants to compile this child document to PDF %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Nitrate}
+\section{Nitrate}
 
 %%% CO2 trt %%%
-\subsubsection{CO$_2$ trt}
+\subsection{CO$_2$ trt}
 
 \begin{figure}[!h]\label{figure:FACECO2LysNitrate}
 
 \begin{center}
 
-<<Fig_FACE_CO2_Lys_Nitrate, echo=FALSE, fig.height=3, fig.width=6>>=
-TrtFg[[1]]
-@
+\includegraphics[width=\textwidth]{../output//figs/FACE_LysimeterCO2Nitrate.pdf}
 
 \caption{Nitrate in soil water at CO$_2$ treatments}
 \end{center}
@@ -30,7 +28,7 @@ printLysCO2Tbl(data = TrtSmmryTbl, variable = "Nitrate", datatype = "no")
 %% Stats %%
 %%%%%%%%%%%
 \clearpage
-\paragraph{Stats}
+\subsection{Stats}
 
 <<ReadScript_FACE_Lys_Nitrate, echo=FALSE, cache=FALSE, include=FALSE>>=
 source("R/Stats_nitrate.R")
@@ -48,7 +46,7 @@ read_chunk('R/Stats_nitrate_deep.R')
 % Shallow %
 %%%%%%%%%%%
 
-\paragraph{Shallow}
+\subsubsection{Shallow}
 \paragraph{Pre-CO$_2$}
 \noindent
 
@@ -65,7 +63,7 @@ read_chunk('R/Stats_nitrate_deep.R')
 % Deep %
 %%%%%%%%
 
-\paragraph{Deep}
+\subsubsection{Deep}
 \paragraph{Pre-CO$_2$}
 \noindent
 
@@ -86,7 +84,7 @@ read_chunk('R/Stats_nitrate_deep.R')
 % % Shallow %
 % %%%%%%%%%%%
 % 
-% \paragraph{Shallow}
+% \subsubsection{Shallow}
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
@@ -103,7 +101,7 @@ read_chunk('R/Stats_nitrate_deep.R')
 % % Deep %
 % %%%%%%%%
 % 
-% \paragraph{Deep}
+% \subsubsection{Deep}
 % \paragraph{Pre-CO$_2$}
 % \noindent
 % 
@@ -122,14 +120,12 @@ read_chunk('R/Stats_nitrate_deep.R')
 %%%%%%%%%%%%
 
 \clearpage
-\subsubsection{Ring}
+\subsection{Ring}
 
 \begin{figure}[!h]\label{figure:FACERingLysNitrate}
 \begin{center}
 
-<<Fig_FACE_Ring_Lys_Nitrate, echo=FALSE, fig.height=6, fig.width=6>>=
-RngFg[[1]]
-@
+\includegraphics[width=\textwidth]{../output//figs/FACE_LysimeterRingNitrate.pdf}
 
 \caption{Nitrate rates in each ring}
 \end{center}
