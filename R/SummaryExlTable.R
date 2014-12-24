@@ -39,11 +39,11 @@ wb <- createWorkbook()
 
 # worksheet for rowdata
 
-sheet <- createSheet(wb, sheetName="row_data")
+sheet <- createSheet(wb, sheetName="raw_data")
 addDataFrame(lys, sheet, showNA=TRUE, row.names=FALSE, characterNA="NA")
 
-# worksheet for rowdata without outlier
-sheet <- createSheet(wb, sheetName="row_data_withoutOutlier")
+# worksheet for rawdata without outlier
+sheet <- createSheet(wb, sheetName="raw_data_withoutOutlier")
 addDataFrame(RmOl, sheet, showNA=TRUE, row.names=FALSE, characterNA="NA")
 
 # worksheets for ring summary
@@ -52,7 +52,7 @@ shnames <- paste("RingMean", vars, sep = "_")
 MltcrSheet(tbl = RngSmmryTbl, shnames = shnames, ntrs = ntrs)
 
 # worksheets for temp trt summary
-shnames <- paste("CO2_mean.", vars, sep = "_")
+shnames <- paste("CO2_mean", vars, sep = "_")
 MltcrSheet(tbl = TrtSmmryTbl, shnames = shnames, ntrs = ntrs)
 
 # save file
