@@ -15,30 +15,15 @@ opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = lis
 opts_knit$set(root.dir=normalizePath('../'))
 @
 
-
 <<readFiles, include=FALSE>>=
-library(car)
-library(gmodels)
-library(lme4)
-library(lubridate)
-library(MASS)
-library(nlme)
-library(packrat)
-library(plyr)
-library(reshape)
-library(xlsx)
-library(contrast)
-library(effects)
-library(ggplot2)
-library(scales)
-library(xtable)
-library(gridExtra)
-
-
-source("R//functions.R")
-load("output//data//FACE_lysimeter.Rdata")
-source("R//SummaryExlTable.R")
-source("R//Figs.R")
+source("R/pckg.R")
+# source("R//functions.R")
+# load("output//data//FACE_lysimeter.Rdata")
+# source("R//SummaryExlTable.R")
+# source("R//Figs.R")
+load("output//data/AllObj.RData") # if one has already run the above lines and 
+                                  # save all object, just load as it's a lot 
+                                  # quicker
 @
 
 \maketitle
