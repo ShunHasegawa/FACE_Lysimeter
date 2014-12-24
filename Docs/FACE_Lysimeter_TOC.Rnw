@@ -12,10 +12,6 @@ opts_knit$set(root.dir=normalizePath('../'))
 
 <<readFiles, include=FALSE>>=
 source("R/pckg.R")
-# source("R//functions.R")
-# load("output//data//FACE_lysimeter.Rdata")
-# source("R//SummaryExlTable.R")
-# source("R//Figs.R")
 load("output//data/AllObj.RData") # if one has already run the above lines and 
                                   # save all object, just load as it's a lot 
                                   # quicker
@@ -31,9 +27,7 @@ load("output//data/AllObj.RData") # if one has already run the above lines and
 
 \begin{center}
 
-<<Fig_FACE_CO2_Lys_TOC, echo=FALSE, fig.height=3, fig.width=6>>=
-TrtFg[[4]]
-@
+\includegraphics[width=\textwidth]{../output/figs/FACE_LysimeterCO2TOC.pdf}
 
 \caption{TOC in soil water at CO$_2$ treatments}
 \end{center}
@@ -143,9 +137,7 @@ read_chunk('R/Stats_TOC_deep.R')
 \begin{figure}[!h]\label{figure:FACERingLysTOC}
 \begin{center}
 
-<<Fig_FACE_Ring_Lys_TOC, echo=FALSE, fig.height=6, fig.width=6>>=
-RngFg[[4]]
-@
+\includegraphics[width=6in]{../output//figs//FACE_LysimeterRingTOC.pdf}
 
 \caption{TOC rates in each ring}
 \end{center}

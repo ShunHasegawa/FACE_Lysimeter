@@ -28,14 +28,9 @@ load("output//data/AllObj.RData") # if one has already run the above lines and
 \subsubsection{CO$_2$ trt}
 
 \begin{figure}[!h]\label{figure:FACECO2LysAmmonium}
-
 \begin{center}
-
-% <<Fig_FACE_CO2_Lys_Ammonium, echo=FALSE, fig.height=3, fig.width=6>>=
-% TrtFg[[2]]
-% @
-% 
-% \caption{Ammonium in soil water at CO$_2$ treatments}
+\includegraphics[width=6in]{../output//figs/FACE_LysimeterCO2Ammoinum.pdf}
+\caption{Ammonium in soil water at CO$_2$ treatments}
 \end{center}
 \end{figure}
 
@@ -142,11 +137,7 @@ read_chunk('R/Stats_ammonium_deep.R')
 
 \begin{figure}[!h]\label{figure:FACERingLysAmmonium}
 \begin{center}
-
-% <<Fig_FACE_Ring_Lys_Ammonium, echo=FALSE, fig.height=6, fig.width=6>>=
-% RngFg[[2]]
-% @
-
+\includegraphics[width=6in]{../output//figs//FACE_LysimeterRingAmmoinum.pdf}
 \caption{Ammonium rates in each ring}
 \end{center}
 \end{figure}
