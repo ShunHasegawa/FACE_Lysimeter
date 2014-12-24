@@ -118,7 +118,7 @@ Iml_S_post@call
 Anova(Iml_S_post)
 
 # The final model is :
-Fml_S_post$call
+Fml_S_post@call
 
 # Chi
 Anova(Fml_S_post)
