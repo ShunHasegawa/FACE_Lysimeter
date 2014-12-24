@@ -114,7 +114,7 @@ Anova(Fml_S_pre)
 
 ## ----Stat_FACE_Lys_Ammonium_S_postCO2_Smmry
 # The initial model is:
-Iml_S_post$call
+Iml_S_post@call
 Anova(Iml_S_post)
 
 # The final model is :
