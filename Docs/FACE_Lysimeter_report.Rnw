@@ -46,10 +46,10 @@ load("output//data/AllObj.RData")
 \end{figure}
 \end{center}
 
-% %%%%%%%%%%%
-% % Nitrate %
-% %%%%%%%%%%%
-% \Sexpr{knit_child('FACE_Lysimeter_nitrate.Rnw')}
+%%%%%%%%%%%
+% Nitrate %
+%%%%%%%%%%%
+\Sexpr{knit_child('FACE_Lysimeter_nitrate.Rnw')}
 
 %%%%%%%%%%%%
 % Ammonium %
