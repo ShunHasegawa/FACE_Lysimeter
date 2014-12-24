@@ -5,20 +5,22 @@
 %% need to be loaded here if one wants to compile this child document to PDF %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% <<setup, include=FALSE>>=
-% opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
-% opts_knit$set(root.dir=normalizePath('../'))
-% @
-% 
-% 
-% <<readFiles, include=FALSE>>=
-% 
-% source("R/pckg.R")
-% source("R//functions.R")
-% load("output//data//FACE_lysimeter.Rdata")
-% source("R//SummaryExlTable.R")
-% source("R//Figs.R")
-% @
+<<setup, include=FALSE>>=
+opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
+opts_knit$set(root.dir=normalizePath('../'))
+@
+
+
+<<readFiles, include=FALSE>>=
+source("R/pckg.R")
+# source("R//functions.R")
+# load("output//data//FACE_lysimeter.Rdata")
+# source("R//SummaryExlTable.R")
+# source("R//Figs.R")
+load("output//data/AllObj.RData") # if one has already run the above lines and 
+                                  # save all object, just load as it's a lot 
+                                  # quicker
+@
 
 \subsection{Ammonium}
 
@@ -29,11 +31,11 @@
 
 \begin{center}
 
-<<Fig_FACE_CO2_Lys_Ammonium, echo=FALSE, fig.height=3, fig.width=6>>=
-TrtFg[[2]]
-@
-
-\caption{Ammonium in soil water at CO$_2$ treatments}
+% <<Fig_FACE_CO2_Lys_Ammonium, echo=FALSE, fig.height=3, fig.width=6>>=
+% TrtFg[[2]]
+% @
+% 
+% \caption{Ammonium in soil water at CO$_2$ treatments}
 \end{center}
 \end{figure}
 
@@ -141,9 +143,9 @@ read_chunk('R/Stats_ammonium_deep.R')
 \begin{figure}[!h]\label{figure:FACERingLysAmmonium}
 \begin{center}
 
-<<Fig_FACE_Ring_Lys_Ammonium, echo=FALSE, fig.height=6, fig.width=6>>=
-RngFg[[2]]
-@
+% <<Fig_FACE_Ring_Lys_Ammonium, echo=FALSE, fig.height=6, fig.width=6>>=
+% RngFg[[2]]
+% @
 
 \caption{Ammonium rates in each ring}
 \end{center}
