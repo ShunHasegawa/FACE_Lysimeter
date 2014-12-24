@@ -5,18 +5,18 @@
 %% need to be loaded here if one wants to compile this child document to PDF %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-<<setup, include=FALSE>>=
-opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
-opts_knit$set(root.dir=normalizePath('../'))
-@
-
-
-<<readFiles, include=FALSE>>=
-source("R/pckg.R")
-load("output//data/AllObj.RData") 
-# if one has already run the above lines and save all object, just load as it's
-# a lot quicker
-@
+% <<setup, include=FALSE>>=
+% opts_chunk$set(concordance = TRUE, warning = FALSE, tidy = TRUE, tidy.opts = list(width.cutoff = 60))
+% opts_knit$set(root.dir=normalizePath('../'))
+% @
+% 
+% 
+% <<readFiles, include=FALSE>>=
+% source("R/pckg.R")
+% load("output//data/AllObj.RData") 
+% # if one has already run the above lines and save all object, just load as it's
+% # a lot quicker
+% @
 
 
 \section{Phosphate}
