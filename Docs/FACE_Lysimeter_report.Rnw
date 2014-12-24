@@ -3,7 +3,7 @@
 \usepackage{fullpage}
 \usepackage{pdfpages}
 \usepackage{float}
-\usepackage{hyperref} 
+\usepackage[hidelinks]{hyperref}
 
 \title{FACE lysimeter results -Summary Stats-}
 \author{Shun Hasegawa}
@@ -18,13 +18,9 @@ opts_knit$set(root.dir=normalizePath('../'))
 
 <<readFiles, include=FALSE>>=
 source("R/pckg.R")
-# source("R//functions.R")
-# load("output//data//FACE_lysimeter.Rdata")
-# source("R//SummaryExlTable.R")
-# source("R//Figs.R")
-load("output//data/AllObj.RData") # if one has already run the above lines and 
-                                  # save all object, just load as it's a lot 
-                                  # quicker
+load("output//data/AllObj.RData") 
+# if one has already run the above lines and save all object, just load as it's
+# a lot quicker
 @
 
 \maketitle
@@ -39,7 +35,7 @@ load("output//data/AllObj.RData") # if one has already run the above lines and
 %%%%%%%%%%%%%%%
 % summary fig %
 %%%%%%%%%%%%%%%
-\subsection{Summary results}
+\section{Summary results}
 \begin{center}
 \begin{figure}[!ht]\label{figure:FACE_Lysimeter_Allres}
 
@@ -50,10 +46,10 @@ load("output//data/AllObj.RData") # if one has already run the above lines and
 \end{figure}
 \end{center}
 
-%%%%%%%%%%%
-% Nitrate %
-%%%%%%%%%%%
-\Sexpr{knit_child('FACE_Lysimeter_nitrate.Rnw')}
+% %%%%%%%%%%%
+% % Nitrate %
+% %%%%%%%%%%%
+% \Sexpr{knit_child('FACE_Lysimeter_nitrate.Rnw')}
 
 %%%%%%%%%%%%
 % Ammonium %
@@ -73,23 +69,23 @@ load("output//data/AllObj.RData") # if one has already run the above lines and
 \clearpage
 \Sexpr{knit_child('FACE_Lysimeter_TOC.Rnw')}
 
-%%%%%%
-% TC %
-%%%%%%
-\clearpage
-\Sexpr{knit_child('FACE_Lysimeter_TC.Rnw')}
-
-%%%%%%
-% IC %
-%%%%%%
-\clearpage
-\Sexpr{knit_child('FACE_Lysimeter_IC.Rnw')}
-
-%%%%%%
-% TN %
-%%%%%%
-\clearpage
-\Sexpr{knit_child('FACE_Lysimeter_TN.Rnw')}
+% %%%%%%
+% % TC %
+% %%%%%%
+% \clearpage
+% \Sexpr{knit_child('FACE_Lysimeter_TC.Rnw')}
+% 
+% %%%%%%
+% % IC %
+% %%%%%%
+% \clearpage
+% \Sexpr{knit_child('FACE_Lysimeter_IC.Rnw')}
+% 
+% %%%%%%
+% % TN %
+% %%%%%%
+% \clearpage
+% \Sexpr{knit_child('FACE_Lysimeter_TN.Rnw')}
 
 
 %%%%%%%%%%%%%%%%
