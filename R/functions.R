@@ -580,11 +580,10 @@ stepLmer <- function(model, red.rndm = FALSE, ddf = "Kenward-Roger", ...){
 # Return star based on P value #
 ################################
 FormatPval <- function(Pval) {
-  stars <- ifelse(Pval > .1, "",
-                  ifelse(Pval > .05, "scriptstyle('\u2020')",
-                         ifelse(Pval > .01, "'*'",
-                                ifelse(Pval > .001, "'**'",
-                                       c("'***'")))))
+  stars <- ifelse(Pval > .05, "",
+                  ifelse(Pval > .01, "'*'",
+                         ifelse(Pval > .001, "'**'",
+                                c("'***'"))))
   
   p <- as.character(ifelse(Pval > .1, round(Pval, 3),
                            ifelse(Pval < .001, "bold('<0.001')", 
