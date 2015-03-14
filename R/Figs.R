@@ -65,7 +65,7 @@ df <- within(df, {
 ###########################
 ## df for fig sub labels ##
 ###########################
-subLabDF <- data.frame(xv = as.Date("2012-06-15"),
+subLabDF <- data.frame(xv = as.Date("2012-06-28"),
                        ddply(df, .(variable), summarise, 
                              yv = max(Mean + SE, na.rm = TRUE)),
                        co2 = "amb")
@@ -75,7 +75,10 @@ subLabDF <- expand.grid.df(subLabDF, data.frame(depth = c("Shallow", "Deep")))
 
 ## Add labels after sorting by variable
 subLabDF <- subLabDF[order(subLabDF$variable), ]
-subLabDF$labels <- sort(c(LETTERS[1:4], paste(LETTERS[1:4], "'", sep = "")))
+subLabDF$labels <- paste("(",
+                         sort(c(letters[1:4], paste(letters[1:4], "'", sep = ""))),
+                         ")", 
+                         sep = "")
 
 #######################
 ## df for stat table ##
@@ -153,12 +156,14 @@ Antt_CntrstDF <- subset(Antt_CntrstDF, stars != "")
 ################
 ## plot theme ##
 ################
-science_theme <- theme(
+science_theme <- theme(panel.border = element_rect(color = "black"),
 #   panel.grid.major = element_line(size = 0.2, color = "grey"),
                        panel.grid.minor = element_blank(),
                        panel.grid.major = element_blank(),
                        axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1),
-                       legend.position = c(.2, .94),
+                      axis.ticks.length = unit(-.2, "lines"),
+                      axis.ticks.margin = unit(.5, "lines"),
+                       legend.position = c(.2, .93),
                        legend.title = element_blank(),
                        legend.key = element_blank(), 
                        legend.key.width = unit(2, "lines"))
@@ -171,14 +176,14 @@ p <- ggplot(df, aes(x = date, y = Mean, group = co2))
 pl <- p + geom_line(aes(linetype = co2), 
                     position = position_dodge(20)) + 
   geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
-                width = 15, size = .3,
+                width = 0, size = .4,
                 position = position_dodge(20)) + 
   geom_point(aes(shape = co2, fill = co2), 
              position = position_dodge(20)) +
   labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
   geom_vline(xintercept = as.numeric(as.Date("2012-09-18")), 
              linetype = "dashed", col = "black") +
-  scale_x_date(breaks= date_breaks("2 month"),
+  scale_x_date(breaks= date_breaks("3 month"),
                labels = date_format("%b-%y"),
                limits = as.Date(c("2012-6-15", "2014-4-2"))) +
   scale_shape_manual(values = c(24, 21), 
@@ -204,4 +209,4 @@ pl <- p + geom_line(aes(linetype = co2),
   geom_text(data = Antt_CntrstDF, aes(x = date, y = yval, label = stars), 
             vjust = 0, parse = TRUE)
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl,
-         width = 7, height = 7)
+         width = 6.65, height = 6.65)
