@@ -175,7 +175,8 @@ pl <- p + geom_line(aes(linetype = co2),
   geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
                 width = 0, size = .4,
                 position = position_dodge(20)) + 
-  geom_point(aes(shape = co2, fill = co2), 
+  geom_point(aes(fill = co2),
+             shape = 21,
              position = position_dodge(20)) +
   labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
   geom_vline(xintercept = as.numeric(as.Date("2012-09-18")), 
@@ -183,8 +184,6 @@ pl <- p + geom_line(aes(linetype = co2),
   scale_x_date(breaks= date_breaks("3 month"),
                labels = date_format("%b-%y"),
                limits = as.Date(c("2012-6-15", "2014-4-2"))) +
-  scale_shape_manual(values = c(24, 21), 
-                     labels = c("Ambient", expression(eCO[2]))) +
   scale_fill_manual(values = c("black", "white"), 
                     labels = c("Ambient", expression(eCO[2]))) +
   scale_linetype_manual(values = c("solid", "dashed"), 
