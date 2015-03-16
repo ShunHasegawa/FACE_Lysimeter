@@ -75,10 +75,7 @@ subLabDF <- expand.grid.df(subLabDF, data.frame(depth = c("Shallow", "Deep")))
 
 ## Add labels after sorting by variable
 subLabDF <- subLabDF[order(subLabDF$variable), ]
-subLabDF$labels <- paste("(",
-                         sort(c(letters[1:4], paste(letters[1:4], "'", sep = ""))),
-                         ")", 
-                         sep = "")
+subLabDF$labels <- paste("(", c("a", "e", "b", "f", "c", "g", "d", "h"), ")", sep = "")
 
 #######################
 ## df for stat table ##
