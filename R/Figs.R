@@ -214,4 +214,4 @@ pl <- p +
   geom_text(data = Antt_CntrstDF, aes(x = date, y = yval, label = stars), 
             vjust = 0, parse = TRUE)
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl,
-         width = 6.65, height = 7)
+         width = 6.65, height = 7.5)
