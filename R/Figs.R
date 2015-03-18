@@ -181,14 +181,14 @@ p <- ggplot(df, aes(x = date, y = Mean, group = co2))
 pl <- p + 
   geom_vline(xintercept = as.numeric(as.Date("2012-09-18")), 
              linetype = "dashed", col = "black") +
-  geom_line(aes(linetype = co2), position = position_dodge(10)) + 
+  geom_line(aes(linetype = co2), position = position_dodge(15)) + 
   geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
                 width = 0, size = .4,
-                position = position_dodge(10)) + 
+                position = position_dodge(15)) + 
   geom_point(aes(fill = co2),
              shape = 21,
-             size = 2.5,
-             position = position_dodge(10)) +
+             size = 3,
+             position = position_dodge(15)) +
   labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
   scale_x_date(breaks= date_breaks("3 month"),
                labels = date_format("%b-%y"),
@@ -214,4 +214,4 @@ pl <- p +
   geom_text(data = Antt_CntrstDF, aes(x = date, y = yval, label = stars), 
             vjust = 0, parse = TRUE)
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter", plot = pl,
-         width = 6.65, height = 6.65)
+         width = 6.65, height = 7)
