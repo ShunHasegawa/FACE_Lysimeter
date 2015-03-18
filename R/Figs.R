@@ -106,18 +106,26 @@ Stat_CO2Time <- within(Stat_CO2Time, {
 
 statDF <- StatPositionDF(StatRes = Stat_CO2Time, 
                          variable = levels(ylengthDF$variable), 
-                         ytop = ylengthDF$ymax,
+                         ytop = ylengthDF$ymax * 1.08,
                          ylength = ylengthDF$ylength)
 # x positin for statDF
 varDepDF <- unique(data.frame(statDF[, c("variable", "depth")]))
 xvalDF <- data.frame(varDepDF,
-                     xval = as.Date(c("2014-1-20", "2014-1-20", 
-                                      "2013-11-1", "2014-1-20", 
-                                      "2014-1-20", "2013-11-1",
-                                      "2013-7-20", "2014-1-20")))
+                     xval = as.Date(c("2013-12-20", "2013-12-20", 
+                                      "2013-10-15", "2013-12-20", 
+                                      "2013-12-20", "2013-10-10",
+                                      "2013-7-10", "2013-12-20")))
 statDF <- merge(statDF, xvalDF, by = c("variable", "depth"))
-statDF[statDF$depth == "Shallow" & statDF$ variable == "DOC", ]$yval <- 
-  statDF[statDF$depth == "Shallow" & statDF$ variable == "DOC", ]$yval - 50
+
+# fine adjustment of stat table position
+statDF[statDF$depth == "Shallow" &statDF$ variable == "DOC", ]$yval <- 
+  statDF[statDF$depth == "Shallow" & statDF$variable == "DOC", ]$yval - 45
+
+statDF[statDF$depth == "Deep" &statDF$ variable == "DOC", ]$yval <- 
+  statDF[statDF$depth == "Deep" & statDF$variable == "DOC", ]$yval - 5
+
+statDF[statDF$depth == "Shallow" & statDF$variable == 'NH[4]^"+"', ]$yval <- 
+  statDF[statDF$depth == "Shallow" & statDF$variable == 'NH[4]^"+"', ]$yval + .02
 
 
 ############
@@ -154,33 +162,34 @@ Antt_CntrstDF <- subset(Antt_CntrstDF, stars != "")
 ## plot theme ##
 ################
 science_theme <- theme(panel.border = element_rect(color = "black"),
-#   panel.grid.major = element_line(size = 0.2, color = "grey"),
                        panel.grid.minor = element_blank(),
                        panel.grid.major = element_blank(),
                        axis.text.x  = element_text(angle=45, vjust= 1, hjust = 1),
-                      axis.ticks.length = unit(-.2, "lines"),
-                      axis.ticks.margin = unit(.5, "lines"),
-                       legend.position = c(.2, .93),
+                       axis.ticks.length = unit(-.2, "lines"),
+                       axis.ticks.margin = unit(.5, "lines"),
+                       legend.position = c(.16, .93),
+                       legend.margin = unit(0, "lines"),
                        legend.title = element_blank(),
                        legend.key = element_blank(), 
-                       legend.key.width = unit(2, "lines"))
+                       legend.key.width = unit(2.5, "lines"))
 
 ##################
 ## creat a plot ##
 ##################
 p <- ggplot(df, aes(x = date, y = Mean, group = co2))
 
-pl <- p + geom_line(aes(linetype = co2), 
-                    position = position_dodge(20)) + 
-  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
-                width = 0, size = .4,
-                position = position_dodge(20)) + 
-  geom_point(aes(fill = co2),
-             shape = 21,
-             position = position_dodge(20)) +
-  labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
+pl <- p + 
   geom_vline(xintercept = as.numeric(as.Date("2012-09-18")), 
              linetype = "dashed", col = "black") +
+  geom_line(aes(linetype = co2), position = position_dodge(10)) + 
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
+                width = 0, size = .4,
+                position = position_dodge(10)) + 
+  geom_point(aes(fill = co2),
+             shape = 21,
+             size = 2.5,
+             position = position_dodge(10)) +
+  labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
   scale_x_date(breaks= date_breaks("3 month"),
                labels = date_format("%b-%y"),
                limits = as.Date(c("2012-6-15", "2014-4-2"))) +
@@ -195,12 +204,12 @@ pl <- p + geom_line(aes(linetype = co2),
   science_theme +
   geom_text(data = subset(statDF, predictor != ""), 
             aes(x = xval, y = yval, label = predictor),
-            size = 2, hjust = 1, parse = TRUE) +
+            size = 3, hjust = .9, parse = TRUE) +
   # unless remove [" "] with predictor != "", labels will be messed up due to
   # this empty level
   geom_text(data = statDF, 
-            aes(x = xval + 56, y = yval, label = p), 
-            size = 2, parse = TRUE) +
+            aes(x = xval + 75, y = yval, label = p), 
+            size = 3, parse = TRUE) +
   # stat symbols
   geom_text(data = Antt_CntrstDF, aes(x = date, y = yval, label = stars), 
             vjust = 0, parse = TRUE)
