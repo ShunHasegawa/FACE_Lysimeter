@@ -111,10 +111,10 @@ statDF <- StatPositionDF(StatRes = Stat_CO2Time,
 # x positin for statDF
 varDepDF <- unique(data.frame(statDF[, c("variable", "depth")]))
 xvalDF <- data.frame(varDepDF,
-                     xval = as.Date(c("2013-12-20", "2013-12-20", 
-                                      "2013-10-15", "2013-12-20", 
-                                      "2013-12-20", "2013-10-10",
-                                      "2013-7-10", "2013-12-20")))
+                     xval = as.Date(c("2013-12-15", "2013-12-15", 
+                                      "2013-10-10", "2013-12-18", 
+                                      "2013-12-15", "2013-10-5",
+                                      "2013-7-5", "2013-12-5")))
 statDF <- merge(statDF, xvalDF, by = c("variable", "depth"))
 
 # fine adjustment of stat table position
@@ -192,7 +192,7 @@ pl <- p +
   labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
   scale_x_date(breaks= date_breaks("3 month"),
                labels = date_format("%b-%y"),
-               limits = as.Date(c("2012-6-15", "2014-4-2"))) +
+               limits = as.Date(c("2012-6-15", "2014-3-29"))) +
   scale_fill_manual(values = c("black", "white"), 
                     labels = c("Ambient", expression(eCO[2]))) +
   scale_linetype_manual(values = c("solid", "dashed"), 
