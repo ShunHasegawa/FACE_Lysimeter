@@ -8,44 +8,29 @@ range(lys$toc[lys$depth == "deep" & lys$pre], na.rm = TRUE)
 bxplts(value = "toc", data = subsetD(lys, depth == "deep" & pre))
 # log seems better
 
-# different random factor structure
-m1 <- lme(log(toc) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "deep" & pre), 
-          na.action = "na.omit")
-m2 <- lme(log(toc) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "deep" & pre),
-          na.action = "na.omit")
-m3 <- lme(log(toc) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "deep" & pre),
-          na.action = "na.omit")
-anova(m1, m2, m3)
-# m3 is better
-
-# autocorrelation
-atml <- atcr.cmpr(m3)
-atml$models
-# model5 (or 4) is best
-
-Iml_D_pre <- atml[[5]]
+Iml_D_pre <- lmer(log(toc) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                  data = subsetD(lys, depth == "deep" & pre), 
+                  na.action = "na.omit")
 
 # The initial model is: 
-Iml_D_pre$call
+Iml_D_pre@call
 
 Anova(Iml_D_pre)
+Anova(Iml_D_pre, test.statistic = "F")
 
 # model simplification
-MdlSmpl(Iml_D_pre)
-  # co2:time is removed
-
-Fml_D_pre <- MdlSmpl(Iml_D_pre)$model.reml
+Fml_D_pre <- stepLmer(Iml_D_pre, alpha.fixed = .1)
 
 # The final model is:
-Fml_D_pre$call
+Fml_D_pre@call
 
 Anova(Fml_D_pre)
+Anova(Fml_D_pre, test.statistic = "F")
 
 # model diagnosis
 plot(Fml_D_pre)
-qqnorm(Fml_D_pre, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_D_pre))
-qqline(residuals.lm(Fml_D_pre))
+qqnorm(residuals(Fml_D_pre))
+qqline(residuals(Fml_D_pre))
 
 ## ----Stat_FACE_Lys_TOC_D_postCO2
 
@@ -105,11 +90,11 @@ FACE_Lys_TOC_D_postCO2_CntrstDf
 
 ## ----Stat_FACE_Lys_TOC_D_preCO2_Smmry
 # The initial model is:
-Iml_D_pre$call
+Iml_D_pre@call
 Anova(Iml_D_pre)
 
 # The final model is :
-Fml_D_pre$call
+Fml_D_pre@call
 Anova(Fml_D_pre)
 
 ## ----Stat_FACE_Lys_TOC_D_postCO2_Smmry
