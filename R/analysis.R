@@ -12,6 +12,10 @@ source("R/functions.R")
 # load data
 load("output//data//FACE_lysimeter.RData")
 
+# change post
+head(lys)
+lys$post <- !lys$pre
+
 #######################
 # Excel summary table #
 #######################
