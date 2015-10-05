@@ -71,7 +71,10 @@ qqline(resid(Fml_D_post))
 # contrast #
 ############
 # Note that contrast doesn't work with lmer model so use lme
-tempDF <- within(subsetD(lys, depth == "deep" & post), {time  <- relevel(time, "5")})
+tempDF <- within(subsetD(lys, depth == "deep" & post), {
+  time  <- relevel(time, "6")
+  co2 <- relevel(co2, "elev")
+  })
 
 LmeMod <- lme(sqrt(nh + .08) ~ co2 * time, random = ~1|block/ring/id, 
               data = tempDF, na.action = "na.omit")
