@@ -43,10 +43,9 @@ bxplts(value = "toc", data = subsetD(lys, depth == "shallow" & post))
 bxcxplts(value = "toc", data = subsetD(lys, depth == "shallow" & post), sval = -7.365, fval = -7.364)
 bxcxplts(value = "toc", data = subsetD(lys, depth == "shallow" & post), sval = 0, fval = 1, 
          lambda = seq(-5, 5, 0.01))
-  # log seems better
 
 # The initial model
-Iml_S_post <- lmer(toc^(-0.2626) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+Iml_S_post <- lmer(toc^(1/3) ~ co2 * time + (1|block) + (1|ring) + (1|id),
                    data = subsetD(lys, depth == "shallow" & post), na.action = "na.omit")
 Anova(Iml_S_post)
 
