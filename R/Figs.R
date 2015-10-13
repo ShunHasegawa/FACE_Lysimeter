@@ -55,9 +55,9 @@ df <- subsetD(TrtMean, variable %in% c("no", "nh", "po", "toc"))
 # change variable and depth labels for plotting
 df <- within(df, {
   variable <- factor(variable, 
-                        labels = c(expression(NO[3]^"-"),
-                                   expression(NH[4]^"+"),
-                                   expression(PO[4]^"3-"),
+                        labels = c(expression(NO[3]^"-"*-N),
+                                   expression(NH[4]^"+"*-N),
+                                   expression(PO[4]^"3-"*-P),
                                    expression(DOC)))
   depth <- factor(depth, labels = c("Shallow", "Deep"))
 })
@@ -96,9 +96,9 @@ ylengthDF <- ddply(df, .(variable),
 Stat_CO2Time <- within(Stat_CO2Time, {
   variable <- factor(variable, 
                      levels = c("no", "nh", "po", "toc"),
-                     labels = c(expression(NO[3]^"-"),
-                                expression(NH[4]^"+"),
-                                expression(PO[4]^"3-"),
+                     labels = c(expression(NO[3]^"-"*-N),
+                                expression(NH[4]^"+"*-N),
+                                expression(PO[4]^"3-"*-P),
                                 expression(DOC)))
   depth <- factor(depth, levels = c("shallow", "deep"), labels = c("Shallow", "Deep"))
   
@@ -124,8 +124,8 @@ statDF[statDF$depth == "Shallow" &statDF$ variable == "DOC", ]$yval <-
 statDF[statDF$depth == "Deep" &statDF$ variable == "DOC", ]$yval <- 
   statDF[statDF$depth == "Deep" & statDF$variable == "DOC", ]$yval - 5
 
-statDF[statDF$depth == "Shallow" & statDF$variable == 'NH[4]^"+"', ]$yval <- 
-  statDF[statDF$depth == "Shallow" & statDF$variable == 'NH[4]^"+"', ]$yval + .02
+statDF[statDF$depth == "Shallow" & statDF$variable == 'NH[4]^"+"*-N', ]$yval <- 
+  statDF[statDF$depth == "Shallow" & statDF$variable == 'NH[4]^"+"*-N', ]$yval + .02
 
 
 ############
@@ -140,8 +140,8 @@ ContrastDF <- within(ContrastDF, {
   depth <- factor(depth, levels = c("shallow", "deep"), labels = c("Shallow", "Deep"))
   variable <- factor(variable,
                      levels = c("nh", "po", "toc"),
-                     labels = c(expression(NH[4]^"+"),
-                                expression(PO[4]^"3-"),
+                     labels = c(expression(NH[4]^"+"*-N),
+                                expression(PO[4]^"3-"*-P),
                                 expression(DOC)))
 })
 
