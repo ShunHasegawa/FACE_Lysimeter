@@ -7,64 +7,51 @@ range(lys$nh[lys$depth == "deep" & lys$pre])
 bxplts(value = "nh", data = subsetD(lys, depth == "deep" & pre))
   # log seems fine
 
-# different random factor structure
-m1 <- lme(log(nh) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "deep" & pre))
-m2 <- lme(log(nh) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "deep" & pre))
-m3 <- lme(log(nh) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "deep" & pre))
-anova(m1, m2, m3)
-# m2 is slightly better
-
-# autocorrelation
-atcr.cmpr(m2)$models
-  # no need for autocorrelation
-
-Iml_D_pre <- atcr.cmpr(m2)[[1]]
+Iml_D_pre_nh <- lmer(log(nh) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                  data = subsetD(lys, depth == "deep" & pre), 
+                  na.action = "na.omit")
 
 # The initial model is: 
-Iml_D_pre$call
+Iml_D_pre_nh@call
 
-Anova(Iml_D_pre)
+Anova(Iml_D_pre_nh)
+Anova(Iml_D_pre_nh, test.statistic = "F")
 
-# model simplification
-MdlSmpl(Iml_D_pre)
-# co2:time is removed
-
-Fml_D_pre <- MdlSmpl(Iml_D_pre)$model.reml
+Fml_D_pre_nh <- stepLmer(Iml_D_pre_nh, alpha.fixed = .1)
 
 # The final model is:
-Fml_D_pre$call
+Fml_D_pre_nh@call
+Anova(Fml_D_pre_nh, test.statistic = "F")
 
 # model diagnosis
-plot(Fml_D_pre)
-qqnorm(Fml_D_pre, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_D_pre))
-qqline(residuals.lm(Fml_D_pre))
+plot(Fml_D_pre_nh)
+qqnorm(residuals(Fml_D_pre_nh))
+qqline(residuals(Fml_D_pre_nh))
 
 ## ----Stat_FACE_Lys_Ammonium_D_postCO2
 
 ############
 # Post-CO2 #
 ############
-
 range(lys$nh[lys$depth == "deep" & lys$post])
 bxplts(value = "nh", ofst=0.08, data = subsetD(lys, depth == "deep" & post))
   # use sqrt
 
 # The initial model
-Iml_D_post <- lmer(sqrt(nh + .08) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+Iml_D_post_nh <- lmer(sqrt(nh + .08) ~ co2 * time + (1|block) + (1|ring) + (1|id),
                    data = subsetD(lys, depth == "deep" & post), na.action = "na.omit")
-Anova(Iml_D_post)
+Anova(Iml_D_post_nh)
 
 # The final model
-Fml_D_post <- stepLmer(Iml_D_post)
-Anova(Fml_D_post)
-AnvF_nh_D_Post <- Anova(Fml_D_post, test.statistic = "F")
+Fml_D_post_nh <- stepLmer(Iml_D_post_nh)
+Anova(Fml_D_post_nh)
+AnvF_nh_D_Post <- Anova(Fml_D_post_nh, test.statistic = "F")
 AnvF_nh_D_Post
 
 # model diagnosis
-plot(Fml_D_post)
-qqnorm(resid(Fml_D_post))
-qqline(resid(Fml_D_post))
+plot(Fml_D_post_nh)
+qqnorm(resid(Fml_D_post_nh))
+qqline(resid(Fml_D_post_nh))
   # homogeneity of variance is still violated...
 
 ############
@@ -89,27 +76,26 @@ FACE_Lys_NH_D_postCO2_CntrstDf
 
 ## ----Stat_FACE_Lys_Ammonium_D_preCO2_Smmry
 # The initial model is:
-Iml_D_pre$call
-Anova(Iml_D_pre)
+Iml_D_pre_nh@call
+Anova(Iml_D_pre_nh, test.statistic = "F")
 
 # The final model is :
-Fml_D_pre$call
-Anova(Fml_D_pre)
+Fml_D_pre_nh@call
+Anova(Fml_D_pre_nh, test.statistic = "F")
 
 ## ----Stat_FACE_Lys_Ammonium_D_postCO2_Smmry
 # The initial model is:
-Iml_D_post@call
-Anova(Iml_D_post)
+Iml_D_post_nh@call
+Anova(Iml_D_post_nh)
 
 # The final model is :
-Fml_D_post@call
+Fml_D_post_nh@call
 
 # Chi
-Anova(Fml_D_post)
+Anova(Fml_D_post_nh)
 
 # F
 AnvF_nh_D_Post
 
 # contrast
 FACE_Lys_NH_D_postCO2_CntrstDf
-

@@ -8,40 +8,35 @@ range(lys$nh[lys$depth == "shallow" & lys$pre])
 bxplts(value = "nh", data = subsetD(lys, depth == "shallow" & pre))
 # log seems slightly fine
 
-# different random factor structure
-m1 <- lme(log(nh) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "shallow" & pre))
-m2 <- lme(log(nh) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "shallow" & pre))
-m3 <- lme(log(nh) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "shallow" & pre))
-anova(m1, m2, m3)
-# m3 is slightly better
-
-# autocorrelation
-atcr.cmpr(m3)$models
-# model5 is best
-
-Iml_S_pre <- atcr.cmpr(m3)[[5]]
+Iml_S_pre_nh <- lmer(log(nh) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                  data = subsetD(lys, depth == "shallow" & pre), 
+                  na.action = "na.omit")
 
 # The initial model is: 
-Iml_S_pre$call
+Iml_S_pre_nh@call
 
-Anova(Iml_S_pre)
+Anova(Iml_S_pre_nh, test.statistic = "F")
 
-# model simplification
-MdlSmpl(Iml_S_pre)
-  # co2:time and co2 are removed
-
-Fml_S_pre <- MdlSmpl(Iml_S_pre)$model.reml
+Fml_S_pre_nh <- stepLmer(Iml_S_pre_nh, alpha.fixed = .1)
 
 # The final model is:
-Fml_S_pre$call
+Fml_S_pre_nh@call
 
-Anova(Fml_S_pre)
+Anova(Fml_S_pre_nh, test.statistic = "F")
 
 # model diagnosis
-plot(Fml_S_pre)
-qqnorm(Fml_S_pre, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_S_pre))
-qqline(residuals.lm(Fml_S_pre))
+plot(Fml_S_pre_nh)
+qqnorm(residuals(Fml_S_pre_nh))
+qqline(residuals(Fml_S_pre_nh))
+
+# what if I remove the lower outlier
+ol <- which(qqnorm(residuals(Fml_S_pre_nh))$y == min(qqnorm(residuals(Fml_S_pre_nh))$y))
+mm <- update(Iml_S_pre_nh, subset = -ol)
+Anova(mm, test.statistic = "F")
+  # same result
+plot(mm)
+qqnorm(residuals(mm))
+qqline(residuals(mm))
 
 ## ----Stat_FACE_Lys_Ammonium_S_postCO2
 
@@ -67,61 +62,61 @@ bxplts(value = "nh", ofst= 1, data = subsetD(NhRmOl, depth == "shallow" & post),
  # use box-cox
 
 # The initial model is
-Iml_S_post <- lmer((nh + 1)^(-5.78) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+Iml_S_post_nh <- lmer((nh + 1)^(-5.78) ~ co2 * time + (1|block) + (1|ring) + (1|id),
                    data = subsetD(NhRmOl, depth == "shallow" & post),
                    na.action = "na.omit")
-Anova(Iml_S_post)
+Anova(Iml_S_post_nh)
 
 # The final model
-Fml_S_post <- stepLmer(Iml_S_post)
-Anova(Fml_S_post)
-AnvF_nh_S_Post <- Anova(Fml_S_post, test.statistic = "F")
+Fml_S_post_nh <- stepLmer(Iml_S_post_nh, alpha.fixed = .1)
+Anova(Fml_S_post_nh)
+AnvF_nh_S_Post <- Anova(Fml_S_post_nh, test.statistic = "F")
 AnvF_nh_S_Post
 
-summary(Fml_S_post)
+summary(Fml_S_post_nh)
 
 # model diagnosis
-plot(Fml_S_post)
-qqnorm(resid(Fml_S_post))
-qqline(resid(Fml_S_post))
+plot(Fml_S_post_nh)
+qqnorm(resid(Fml_S_post_nh))
+qqline(resid(Fml_S_post_nh))
 
 # box-cox plot doesn't really improve the model so just use the simpler
 # transformation
-Iml_S_post <- lmer(log(nh + .07) ~ co2 * time + + (1|block) + (1|ring) + (1|id), 
+Iml_S_post_nh <- lmer(log(nh + .07) ~ co2 * time + + (1|block) + (1|ring) + (1|id), 
           data = subsetD(NhRmOl, depth == "shallow" & post))
 
 # The final model
-Fml_S_post <- stepLmer(Iml_S_post)
-Anova(Fml_S_post)
-AnvF_nh_S_Post <- Anova(Fml_S_post, test.statistic = "F")
+Fml_S_post_nh <- stepLmer(Iml_S_post_nh)
+Anova(Fml_S_post_nh)
+AnvF_nh_S_Post <- Anova(Fml_S_post_nh, test.statistic = "F")
 AnvF_nh_S_Post
 
-summary(Fml_S_post)
+summary(Fml_S_post_nh)
 
 # model diagnosis
-plot(Fml_S_post)
-qqnorm(resid(Fml_S_post))
-qqline(resid(Fml_S_post))
+plot(Fml_S_post_nh)
+qqnorm(resid(Fml_S_post_nh))
+qqline(resid(Fml_S_post_nh))
 
 ## ----Stat_FACE_Lys_Ammonium_S_preCO2_Smmry
 # The initial model is:
-Iml_S_pre$call
-Anova(Iml_S_pre)
+Iml_S_pre_nh@call
+Anova(Iml_S_pre_nh)
 
 # The final model is :
-Fml_S_pre$call
-Anova(Fml_S_pre)
+Fml_S_pre_nh@call
+Anova(Fml_S_pre_nh)
 
 ## ----Stat_FACE_Lys_Ammonium_S_postCO2_Smmry
 # The initial model is:
-Iml_S_post@call
-Anova(Iml_S_post)
+Iml_S_post_nh@call
+Anova(Iml_S_post_nh)
 
 # The final model is :
-Fml_S_post@call
+Fml_S_post_nh@call
 
 # Chi
-Anova(Fml_S_post)
+Anova(Fml_S_post_nh)
 
 # F
 AnvF_nh_S_Post

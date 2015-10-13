@@ -8,29 +8,29 @@ range(lys$toc[lys$depth == "deep" & lys$pre], na.rm = TRUE)
 bxplts(value = "toc", data = subsetD(lys, depth == "deep" & pre))
 # log seems better
 
-Iml_D_pre <- lmer(log(toc) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+Iml_D_pre_toc <- lmer(log(toc) ~ co2 * time + (1|block) + (1|ring) + (1|id),
                   data = subsetD(lys, depth == "deep" & pre), 
                   na.action = "na.omit")
 
 # The initial model is: 
-Iml_D_pre@call
+Iml_D_pre_toc@call
 
-Anova(Iml_D_pre)
-Anova(Iml_D_pre, test.statistic = "F")
+Anova(Iml_D_pre_toc)
+Anova(Iml_D_pre_toc, test.statistic = "F")
 
 # model simplification
-Fml_D_pre <- stepLmer(Iml_D_pre, alpha.fixed = .1)
+Fml_D_pre_toc <- stepLmer(Iml_D_pre_toc, alpha.fixed = .1)
 
 # The final model is:
-Fml_D_pre@call
+Fml_D_pre_toc@call
 
-Anova(Fml_D_pre)
-Anova(Fml_D_pre, test.statistic = "F")
+Anova(Fml_D_pre_toc)
+Anova(Fml_D_pre_toc, test.statistic = "F")
 
 # model diagnosis
-plot(Fml_D_pre)
-qqnorm(residuals(Fml_D_pre))
-qqline(residuals(Fml_D_pre))
+plot(Fml_D_pre_toc)
+qqnorm(residuals(Fml_D_pre_toc))
+qqline(residuals(Fml_D_pre_toc))
 
 ## ----Stat_FACE_Lys_TOC_D_postCO2
 
@@ -47,32 +47,32 @@ bxcxplts(value = "toc", data = subsetD(lys, depth == "deep" & post), sval = 0, f
 # The initial model
 
 # box-cox 
-Iml_D_post <- lmer(toc^(-0.2626) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+Iml_D_post_toc <- lmer(toc^(-0.2626) ~ co2 * time + (1|block) + (1|ring) + (1|id),
                    data = subsetD(lys, depth == "deep" & post), na.action = "na.omit")
-Anova(Iml_D_post)
+Anova(Iml_D_post_toc)
 
 # log
-Iml_D_post <- lmer(log(toc) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+Iml_D_post_toc <- lmer(log(toc) ~ co2 * time + (1|block) + (1|ring) + (1|id),
                    data = subsetD(lys, depth == "deep" & post), na.action = "na.omit")
-Anova(Iml_D_post)
+Anova(Iml_D_post_toc)
 # not much difference between the above transformations so use log for
 # simplicity purposes
 
-Anova(Iml_D_post, test.statistic = "F")
+Anova(Iml_D_post_toc, test.statistic = "F")
 # not need to remove interaction
 
 # The final model
-Fml_D_post <- Iml_D_post
-Anova(Fml_D_post)
-AnvF_toc_D_post <- Anova(Fml_D_post, test.statistic = "F")
+Fml_D_post_toc <- Iml_D_post_toc
+Anova(Fml_D_post_toc)
+AnvF_toc_D_post <- Anova(Fml_D_post_toc, test.statistic = "F")
 AnvF_toc_D_post
 
-summary(Fml_D_post)
+summary(Fml_D_post_toc)
 
 # model diagnosis
-plot(Fml_D_post)
-qqnorm(resid(Fml_D_post))
-qqline(resid(Fml_D_post))
+plot(Fml_D_post_toc)
+qqnorm(resid(Fml_D_post_toc))
+qqline(resid(Fml_D_post_toc))
 
 # contrast
 # Note that contrast doesn't work with lmer model so use lme
@@ -90,23 +90,23 @@ FACE_Lys_TOC_D_postCO2_CntrstDf
 
 ## ----Stat_FACE_Lys_TOC_D_preCO2_Smmry
 # The initial model is:
-Iml_D_pre@call
-Anova(Iml_D_pre)
+Iml_D_pre_toc@call
+Anova(Iml_D_pre_toc)
 
 # The final model is :
-Fml_D_pre@call
-Anova(Fml_D_pre)
+Fml_D_pre_toc@call
+Anova(Fml_D_pre_toc)
 
 ## ----Stat_FACE_Lys_TOC_D_postCO2_Smmry
 # The initial model is:
-Iml_D_post@call
-Anova(Iml_D_post)
+Iml_D_post_toc@call
+Anova(Iml_D_post_toc)
 
 # The final model is :
-Fml_D_post@call
+Fml_D_post_toc@call
 
 # Chi-squre test
-Anova(Fml_D_post)
+Anova(Fml_D_post_toc)
 
 # F test
 AnvF_toc_D_post

@@ -8,51 +8,26 @@ range(lys$no[lys$depth == "shallow" & lys$pre])
 bxplts(value = "no", data = subsetD(lys, depth == "shallow" & pre))
 
 # log seems slightly better
-
-# different random factor structure
-m1 <- lme(log(no) ~ co2 * time, random = ~1|ring/plot, data = subsetD(lys, depth == "shallow" & pre))
-m2 <- lme(log(no) ~ co2 * time, random = ~1|ring, data = subsetD(lys, depth == "shallow" & pre))
-m3 <- lme(log(no) ~ co2 * time, random = ~1|id, data = subsetD(lys, depth == "shallow" & pre))
-anova(m1, m2, m3)
-# m3 is slightly better
-
-# autocorrelation
-atcr.cmpr(m3)$models
-# model3 is best
-
-Iml_S_pre <- atcr.cmpr(m3)[[3]]
+Iml_S_pre_no <-  lmer(log(no) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+                   data = subsetD(lys, depth == "shallow" & pre), na.action = "na.omit")
 
 # The initial model is: 
-Iml_S_pre$call
+Iml_S_pre_no@call
 
-Anova(Iml_S_pre)
+Anova(Iml_S_pre_no, test.statistic = "F")
 
-# model simplification
-# MdlSmpl(Iml_S_pre)
-# error message
-# probably because if time is removed we can't use 
-# autocorrelation any more, so let's do it without 
-# autocorrelation again
-
-Iml_S_pre <- atcr.cmpr(m3)[[1]]
-Iml_S_pre$call
-
-MdlSmpl(Iml_S_pre)
-
-Fml_S_pre <- MdlSmpl(Iml_S_pre)$model.reml
+Fml_S_pre_no <- stepLmer(Iml_S_pre_no, alpha.fixed = .1)
 
 # The final model is:
-Fml_S_pre$call
+Fml_S_pre_no@call
 
-anova(Fml_S_pre)
+anova(Fml_S_pre_no)
 
 # model diagnosis
-plot(Fml_S_pre)
-qqnorm(Fml_S_pre, ~ resid(.)|id)
-qqnorm(residuals.lm(Fml_S_pre))
-qqline(residuals.lm(Fml_S_pre))
+plot(Fml_S_pre_no)
+qqnorm(residuals(Fml_S_pre_no))
+qqline(residuals(Fml_S_pre_no))
 # not very great though
-
 
 ## ----Stat_FACE_Lys_Nitrate_S_postCO2
 
@@ -67,42 +42,42 @@ bxplts(value = "no", ofst= 0.01, data = subsetD(lys, depth == "shallow" & post))
 # log seems slightly better
 
 # The initial model is
-Iml_S_post <- lmer(log(no + .01) ~ co2 * time + (1|block) + (1|ring) + (1|id),
+Iml_S_post_no <- lmer(log(no + .01) ~ co2 * time + (1|block) + (1|ring) + (1|id),
                    data = subsetD(lys, depth == "shallow" & post), na.action = "na.omit")
-Anova(Iml_S_post)
+Anova(Iml_S_post_no)
 
 # The final model
-Fml_S_post <- stepLmer(Iml_S_post)
-Anova(Fml_S_post)
-AnvF_Nit_S_Post <- Anova(Fml_S_post, test.statistic = "F")
+Fml_S_post_no <- stepLmer(Iml_S_post_no, alpha.fixed = .1)
+Anova(Fml_S_post_no)
+AnvF_Nit_S_Post <- Anova(Fml_S_post_no, test.statistic = "F")
 AnvF_Nit_S_Post
 
-summary(Fml_S_post)
+summary(Fml_S_post_no)
 
 # model diagnosis
-plot(Fml_S_post)
-qqnorm(resid(Fml_S_post))
-qqline(resid(Fml_S_post))
+plot(Fml_S_post_no)
+qqnorm(resid(Fml_S_post_no))
+qqline(resid(Fml_S_post_no))
 
 ## ----Stat_FACE_Lys_Nitrate_S_preCO2_Smmry
 # The initial model is:
-Iml_S_pre$call
-Anova(Iml_S_pre)
+Iml_S_pre_no@call
+Anova(Iml_S_pre_no, test.statistic = "F")
 
 # The final model is :
-Fml_S_pre$call
-anova(Fml_S_pre)
+Fml_S_pre_no@call
+anova(Fml_S_pre_no)
 
 ## ----Stat_FACE_Lys_Nitrate_S_postCO2_Smmry
 # The initial model is:
-Iml_S_post@call
-Anova(Iml_S_post)
+Iml_S_post_no@call
+Anova(Iml_S_post_no, test.statistic = "F")
 
 # The final model is :
-Fml_S_post@call
+Fml_S_post_no@call
 
 # Chi
-Anova(Fml_S_post)
+Anova(Fml_S_post_no)
 
 # F
 AnvF_Nit_S_Post
