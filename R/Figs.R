@@ -264,3 +264,51 @@ pl <- p +
 pl <- pl + theme(legend.position = c(.19, .86))
 ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter_DOC", plot = pl,
          width = 6.65, height = 3)
+
+#########################
+## Plot all except DOC ##
+#########################
+subLabDF2 <- subsetD(subLabDF, variable != "DOC")
+subLabDF2$labels <- paste("(", c("a", "d", "b", "e", "c", "f"), ")", sep = "")
+
+p <- ggplot(subsetD(df, variable != "DOC"), aes(x = date, y = Mean, group = co2))
+
+pl <- p + 
+  geom_vline(xintercept = as.numeric(as.Date("2012-09-18")), 
+               linetype = "dashed", col = "black") +
+  geom_line(aes(linetype = co2), position = position_dodge(15)) + 
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
+                width = 0, size = .4,
+                position = position_dodge(15)) + 
+  geom_point(aes(fill = co2),
+             shape = 21,
+             size = 3,
+             position = position_dodge(15)) +
+  labs(x = "Month", y = expression(Dissolved~nutrients~'in'~soil~solution~(mg~l^"-1"))) +
+  scale_x_date(breaks= date_breaks("3 month"),
+               labels = date_format("%b-%y"),
+               limits = as.Date(c("2012-6-15", "2014-3-29"))) +
+  scale_fill_manual(values = c("black", "white"), 
+                    labels = c("Ambient", expression(eCO[2]))) +
+  scale_linetype_manual(values = c("solid", "dashed"), 
+                        labels = c("Ambient", expression(eCO[2]))) +
+  geom_text(aes(x = xv, y = yv * .97, label = labels),
+            fontface = "bold", 
+            data = subLabDF2) +
+  science_theme +
+  theme(legend.background = element_rect(fill = "white")) +
+  geom_text(data = subsetD(statDF, predictor != "" & variable != "DOC"), 
+            aes(x = xval, y = yval, label = predictor),
+            size = 3, hjust = .9, parse = TRUE) +
+  # unless remove [" "] with predictor != "", labels will be messed up due to
+  # this empty level
+  geom_text(data = subsetD(statDF, variable != "DOC"), 
+            aes(x = xval + 75, y = yval, label = p), 
+            size = 3, parse = TRUE) +
+  # stat symbols
+  geom_text(data = subsetD(Antt_CntrstDF, variable != "DOC"),
+            aes(x = date, y = yval, label = stars), 
+            vjust = 0, parse = TRUE) +
+  facet_grid(variable ~ depth, scale = "free_y", labeller = label_parsed, drop = TRUE)
+ggsavePP(filename = "output//figs/FACE_Manuscript/FACE_Lysimeter_NP", plot = pl,
+         width = 6.65, height = 6.5)
