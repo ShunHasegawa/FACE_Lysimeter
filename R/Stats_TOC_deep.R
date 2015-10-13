@@ -100,7 +100,7 @@ Anova(Fml_D_pre_toc)
 ## ----Stat_FACE_Lys_TOC_D_postCO2_Smmry
 # The initial model is:
 Iml_D_post_toc@call
-Anova(Iml_D_post_toc)
+Anova(Iml_D_post_toc, test.statistic = "F")
 
 # The final model is :
 Fml_D_post_toc@call
