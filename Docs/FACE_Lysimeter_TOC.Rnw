@@ -44,7 +44,6 @@ printLysCO2Tbl(data = TrtSmmryTbl, variable = "TOC", datatype = "toc")
 \subsection{Stats}
 
 <<ReadScript_FACE_Lys_TOC, echo=FALSE, cache=FALSE, include=FALSE>>=
-source("R/Stats_TOC.R")
 read_chunk('R/Stats_TOC_shallow.R')
 read_chunk('R/Stats_TOC_deep.R')
 @
