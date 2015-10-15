@@ -228,7 +228,7 @@ pl <- p +
                linetype = "dashed", col = "black") +
   geom_line(aes(linetype = co2), position = position_dodge(15)) + 
   geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), 
-                width = 0, size = .4,
+                width = 0, 
                 position = position_dodge(15)) + 
   geom_point(aes(fill = co2),
              shape = 21,
